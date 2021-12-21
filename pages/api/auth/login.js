@@ -1,5 +1,6 @@
 const ObjectId = require("mongodb").ObjectId;
-const dbConnect = require("../../config/dbConnect");
+const dbConnect = require("../../../config/dbConnect");
+const User = require('../../../models/User.js')
 
 dbConnect();
 /*
@@ -22,29 +23,16 @@ export const config = {
   },
 };
 
-const getLogin = async (req, res) => {
+const login = async (req, res) => {
   try {
-    return res.status(200).json({ success: true });
-  } catch (err) {
-    return res.status(401).json({ success: false, message: [] });
-  }
-};
-const addLogin = async (req, res) => {
-  try {
-    return res.status(200).json({ success: true });
-  } catch (err) {
-    return res.status(401).json({ success: false, message: [] });
-  }
-};
-const updateLogin = async (req, res) => {
-  try {
-    return res.status(200).json({ success: true });
-  } catch (err) {
-    return res.status(401).json({ success: false, message: [] });
-  }
-};
-const deleteLogin = async (req, res) => {
-  try {
+
+    const user = User.find(
+      {
+        username: ''
+      }
+    )
+
+
     return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(401).json({ success: false, message: [] });
@@ -53,21 +41,10 @@ const deleteLogin = async (req, res) => {
 
 export default async function handler(req, res) {
   switch (req.method) {
-    case "GET": {
-      return getLogin(req, res);
-    }
-
     case "POST": {
-      return addLogin(req, res);
+      return login(req, res);
     }
 
-    case "PUT": {
-      return updateLogin(req, res);
-    }
-
-    case "DELETE": {
-      return deleteLogin(req, res);
-    }
     default: {
       res.status(400).json({ sucess: false, message: [] });
     }
