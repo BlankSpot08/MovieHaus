@@ -7,7 +7,6 @@ export async function middleware(req, event) {
   const validateToken = await jwt.verify(token, process.env.JWT_SECRET_KEY);
   if (validateToken.role == "user") return NextResponse.next();
   if (validateToken.role != "admin")
-    return NextResponse.redirect("/views/admin/home");
-
+    return NextResponse.redirect("/views/admin/Home");
   NextResponse.next();
 }

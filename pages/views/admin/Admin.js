@@ -431,46 +431,6 @@ const FormDelete = (props) => {
       </div>
     </div>
   );
-  // return (
-
-  // <div className="min-h-screen py-6 flex flex-col justify-center sm:py-12">
-  //   <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-  //     <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-
-  //     <div className="relative px-4 py-10 bg-white shadow-lg rounded-lg">
-  //       <div className="max-w-md mx-auto">
-  //         <div className="bg-white overflow-hidden border-b-4 border-blue-500 ">
-  //           <div className="p-4 md:p-6">
-  //             <a className="text-blue-500 font-semibold text-xs mb-1 leading-none">
-  //               <p>{editValues.email}</p>
-  //             </a>
-  //             <h3 className="font-semibold mb-2 text-xl leading-tight sm:leading-normal p-10">
-  //               <p className="leading-none">{editValues.username}</p>
-  //             </h3>
-  //             <div className="text-sm flex items-center">
-  //               <p className="leading-none">{editValues.mobile}</p>
-  //             </div>
-  //           </div>
-  //         </div>
-  //         <div className="divide-y divide-gray-200">
-  //           <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-  //             <form onSubmit={formik.handleSubmit}>
-  //               <Button
-  //                 color="primary"
-  //                 variant="contained"
-  //                 fullWidth
-  //                 type="submit"
-  //               >
-  //                 Delete Book
-  //               </Button>
-  //             </form>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // </div>
-  // );
 };
 const Admin = () => {
   const router = useRouter();

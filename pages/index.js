@@ -1,105 +1,104 @@
+import React, { useEffect, useState } from "react";
+import { TextField, Button, MenuItem, Avatar } from "@mui/material";
+import { toast } from "react-toastify";
+import { useFormik } from "formik";
+import { useRouter } from "next/router";
+import Link from "next/link";
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
+import axios from "axios";
+import HomeNav from "../components/HomeNav";
 
+toast.configure();
 export default function Home() {
+  const router = useRouter();
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    onSubmit(values) {
+      axios
+        .post("/api/auth/login", values)
+        .then((res) => {
+          if (res.data.success) {
+            router.push("/views/admin/Home");
+            toast.success("Log in successfully");
+          } else {
+            const error = res.data.message;
+            console.log(error);
+            for (const key in error) toast.error(error[key]);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  });
   return (
-    <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-      <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-        <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-        <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-          <div className="max-w-md mx-auto">
-            <div>
-              <img src="/img/logo.svg" className="h-7 sm:h-8" />
-            </div>
-            <div className="divide-y divide-gray-200">
-              <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                <p>
-                  An advanced online playground for Tailwind CSS, including
-                  support for things like:
-                </p>
-                <ul className="list-disc space-y-2">
-                  <li className="flex items-start">
-                    <span className="h-6 flex items-center sm:h-7">
-                      <svg
-                        className="flex-shrink-0 h-5 w-5 text-cyan-500"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </span>
-                    <p className="ml-2">
-                      Customizing your
-                      <code className="text-sm font-bold text-gray-900">
-                        dGAGANA
-                      </code>{" "}
-                      file
-                    </p>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="h-6 flex items-center sm:h-7">
-                      <svg
-                        className="flex-shrink-0 h-5 w-5 text-cyan-500"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </span>
-                    <p className="ml-2">
-                      Extracting classes with
-                      <code className="text-sm font-bold text-gray-900">
-                        @apply
-                      </code>
-                    </p>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="h-6 flex items-center sm:h-7">
-                      <svg
-                        className="flex-shrink-0 h-5 w-5 text-cyan-500"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </span>
-                    <p className="ml-2">Code completion with instant preview</p>
-                  </li>
-                </ul>
-                <p>
-                  Perfect for learning how the framework works, prototyping a
-                  new idea, or creating a demo to share online.
-                </p>
-              </div>
-              <div className="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
-                <p>Want to dig deeper into Tailwind?</p>
-                <p>
-                  <a
-                    href="https://tailwindcss.com/docs"
-                    className="text-cyan-600 hover:text-cyan-700"
-                  >
-                    {" "}
-                    Read the docs &rarr;{" "}
-                  </a>
-                </p>
+    <header className="bg-gray-900 pattern">
+      <div className="container px-6 mx-auto">
+        <HomeNav />
+
+        <div className="flex flex-col items-center py-6 lg:h-[32rem] lg:flex-row">
+          <div className="lg:w-1/2">
+            <h2 className="text-4xl font-semibold text-gray-100">Brand</h2>
+
+            <h3 className="text-2xl font-semibold text-gray-100">
+              Hello <span className="text-blue-400">Guest</span>
+            </h3>
+
+            <p className="mt-3 text-gray-100">
+              Lorem ipsum dolor sit amet, consectetur adipiscing.
+            </p>
+          </div>
+
+          <div className="flex mt-8 lg:w-1/2 lg:justify-end lg:mt-0">
+            <div className="max-w-sm bg-white rounded-lg dark:bg-gray-800">
+              <div className="p-5 text-center">
+                <h2 className="text-2xl font-semibold text-gray-700 dark:text-white fo">
+                  Sign In
+                </h2>
+
+                <form onSubmit={formik.handleSubmit}>
+                  <div className="mt-4">
+                    <input
+                      className="block w-full px-4 py-2 text-gray-700 placeholder-gray-500 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      id="username"
+                      name="username"
+                      aria-label="Username"
+                      onChange={formik.handleChange}
+                      value={formik.values.username}
+                    />
+                    <input
+                      className="block w-full px-4 py-2 mt-4 text-gray-700 placeholder-gray-500 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
+                      id="password"
+                      name="password"
+                      type="password"
+                      aria-label="Password"
+                      onChange={formik.handleChange}
+                      value={formik.values.password}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between mt-4">
+                    <Link href="/views/auth/AdminLogin">
+                      <a className="text-sm text-gray-600 dark:text-gray-200 hover:underline">
+                        Register
+                      </a>
+                    </Link>
+                    <button
+                      type="submit"
+                      className="px-4 py-2 font-semibold text-white transition-colors duration-200 transform bg-gray-900 rounded-md hover:bg-gray-800 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-800 dark:focus:bg-gray-700"
+                    >
+                      Login
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
