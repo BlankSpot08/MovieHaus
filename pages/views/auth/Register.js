@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import HomeNav from "../../../components/HomeNav";
+import HomeNav from "../../../components/navigations/HomeNav";
 import Link from "next/link";
 import { TextField, Button, MenuItem, Avatar } from "@mui/material";
 import { useRouter } from "next/router";

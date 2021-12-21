@@ -14,12 +14,12 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Chip from "@mui/material/Chip";
 import Autocomplete from "@mui/material/Autocomplete";
 import Checkbox from "@mui/material/Checkbox";
-import AdminNav from "../../../components/AdminNav";
+import AdminNav from "../../../components/navigations/AdminNav";
 import Table from "../../../components/Table";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import PublicNav from "../../../components/PublicNav";
+import PublicNav from "../../../components/navigations/PublicNav";
 
 toast.configure();
 const FormEdit = (props) => {

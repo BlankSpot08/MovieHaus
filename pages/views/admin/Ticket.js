@@ -3,7 +3,7 @@ import { TextField, Button, MenuItem, Avatar } from "@mui/material";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import AdminNav from "../../../components/AdminNav";
+import AdminNav from "../../../components/navigations/AdminNav";
 import Head from "next/head";
 import axios from "axios";
 

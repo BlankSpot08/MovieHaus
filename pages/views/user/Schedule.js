@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
-
+import UserNav from "../../../components/navigations/UserNav";
 toast.configure();
 const Schedule = () => {
   const router = useRouter();
@@ -16,6 +16,7 @@ const Schedule = () => {
         <title>Schedule</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
+      <UserNav />
       <p>Hello world!</p>
     </div>
   );

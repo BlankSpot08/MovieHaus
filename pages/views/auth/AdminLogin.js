@@ -7,7 +7,7 @@ import Link from "next/link";
 import Head from "next/head";
 import axios from "axios";
 
-import HomeNav from "../../../components/HomeNav";
+import HomeNav from "../../../components/navigations/HomeNav";
 toast.configure();
 const AdminLogin = () => {
   const router = useRouter();
@@ -47,7 +47,7 @@ const AdminLogin = () => {
                 <div className="divide-y divide-gray-200">
                   <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                     <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans">
-                      Login
+                      Admin Login
                     </h1>
                     <form onSubmit={formik.handleSubmit}>
                       <TextField

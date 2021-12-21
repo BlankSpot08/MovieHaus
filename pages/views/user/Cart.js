@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
-
+import UserNav from "../../../components/navigations/UserNav";
 toast.configure();
 
 const Cart = () => {
@@ -16,7 +16,8 @@ const Cart = () => {
         <title>Cart</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <p>Hello world!</p>
+      <UserNav />
+      <p>Cart</p>
     </div>
   );
 };

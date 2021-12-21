@@ -7,7 +7,7 @@ import Link from "next/link";
 import Head from "next/head";
 import axios from "axios";
 
-import HomeNav from "../../../components/HomeNav";
+import HomeNav from "../../../components/navigations/HomeNav";
 toast.configure();
 const Login = () => {
   const router = useRouter();

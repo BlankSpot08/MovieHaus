@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
-import UserNav from "../../../components/UserNav";
+import UserNav from "../../../components/navigations/UserNav";
 toast.configure();
 const Home = () => {
   const router = useRouter();
