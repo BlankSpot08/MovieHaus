@@ -67,11 +67,3 @@ export default async function handler(req, res) {
     }
   }
 }
-on({ sucess: false, message: [] });
-    }
-  }
-}
-on({ sucess: false, message: [] });
-    }
-  }
-}
