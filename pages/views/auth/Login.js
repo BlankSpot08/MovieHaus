@@ -3,19 +3,97 @@ import { TextField, Button, MenuItem, Avatar } from "@mui/material";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import Head from "next/head";
 import axios from "axios";
 
+import HomeNav from "../../../components/HomeNav";
 toast.configure();
 const Login = () => {
   const router = useRouter();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    onSubmit(values) {
+      axios
+        .post("/api/auth/login", values)
+        .then((res) => {
+          // if (res.data.success) {
+          //   router.push("/views/student");
+          // } else {
+          //   toast.error(res.data.message);
+          // }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  });
   return (
     <div>
       <Head>
         <title>Login</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <p>Hello world!</p>
+      <HomeNav>
+        <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+          <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+            <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+              <div className="max-w-md mx-auto">
+                <div className="divide-y divide-gray-200">
+                  <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                    <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans">
+                      Student Login
+                    </h1>
+                    <form onSubmit={formik.handleSubmit}>
+                      <TextField
+                        fullWidth
+                        id="email"
+                        name="email"
+                        label="Email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        sx={{ my: 2 }}
+                      />
+                      <TextField
+                        fullWidth
+                        id="password"
+                        name="password"
+                        label="Password"
+                        type="password"
+                        autoComplete="current-password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        sx={{ my: 2 }}
+                      />
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        fullWidth
+                        type="submit"
+                      >
+                        Submit
+                      </Button>
+                    </form>
+                  </div>
+                  <div className="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
+                    <p>
+                      <Link href="/views/auth/Register">
+                        <a className="text-cyan-600 hover:text-cyan-700">
+                          Doesn't have an account ? Register &rarr;
+                        </a>
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </HomeNav>
     </div>
   );
 };

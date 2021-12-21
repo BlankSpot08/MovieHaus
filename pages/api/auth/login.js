@@ -1,6 +1,7 @@
 const ObjectId = require("mongodb").ObjectId;
-const dbConnect = require("../../../config/dbConnect");
-const User = require('../../../models/User.js')
+
+import dbConnect from "../../../config/dbConnect";
+dbConnect();
 
 dbConnect();
 /*

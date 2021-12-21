@@ -22,6 +22,17 @@ const UserSchema = new mongoose.Schema({
     enum: ["Male", "Female"],
     required: [true, "Gender"],
   },
+  birthday: {
+    type: Date,
+    required: true,
+    trim: true,
+  },
+  mobile: {
+    trim: true,
+    type: String,
+    unique: [true, "Mobile Number already available"],
+    required: [true, "Mobile Number is required"],
+  },
   password: {
     type: String,
     required: true,

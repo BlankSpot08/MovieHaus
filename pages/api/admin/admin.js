@@ -1,5 +1,6 @@
 const ObjectId = require("mongodb").ObjectId;
-const dbConnect = require("../../../config/dbConnect");
+
+import dbConnect from "../../../config/dbConnect";
 dbConnect();
 
 export const config = {
