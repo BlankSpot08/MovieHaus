@@ -16,12 +16,11 @@ export const config = {
 const logout = async (req, res) => {
     try {
         const cookies = new Cookies(req, res);
-        cookies.set("access-token", '');
+        cookies.set("access-token", "");
 
-        res.status(200).json({ sucess: true, message: ['logout successfully'] });
-    }
-    catch (err) {
-        res.status(200).json({ sucess: false, message: ['logout failed'] });
+        res.status(200).json({ sucess: true, message: ["logout successfully"] });
+    } catch (err) {
+        res.status(200).json({ sucess: false, message: ["logout failed"] });
     }
 };
 
