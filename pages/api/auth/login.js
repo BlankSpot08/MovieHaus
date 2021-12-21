@@ -42,8 +42,6 @@ const login = async (req, res) => {
         .status(200)
         .json({ success: false, message: ["Username does not exist"] });
     }
-
-    return res.status(200).json({ success: true });
   } catch (err) {
     console.log(`Error: ${err}`);
 

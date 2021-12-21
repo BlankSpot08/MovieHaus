@@ -21,7 +21,6 @@ const logout = async (req, res) => {
         res.status(200).json({ sucess: true, message: ['logout successfully'] });
     }
     catch (err) {
-
         res.status(200).json({ sucess: false, message: ['logout failed'] });
     }
 };
