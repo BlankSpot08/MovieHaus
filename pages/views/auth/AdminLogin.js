@@ -18,10 +18,10 @@ const AdminLogin = () => {
     },
     onSubmit(values) {
       axios
-        .post("/api/auth/login", values)
+        .post("/api/auth/admin_login", values)
         .then((res) => {
           if (res.data.success) {
-            router.push("/views/user/Home");
+            router.push("/views/admin/Home");
           } else {
             const error = res.data.message;
             for (const key in error) toast.error(error[key]);
