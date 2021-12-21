@@ -10,7 +10,7 @@ const HomeNav = ({ children }) => {
               href="#"
               className="text-2xl font-semibold text-white hover:text-gray-300"
             >
-              Brand
+              Bookie
             </a>
           </Link>
         </div>

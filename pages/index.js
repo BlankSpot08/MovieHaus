@@ -7,9 +7,8 @@ import Link from "next/link";
 import Head from "next/head";
 import axios from "axios";
 import HomeNav from "../components/navigations/HomeNav";
-
 toast.configure();
-export default function Home() {
+export default function HomeApp() {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -41,14 +40,13 @@ export default function Home() {
 
         <div className="flex flex-col items-center py-6 lg:h-[32rem] lg:flex-row">
           <div className="lg:w-1/2">
-            <h2 className="text-4xl font-semibold text-gray-100">Brand</h2>
+            <h2 className="text-4xl font-semibold text-gray-100"> Bookie </h2>
 
             <h3 className="text-2xl font-semibold text-gray-100">
               Hello <span className="text-blue-400">Guest</span>
             </h3>
-
             <p className="mt-3 text-gray-100">
-              Lorem ipsum dolor sit amet, consectetur adipiscing.
+              Welcome to bookie where you can book a movie where ever you are.
             </p>
           </div>
 
