@@ -14,7 +14,7 @@ export const config = {
 
 const getAdmin = async (req, res) => {
   try {
-    const admins = await Admin.find()
+    const admins = await Admin.find();
 
     return res.status(200).json({ success: true, value: admins });
   } catch (err) {
@@ -63,9 +63,19 @@ const updateAdmin = async (req, res) => {
   try {
     const { id } = req.query;
 
-    const admin = await Admin.findOneAndUpdate({ _id: ObjectId(id) }, req.body, { upsert: false })
+    const admin = await Admin.findOneAndUpdate(
+      { _id: ObjectId(id) },
+      req.body,
+      { upsert: false }
+    );
+    if (!admin)
+      return res
+        .status(200)
+        .json({ success: false, message: ["Admin not found"] });
 
-    return res.status(200).json({ success: true, message: ['Admin was updated successfully.'] });
+    return res
+      .status(200)
+      .json({ success: true, message: ["Admin was updated successfully."] });
   } catch (err) {
     let result = [];
     const errors = err.errors;
@@ -89,7 +99,9 @@ const updateAdmin = async (req, res) => {
         .send({ succes: false, message: ["Email already exist!"] });
     }
 
-    return res.status(401).json({ success: false, message: ['Admin was updated unsuccessfully.'] });
+    return res
+      .status(401)
+      .json({ success: false, message: ["Admin was updated unsuccessfully."] });
   }
 };
 
@@ -100,16 +112,21 @@ const deleteAdmin = async (req, res) => {
     const findBook = await Admin.findOne({ _id: ObjectId(id) });
 
     if (!findBook) {
-      return res.status(200).json({ success: true, message: ['Admin was not found.'] });
+      return res
+        .status(200)
+        .json({ success: true, message: ["Admin was not found."] });
     }
 
     findBook.remove();
 
-    return res.status(200).json({ success: true, message: ['Admin was deleted successfully'] });
+    return res
+      .status(200)
+      .json({ success: true, message: ["Admin was deleted successfully"] });
   } catch (err) {
-
-    console.log(`Error: ${err}`)
-    return res.status(401).json({ success: false, message: ['Admin was deleted unsuccessfully'] });
+    console.log(`Error: ${err}`);
+    return res
+      .status(401)
+      .json({ success: false, message: ["Admin was deleted unsuccessfully"] });
   }
 };
 

@@ -54,7 +54,7 @@ const AdminLogin = () => {
                         fullWidth
                         id="username"
                         name="username"
-                        label="U  sername"
+                        label="Username"
                         value={formik.values.username}
                         onChange={formik.handleChange}
                         sx={{ my: 2 }}

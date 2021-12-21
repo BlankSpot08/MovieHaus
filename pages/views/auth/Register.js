@@ -49,7 +49,6 @@ const Register = () => {
       await axios
         .post("/api/auth/register", values)
         .then((res) => {
-          console.log(res);
           if (res.data.success == true) {
             router.push("/views/auth/login");
             toast.success("success");
