@@ -1,13 +1,17 @@
 const mongoose = require("mongoose");
 const MovieSeatSchema = new mongoose.Schema({
-  x: [Number],
-  y: [Number],
-  seat_no: {
-    type: Number,
-  },
-  user: [
+  seats: [
     {
-      type: Object,
+      x: [Number],
+      y: [Number],
+      seat_no: {
+        type: Number,
+      },
+      user: [
+        {
+          type: Object,
+        },
+      ],
     },
   ],
 });

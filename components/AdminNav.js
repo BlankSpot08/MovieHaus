@@ -26,8 +26,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SchoolIcon from "@mui/icons-material/School";
+import EventSeatIcon from "@mui/icons-material/EventSeat";
 import Card from "@mui/material/Card";
 import axios from "axios";
+
 const drawerWidth = 240;
 
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
@@ -91,6 +93,11 @@ const tabs = [
     name: "Ticket",
     icon: <BookOnlineIcon />,
     path: "/views/admin/Ticket",
+  },
+  {
+    name: "Seat",
+    icon: <EventSeatIcon />,
+    path: "/views/admin/Seat",
   },
 ];
 const DrawerHeader = styled("div")(({ theme }) => ({
