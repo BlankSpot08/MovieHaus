@@ -2,14 +2,13 @@ import Cookies from "cookies";
 
 const jwt = require("jsonwebtoken");
 const ObjectId = require("mongodb").ObjectId;
-const User = require('../../../models/User.js')
+const User = require("../../../models/User.js");
 
 import dbConnect from "../../../config/dbConnect";
 dbConnect();
 
-
 const createToken = (id) => {
-  return jwt.sign({ id, role: "admin" }, process.env.JWT_SECRET_KEY);
+  return jwt.sign({ id, role: "user" }, process.env.JWT_SECRET_KEY);
 };
 
 export const config = {
@@ -22,10 +21,10 @@ export const config = {
 
 const login = async (req, res) => {
   try {
-    const user = await User.findOne({ username: req.body.username })
+    const user = await User.findOne({ username: req.body.username });
 
     if (user) {
-      const passwordCheck = user.password == req.body.password
+      const passwordCheck = user.password == req.body.password;
 
       if (passwordCheck) {
         const token = createToken(user.id);
@@ -38,9 +37,7 @@ const login = async (req, res) => {
           .status(200)
           .json({ success: false, message: ["Incorrect password"] });
       }
-    }
-
-    else {
+    } else {
       return res
         .status(200)
         .json({ success: false, message: ["Username does not exist"] });
@@ -48,7 +45,7 @@ const login = async (req, res) => {
 
     return res.status(200).json({ success: true });
   } catch (err) {
-    console.log(`Error: ${err}`)
+    console.log(`Error: ${err}`);
 
     return res.status(401).json({ success: false, message: [] });
   }

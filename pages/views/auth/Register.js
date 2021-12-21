@@ -40,18 +40,18 @@ const Register = () => {
       email: "",
       username: "",
       gender: "",
-      password: "",
       birthday: new Date(),
+      password: "",
       password_confirmation: "",
       mobile: "",
     },
     async onSubmit(values) {
-      console.log(values);
       await axios
         .post("/api/auth/register", values)
         .then((res) => {
+          console.log(res);
           if (res.data.success == true) {
-            // setIsRegistered(true);
+            router.push("/views/auth/login");
             toast.success("success");
           } else {
             const error = res.data.message;
