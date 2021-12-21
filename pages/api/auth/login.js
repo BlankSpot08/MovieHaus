@@ -1,8 +1,8 @@
+import Cookies from "cookies";
 const ObjectId = require("mongodb").ObjectId;
+const User = require('../../../models/User.js')
 
-import dbConnect from "../../../config/dbConnect";
-dbConnect();
-
+const dbConnect = require("../../../config/dbConnect");
 dbConnect();
 /*
 
@@ -26,12 +26,28 @@ export const config = {
 
 const login = async (req, res) => {
   try {
+    const user = User.findOne({ username: req.body.username })
 
-    const user = User.find(
-      {
-        username: ''
+    if (user) {
+      const passwordCheck = user.password == req.body.password
+
+      if (passwordCheck) {
+        const token = createToken(user.id);
+        const cookies = new Cookies(req, res);
+        cookies.set("access-token", token);
+        res.status(200).json({ success: true });
+      } else {
+        return res
+          .status(200)
+          .json({ success: false, message: "Incorrect password" });
       }
-    )
+    }
+
+    else {
+      return res
+        .status(200)
+        .json({ success: false, message: "Email does not exist" });
+    }
 
 
     return res.status(200).json({ success: true });
@@ -48,6 +64,14 @@ export default async function handler(req, res) {
 
     default: {
       res.status(400).json({ sucess: false, message: [] });
+    }
+  }
+}
+on({ sucess: false, message: [] });
+    }
+  }
+}
+on({ sucess: false, message: [] });
     }
   }
 }
