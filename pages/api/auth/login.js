@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const ObjectId = require("mongodb").ObjectId;
 const User = require('../../../models/User.js')
 
-const dbConnect = require("../../../config/dbConnect");
+import dbConnect from "../../../config/dbConnect";
 dbConnect();
 
 
@@ -22,7 +22,7 @@ export const config = {
 
 const login = async (req, res) => {
   try {
-    const user = User.findOne({ username: req.body.username })
+    const user = await User.findOne({ username: req.body.username })
 
     if (user) {
       const passwordCheck = user.password == req.body.password
@@ -32,23 +32,24 @@ const login = async (req, res) => {
         const cookies = new Cookies(req, res);
         cookies.set("access-token", token);
 
-        res.status(200).json({ success: true });
+        return res.status(200).json({ success: true });
       } else {
         return res
           .status(200)
-          .json({ success: false, message: "Incorrect password" });
+          .json({ success: false, message: ["Incorrect password"] });
       }
     }
 
     else {
       return res
         .status(200)
-        .json({ success: false, message: "Email does not exist" });
+        .json({ success: false, message: ["Email does not exist"] });
     }
-
 
     return res.status(200).json({ success: true });
   } catch (err) {
+    console.log(`Error: ${err}`)
+
     return res.status(401).json({ success: false, message: [] });
   }
 };

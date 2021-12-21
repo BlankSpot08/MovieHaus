@@ -15,5 +15,6 @@ module.exports = {
     DB_NAME: "hawkeye",
     DEV_URL: "http://localhost:3000",
     PROD_URL: "",
+    JWT_SECRET_KEY: "KEYKEY"
   },
 };
