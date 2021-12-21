@@ -1,6 +1,5 @@
 const ObjectId = require("mongodb").ObjectId;
-const dbConnect = require("../../config/dbConnect");
-
+import dbConnect from "../../../config/dbConnect";
 dbConnect();
 /*
 
@@ -31,6 +30,7 @@ const getLogin = async (req, res) => {
 };
 const addLogin = async (req, res) => {
   try {
+    console.log("HEllo");
     return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(401).json({ success: false, message: [] });

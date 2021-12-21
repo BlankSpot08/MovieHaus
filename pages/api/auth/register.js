@@ -1,5 +1,5 @@
 const ObjectId = require("mongodb").ObjectId;
-const dbConnect = require("../../config/dbConnect");
+import dbConnect from "../../../config/dbConnect";
 dbConnect();
 
 export const config = {
@@ -19,6 +19,7 @@ const getRegister = async (req, res) => {
 };
 const addRegister = async (req, res) => {
   try {
+    console.log("Helo");
     return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(401).json({ success: false, message: [] });

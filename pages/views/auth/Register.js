@@ -1,21 +1,212 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import HomeNav from "../../../components/HomeNav";
+import Link from "next/link";
 import { TextField, Button, MenuItem, Avatar } from "@mui/material";
-import { toast } from "react-toastify";
-import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import Head from "next/head";
+import { toast } from "react-toastify";
+import { useTimer } from "react-timer-hook";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import MuiPhoneNumber from "material-ui-phone-number";
+import { useFormik } from "formik";
 import axios from "axios";
+import Head from "next/head";
 
 toast.configure();
 const Register = () => {
   const router = useRouter();
+  const { seconds, restart } = useTimer({
+    expiryTimestamp: new Date().setSeconds(new Date().getSeconds() + 10),
+    onExpire: () => console.warn("onExpire called"),
+  });
+
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [profilePicture, setProfilePicture] = useState(null);
+  const profilePictureSelect = (e) => {
+    const file = e.target.files[0];
+    if (typeof file !== "undefined") {
+      var reader = new FileReader();
+      var url = reader.readAsDataURL(file);
+      reader.onloadend = function (e) {
+        formik.values.profile_picture = reader.result;
+        setProfilePicture(reader.result);
+      };
+    }
+  };
+  const formik = useFormik({
+    initialValues: {
+      profile_picture: null,
+      email: "",
+      username: "",
+      gender: "",
+      password: "",
+      birthday: new Date(),
+      password_confirmation: "",
+      mobile: "",
+    },
+    async onSubmit(values) {
+      console.log(values);
+      await axios
+        .post("/api/auth/register", values)
+        .then((res) => {
+          if (res.data.success == true) {
+            // setIsRegistered(true);
+            toast.success("success");
+          } else {
+            const error = res.data.message;
+            for (const key in error) toast.error(error[key]);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  });
   return (
     <div>
       <Head>
         <title>Register</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <p>Hello world!</p>
+      <HomeNav>
+        <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+          <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+            <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+              <div className="max-w-md mx-auto">
+                <div className="divide-y divide-gray-200">
+                  <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                    <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans">
+                      Register
+                    </h1>
+                    <Avatar
+                      alt="admin profile picture"
+                      src={profilePicture}
+                      align="center"
+                      sx={{ width: 156, height: 156, mt: 1, mb: 1 }}
+                    />
+                    <form onSubmit={formik.handleSubmit}>
+                      <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <Button variant="contained" component="label">
+                          Upload File
+                          <input
+                            accept="image/*"
+                            type="file"
+                            hidden
+                            name="profile_picture_src"
+                            file={formik.values.profile_picture}
+                            onChange={(e) => profilePictureSelect(e)}
+                          />
+                        </Button>
+
+                        <TextField
+                          fullWidth
+                          id="email"
+                          name="email"
+                          label="Email"
+                          autoComplete="current-email"
+                          value={formik.values.email}
+                          onChange={formik.handleChange}
+                          sx={{ my: 2 }}
+                        />
+                        <TextField
+                          fullWidth
+                          id="username"
+                          name="username"
+                          label="Username"
+                          value={formik.values.username}
+                          onChange={formik.handleChange}
+                          sx={{ my: 2 }}
+                        />
+                        <DesktopDatePicker
+                          fullWidth
+                          label="Birthday"
+                          inputFormat="MM/dd/yyyy"
+                          value={formik.values.birthday}
+                          onChange={(e) => formik.setFieldValue("birthday", e)}
+                          renderInput={(params) => (
+                            <TextField {...params} fullWidth />
+                          )}
+                        />
+                        <TextField
+                          fullWidth
+                          id="password"
+                          name="password"
+                          label="Password"
+                          type="password"
+                          autoComplete="current-password"
+                          value={formik.values.password}
+                          onChange={formik.handleChange}
+                          sx={{ my: 2 }}
+                        />
+                        <TextField
+                          fullWidth
+                          id="password_confirmation"
+                          name="password_confirmation"
+                          label="Confirm Password"
+                          type="password"
+                          autoComplete="current-password"
+                          value={formik.values.password_confirmation}
+                          onChange={formik.handleChange}
+                          sx={{ my: 2 }}
+                        />
+                        <TextField
+                          id="gender"
+                          name="gender"
+                          label="gender"
+                          value={formik.values.gender}
+                          onChange={formik.handleChange}
+                          sx={{ my: 2 }}
+                          select
+                          fullWidth
+                        >
+                          <MenuItem key={""} value={""}>
+                            Select gender
+                          </MenuItem>
+                          <MenuItem key={"Male"} value={"Male"}>
+                            Male
+                          </MenuItem>
+                          <MenuItem key={"Female"} value={"Female"}>
+                            Female
+                          </MenuItem>
+                        </TextField>
+
+                        <MuiPhoneNumber
+                          id="mobile"
+                          name="mobile"
+                          label="mobile"
+                          defaultCountry={"ph"}
+                          onChange={(e) => formik.setFieldValue("mobile", e)}
+                          sx={{ my: 2 }}
+                          fullWidth
+                        />
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          fullWidth
+                          type="submit"
+                        >
+                          Submit
+                        </Button>
+                      </LocalizationProvider>
+                    </form>
+                  </div>
+                  <div className="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
+                    <p>
+                      <Link href="/views/auth/Login">
+                        <a className="text-cyan-600 hover:text-cyan-700">
+                          Already have a student account? Login &rarr;
+                        </a>
+                      </Link>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </HomeNav>
     </div>
   );
 };
