@@ -135,7 +135,7 @@ export default function AdminNav({ children }) {
   };
   const logout = () => {
     axios
-      .post("/api/auth/logout")
+      .delete("/api/auth/logout")
       .then((res) => {
         router.push("/views/auth/Login");
       })
