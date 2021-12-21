@@ -1,5 +1,5 @@
-const dbConnect = require("../../config/dbConnect");
 const ObjectId = require("mongodb").ObjectId;
+const dbConnect = require("../../config/dbConnect");
 dbConnect();
 
 export default function handler(req, res) {
