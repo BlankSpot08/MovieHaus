@@ -13,18 +13,19 @@ const Login = () => {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     onSubmit(values) {
       axios
         .post("/api/auth/login", values)
         .then((res) => {
-          // if (res.data.success) {
-          //   router.push("/views/student");
-          // } else {
-          //   toast.error(res.data.message);
-          // }
+          if (res.data.success) {
+            router.push("/views/user/Home");
+          } else {
+            const error = res.data.message;
+            for (const key in error) toast.error(error[key]);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -46,15 +47,15 @@ const Login = () => {
                 <div className="divide-y divide-gray-200">
                   <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                     <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans">
-                      Student Login
+                      Login
                     </h1>
                     <form onSubmit={formik.handleSubmit}>
                       <TextField
                         fullWidth
-                        id="email"
-                        name="email"
-                        label="Email"
-                        value={formik.values.email}
+                        id="username"
+                        name="username"
+                        label="U  sername"
+                        value={formik.values.username}
                         onChange={formik.handleChange}
                         sx={{ my: 2 }}
                       />
