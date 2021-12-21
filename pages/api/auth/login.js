@@ -43,7 +43,7 @@ const login = async (req, res) => {
     else {
       return res
         .status(200)
-        .json({ success: false, message: ["Email does not exist"] });
+        .json({ success: false, message: ["Username does not exist"] });
     }
 
     return res.status(200).json({ success: true });
