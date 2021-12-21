@@ -14,28 +14,28 @@ const getTicket = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false });
+    return res.status(401).json({ success: false, message: [] });
   }
 };
 const addTicket = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false });
+    return res.status(401).json({ success: false, message: [] });
   }
 };
 const updateTicket = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false });
+    return res.status(401).json({ success: false, message: [] });
   }
 };
 const deleteTicket = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false });
+    return res.status(401).json({ success: false, message: [] });
   }
 };
 
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
       return deleteTicket(req, res);
     }
     default: {
-      res.status(400).json({ sucess: false });
+      res.status(400).json({ sucess: false, message: [] });
     }
   }
 }

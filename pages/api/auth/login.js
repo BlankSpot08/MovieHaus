@@ -14,28 +14,28 @@ const getLogin = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false });
+    return res.status(401).json({ success: false, message: [] });
   }
 };
 const addLogin = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false });
+    return res.status(401).json({ success: false, message: [] });
   }
 };
 const updateLogin = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false });
+    return res.status(401).json({ success: false, message: [] });
   }
 };
 const deleteLogin = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false });
+    return res.status(401).json({ success: false, message: [] });
   }
 };
 
@@ -57,7 +57,7 @@ export default async function handler(req, res) {
       return deleteLogin(req, res);
     }
     default: {
-      res.status(400).json({ sucess: false });
+      res.status(400).json({ sucess: false, message: [] });
     }
   }
 }
