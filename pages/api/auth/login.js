@@ -1,20 +1,16 @@
 import Cookies from "cookies";
+
+const jwt = require("jsonwebtoken");
 const ObjectId = require("mongodb").ObjectId;
 const User = require('../../../models/User.js')
 
 const dbConnect = require("../../../config/dbConnect");
 dbConnect();
-/*
 
-import Cookies from "cookies";
-const jwt = require("jsonwebtoken");
 
 const createToken = (id) => {
   return jwt.sign({ id, role: "admin" }, process.env.JWT_SECRET_KEY);
 };
-const token = createToken(findAdmin.id);
-const cookies = new Cookies(req, res);
-*/
 
 export const config = {
   api: {
@@ -35,6 +31,7 @@ const login = async (req, res) => {
         const token = createToken(user.id);
         const cookies = new Cookies(req, res);
         cookies.set("access-token", token);
+
         res.status(200).json({ success: true });
       } else {
         return res
