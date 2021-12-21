@@ -3,6 +3,7 @@ import { TextField, Button, MenuItem, Avatar } from "@mui/material";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
+import AdminNav from "../../../components/AdminNav";
 import Head from "next/head";
 import axios from "axios";
 
@@ -10,13 +11,18 @@ toast.configure();
 const Home = () => {
   const router = useRouter();
   return (
-    <div>
-      <Head>
-        <title>Home</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-      </Head>
-      <p>Hello world!</p>
-    </div>
+    <AdminNav>
+      <div>
+        <Head>
+          <title>Home</title>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, width=device-width"
+          />
+        </Head>
+        <p>Home</p>
+      </div>
+    </AdminNav>
   );
 };
 
