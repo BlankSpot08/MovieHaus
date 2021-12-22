@@ -112,12 +112,12 @@ class ArrangeSeat extends React.Component {
   mouseMove(event) {
     // const index = event.target.value;
     const current_value = this.state.current_value;
-    if (this.state.isMouseDown && !current_value) {
+    const verify = String(event.target).toLowerCase();
+    if (this.state.isMouseDown && !current_value && !verify.includes("svg")) {
       const bounds = event.target.getBoundingClientRect();
       const x = event.clientX - bounds.left;
       const y = event.clientY - bounds.top;
       const copy = [...this.state.seats];
-      console.log(bounds.left);
       copy[current_value] = { x: x, y: y };
       this.setState({ seats: [...copy] });
     }
@@ -126,7 +126,6 @@ class ArrangeSeat extends React.Component {
     this.setState({ isMouseDown: false, current_value: null });
   }
   render() {
-    const dragHandlers = { onStart: this.onStart, onStop: this.onStop };
     return (
       <div
         onMouseMove={this.mouseMove.bind(this)}
