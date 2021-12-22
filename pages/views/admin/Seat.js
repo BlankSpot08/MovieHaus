@@ -47,13 +47,7 @@ class ArrangeSeat extends React.Component {
       isMouseDown: false,
       current_value: null,
       activity: 0,
-      seats: [
-        {
-          x: 0,
-          y: 0,
-          seat_no: 0,
-        },
-      ],
+      seats: [],
     };
   }
 
@@ -142,10 +136,12 @@ class ArrangeSeat extends React.Component {
                       top: y,
                       left: x,
                     }}
-                    className={activity == 1 ? styles.seat : ""}
+                    className={
+                      activity == 1 || activity == 2 ? styles.seat : ""
+                    }
                     onMouseDown={this.mouseDown.bind(this, index)}
                   >
-                    <EventSeatIcon />
+                    <EventSeatIcon style={{ fill: "#7c77a0" }} />
                   </div>
                 );
               })}
