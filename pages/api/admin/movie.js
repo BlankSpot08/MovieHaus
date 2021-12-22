@@ -18,6 +18,7 @@ const getMovie = async (req, res) => {
     return res.status(401).json({ success: false, message: [] });
   }
 };
+
 const addMovie = async (req, res) => {
   try {
     return res.status(200).json({ success: true });

@@ -15,5 +15,4 @@ const MovieSeatSchema = new mongoose.Schema({
     },
   ],
 });
-module.exports =
-  mongoose.models.MovieSeat || mongoose.model("MovieSeat", MovieSeatSchema);
+module.exports = mongoose.models.MovieSeat || mongoose.model("MovieSeat", MovieSeatSchema);

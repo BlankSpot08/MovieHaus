@@ -68,10 +68,12 @@ const updateAdmin = async (req, res) => {
       req.body,
       { upsert: false }
     );
-    if (!admin)
+
+    if (!admin) {
       return res
         .status(200)
         .json({ success: false, message: ["Admin not found"] });
+    }
 
     return res
       .status(200)

@@ -18,6 +18,7 @@ const getSchedule = async (req, res) => {
     return res.status(401).json({ success: false, message: [] });
   }
 };
+
 const addSchedule = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
@@ -25,6 +26,7 @@ const addSchedule = async (req, res) => {
     return res.status(401).json({ success: false, message: [] });
   }
 };
+
 const updateSchedule = async (req, res) => {
   try {
     return res.status(200).json({ success: true });
@@ -32,6 +34,7 @@ const updateSchedule = async (req, res) => {
     return res.status(401).json({ success: false, message: [] });
   }
 };
+
 const deleteSchedule = async (req, res) => {
   try {
     return res.status(200).json({ success: true });

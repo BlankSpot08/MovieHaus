@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 import { isEmail } from "validator";
 const AdminSchema = new mongoose.Schema({
   profile_picture: {
