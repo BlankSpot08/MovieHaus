@@ -172,9 +172,13 @@ class CreateSeat extends React.Component {
           onChange={(event, newValue) => this.setState({ activity: newValue })}
           aria-label="icon label tabs example"
         >
-          <Tab icon={<EventSeatIcon />} label="Add" />
-          <Tab icon={<DeleteForeverIcon />} label="Remove" />
-          <Tab icon={<PanToolIcon />} label="Drag" />
+          <Tab icon={<EventSeatIcon />} label="Add" sx={{ m: 1, height: 55 }} />
+          <Tab
+            icon={<DeleteForeverIcon />}
+            label="Remove"
+            sx={{ m: 1, height: 55 }}
+          />
+          <Tab icon={<PanToolIcon />} label="Drag" sx={{ m: 1, height: 55 }} />
         </Tabs>
 
         {activity == 0 && (
