@@ -1,18 +1,11 @@
 const mongoose = require("mongoose");
 const MovieSeatSchema = new mongoose.Schema({
-  seats: [
-    {
-      x: [Number],
-      y: [Number],
-      seat_no: {
-        type: Number,
-      },
-      user: [
-        {
-          type: Object,
-        },
-      ],
-    },
-  ],
+  seat_name: {
+    type: String,
+    required: [true, "Please add Seat name"],
+    unique: [true, "Seat Name already available"],
+  },
+  seats: [],
 });
-module.exports = mongoose.models.MovieSeat || mongoose.model("MovieSeat", MovieSeatSchema);
+module.exports =
+  mongoose.models.MovieSeat || mongoose.model("MovieSeat", MovieSeatSchema);

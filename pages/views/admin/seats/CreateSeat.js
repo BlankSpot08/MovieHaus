@@ -20,6 +20,7 @@ class CreateSeat extends React.Component {
       isMouseDown: false,
       current_value: null,
       activity: 0,
+      seat_name: "",
       seats: [],
     };
   }
@@ -102,48 +103,59 @@ class CreateSeat extends React.Component {
   }
 
   onSave(event) {
-    // let formData = new FormData();
-    // formData.append("seats", this.state.seats);
-    // const config = {
-    //   headers: { "content-type": "multipart/form-data" },
-    // };
-
-    // axios
-    //   .post("/api/admin/seat", formData, config)
-    //   .then((res) => {
-    //     if (res.data.success == true) {
-    //       // router.push("/views/admin/Admin?title=Admin");
-    //       toast.success("success");
-    //     } else {
-    //       const error = res.data.message;
-    //       for (const key in error) toast.error(error[key]);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    axios
-      .get("/api/admin/tokenSeat")
+    if (this.state.seat_name.length <= 0) {
+      toast.error("Name is empty");
+      return null;
+    }
+    axios({
+      method: "POST",
+      url: "/api/admin/seat",
+      data: {
+        seat_name: this.state.seat_name,
+        seats: this.state.seats,
+      },
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
       .then((res) => {
-        console.log(res);
+        if (res.data.success == true) {
+          this.setState({ seats: [], seat_name: "" });
+          toast.success("success");
+        } else {
+          const error = res.data.message;
+          for (const key in error) toast.error(error[key]);
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
+  handleChange(event) {
+    this.setState({ seat_name: event.target.value });
+  }
   onClear() {
-    this.setState({ seats: [] });
+    this.setState({ seats: [], seat_name: "" });
   }
   render() {
-    const { activity, seats } = this.state;
+    const { activity, seats, seat_name } = this.state;
 
     return (
       <div>
+        <TextField
+          label="Seat"
+          variant="outlined"
+          name="seat_name"
+          sx={{ m: 1, width: "50%" }}
+          value={seat_name}
+          onChange={this.handleChange.bind(this)}
+        />
         <Button
           variant="contained"
           startIcon={<SaveAltIcon />}
           onClick={this.onSave.bind(this)}
+          sx={{ m: 1, height: 55 }}
         >
           Save
         </Button>
@@ -151,7 +163,7 @@ class CreateSeat extends React.Component {
           variant="outlined"
           startIcon={<SaveAltIcon />}
           onClick={this.onClear.bind(this)}
-          sx={{ m: 1 }}
+          sx={{ m: 1, height: 55 }}
         >
           Clear
         </Button>
@@ -171,6 +183,7 @@ class CreateSeat extends React.Component {
             onClick={this.addSeat.bind(this)}
           ></div>
         )}
+
         <div
           onMouseMove={this.mouseMove.bind(this)}
           onMouseUp={this.mouseUp.bind(this)}
