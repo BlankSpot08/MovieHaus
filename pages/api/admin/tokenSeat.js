@@ -9,51 +9,53 @@ import dbConnect from "../../../config/dbConnect";
 dbConnect();
 
 export const config = {
-    api: {
-        bodyParser: {
-            sizeLimit: "255mb",
-        },
+  api: {
+    bodyParser: {
+      sizeLimit: "255mb",
     },
+  },
 };
 
 const getTicketSeat = async (req, res) => {
-    try {
-        const cookies = new Cookies(req, res)
+  try {
+    const cookies = new Cookies(req, res);
 
-        const token = cookies.get('access-token')
-        const admin = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const token = cookies.get("access-token");
 
-        const seats = cookies.set(`seats - ${admin.id}`)
+    const admin = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-        return res.status(200).json({ success: true, values: seats });
-    } catch (err) {
-        return res.status(401).json({ success: false, message: [] });
-    }
+    const seats = cookies.get(`seats - ${admin.id}`);
+
+    return res.status(200).json({ success: true, values: JSON.parse(seats) });
+  } catch (err) {
+    console.log(err);
+    return res.status(401).json({ success: false, message: [] });
+  }
 };
 
 const addTicketSeat = async (req, res) => {
-    try {
-        const cookies = new Cookies(req, res)
+  try {
+    const cookies = new Cookies(req, res);
 
-        const token = cookies.get(`access-token`)
-        const admin = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const token = cookies.get(`access-token`);
+    const admin = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-        cookies.set(`seats - ${admin.id}`, req.body)
+    cookies.set(`seats - ${admin.id}`, req.body);
 
-        return res.status(200).json({ success: true, message: [] });
-    } catch (err) {
-        console.log(`Error: ${err}`)
-        return res.status(401).json({ success: false, message: [] });
-    }
+    return res.status(200).json({ success: true, message: [] });
+  } catch (err) {
+    console.log(`Error: ${err}`);
+    return res.status(401).json({ success: false, message: [] });
+  }
 };
 
 export default async function handler(req, res) {
-    switch (req.method) {
-        case "GET": {
-            return getTicketSeat(req, res);
-        }
-        case "POST": {
-            return addTicketSeat(req, res);
-        }
+  switch (req.method) {
+    case "GET": {
+      return getTicketSeat(req, res);
     }
+    case "POST": {
+      return addTicketSeat(req, res);
+    }
+  }
 }
