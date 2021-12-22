@@ -10,7 +10,9 @@ import PanToolIcon from "@mui/icons-material/PanTool";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
 import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import styles from "../../../../styles/Seat.module.scss";
+
 toast.configure();
 class CreateSeat extends React.Component {
   constructor(props) {
@@ -107,6 +109,10 @@ class CreateSeat extends React.Component {
       toast.error("Name is empty");
       return null;
     }
+    if (this.state.seats.length <= 0) {
+      toast.error("Seats is empty");
+      return null;
+    }
     axios({
       method: "POST",
       url: "/api/admin/seat",
@@ -144,7 +150,7 @@ class CreateSeat extends React.Component {
     return (
       <div>
         <TextField
-          label="Seat"
+          label="Seat Name"
           variant="outlined"
           name="seat_name"
           sx={{ m: 1, width: "50%" }}
@@ -161,7 +167,7 @@ class CreateSeat extends React.Component {
         </Button>
         <Button
           variant="outlined"
-          startIcon={<SaveAltIcon />}
+          startIcon={<HighlightOffIcon />}
           onClick={this.onClear.bind(this)}
           sx={{ m: 1, height: 55 }}
         >

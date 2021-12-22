@@ -14,9 +14,12 @@ import styles from "../../../../styles/Seat.module.scss";
 toast.configure();
 
 const UpdateSeat = () => {
+  useEffect(() => {
+    console.log("HEllo wolrd"); // just like Created in vue
+  }, []);
   return (
     <div>
-      <h1> Hello world </h1>
+      <h1>hello world </h1>
     </div>
   );
 };
