@@ -36,12 +36,9 @@ const getTicketSeat = async (req, res) => {
 const addTicketSeat = async (req, res) => {
   try {
     const cookies = new Cookies(req, res);
-
     const token = cookies.get(`access-token`);
     const admin = jwt.verify(token, process.env.JWT_SECRET_KEY);
-
     cookies.set(`seats - ${admin.id}`, req.body);
-
     return res.status(200).json({ success: true, message: [] });
   } catch (err) {
     console.log(`Error: ${err}`);

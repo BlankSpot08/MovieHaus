@@ -131,17 +131,29 @@ class CreateSeat extends React.Component {
         console.log(err);
       });
   }
+
+  onClear() {
+    this.setState({ seats: [] });
+  }
   render() {
     const { activity, seats } = this.state;
 
     return (
       <div>
         <Button
-          variant="outlined"
+          variant="contained"
           startIcon={<SaveAltIcon />}
           onClick={this.onSave.bind(this)}
         >
           Save
+        </Button>
+        <Button
+          variant="outlined"
+          startIcon={<SaveAltIcon />}
+          onClick={this.onClear.bind(this)}
+          sx={{ m: 1 }}
+        >
+          Clear
         </Button>
         <Tabs
           value={activity}
