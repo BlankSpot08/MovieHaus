@@ -39,56 +39,6 @@ const Seat = () => {
   );
 };
 
-class RemWrapper extends React.Component {
-  translateTransformToRem(transform, remBaseline = 16) {
-    const convertedValues = transform
-      .replace("translate(", "")
-      .replace(")", "")
-      .split(",")
-      .map((px) => px.replace("px", ""))
-      .map((px) => parseInt(px, 10) / remBaseline)
-      .map((x) => `${x}rem`);
-    const [x, y] = convertedValues;
-
-    return `translate(${x}, ${y})`;
-  }
-
-  render() {
-    const { children, remBaseline = 16, style } = this.props;
-    const child = React.Children.only(children);
-
-    const editedStyle = {
-      ...child.props.style,
-      ...style,
-      transform: this.translateTransformToRem(style.transform, remBaseline),
-    };
-
-    return React.cloneElement(child, {
-      ...child.props,
-      ...this.props,
-      style: editedStyle,
-    });
-  }
-}
-
-const ToolsUsed = () => {
-  const [value, setValue] = useState(0);
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-  return (
-    <Tabs
-      value={value}
-      onChange={handleChange}
-      aria-label="icon label tabs example"
-    >
-      <Tab icon={<EventSeatIcon />} label="Add" />
-      <Tab icon={<DeleteForeverIcon />} label="Remove" />
-      <Tab icon={<PanToolIcon />} label="Drag" />
-    </Tabs>
-  );
-};
-
 class ArrangeSeat extends React.Component {
   constructor(props) {
     super(props);
@@ -96,6 +46,7 @@ class ArrangeSeat extends React.Component {
     this.state = {
       isMouseDown: false,
       current_value: null,
+      activity: 0,
       seats: [
         {
           x: 0,
@@ -107,13 +58,22 @@ class ArrangeSeat extends React.Component {
   }
 
   mouseDown(event) {
-    this.setState({ isMouseDown: true, current_value: event });
+    if (this.state.activity == 2)
+      this.setState({ isMouseDown: true, current_value: event });
+    else if (this.state.activity == 1) {
+      var array = [...this.state.seats];
+      if (event > -1) array.splice(event, 1);
+      this.setState({ seats: array });
+    }
   }
   mouseMove(event) {
-    // const index = event.target.value;
     const current_value = this.state.current_value;
     const verify = String(event.target).toLowerCase();
-    if (this.state.isMouseDown && !current_value && !verify.includes("svg")) {
+    if (
+      this.state.isMouseDown &&
+      !verify.includes("svg") &&
+      this.state.activity == 2
+    ) {
       const bounds = event.target.getBoundingClientRect();
       const x = event.clientX - bounds.left;
       const y = event.clientY - bounds.top;
@@ -122,34 +82,74 @@ class ArrangeSeat extends React.Component {
       this.setState({ seats: [...copy] });
     }
   }
+
   mouseUp(event) {
     this.setState({ isMouseDown: false, current_value: null });
   }
+
+  addSeat(event) {
+    const verify = String(event.target).toLowerCase();
+
+    if (!verify.includes("svg") && this.state.activity == 0) {
+      const bounds = event.target.getBoundingClientRect();
+      const x = event.clientX - bounds.left - 10;
+      const y = event.clientY - bounds.top - 10;
+      const copy = [
+        ...this.state.seats,
+        {
+          x: x,
+          y: y,
+          seat_no: 0,
+        },
+      ];
+      console.log({ x, y });
+      this.setState({ seats: [...copy] });
+    }
+  }
   render() {
+    const { activity, seats } = this.state;
     return (
-      <div
-        onMouseMove={this.mouseMove.bind(this)}
-        onMouseUp={this.mouseUp.bind(this)}
-      >
-        <ToolsUsed />
-        <div className={styles.display}>
-          {this.state.seats &&
-            this.state.seats.map((value, index) => {
-              const { x, y } = value;
-              return (
-                <div
-                  key={index}
-                  style={{
-                    position: "absolute",
-                    top: y,
-                    left: x,
-                  }}
-                  onMouseDown={this.mouseDown.bind(this, index)}
-                >
-                  <EventSeatIcon />
-                </div>
-              );
-            })}
+      <div>
+        <Tabs
+          value={activity}
+          onChange={(event, newValue) => this.setState({ activity: newValue })}
+          aria-label="icon label tabs example"
+        >
+          <Tab icon={<EventSeatIcon />} label="Add" />
+          <Tab icon={<DeleteForeverIcon />} label="Remove" />
+          <Tab icon={<PanToolIcon />} label="Drag" />
+        </Tabs>
+
+        {activity == 0 && (
+          <div
+            className={styles.display_add}
+            onClick={this.addSeat.bind(this)}
+          ></div>
+        )}
+        <div
+          onMouseMove={this.mouseMove.bind(this)}
+          onMouseUp={this.mouseUp.bind(this)}
+        >
+          <div className={styles.display}>
+            {seats &&
+              seats.map((value, index) => {
+                const { x, y } = value;
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      position: "absolute",
+                      top: y,
+                      left: x,
+                    }}
+                    className={activity == 1 ? styles.seat : ""}
+                    onMouseDown={this.mouseDown.bind(this, index)}
+                  >
+                    <EventSeatIcon />
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </div>
     );
