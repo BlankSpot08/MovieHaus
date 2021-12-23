@@ -6,6 +6,7 @@ import {
   Avatar,
   Autocomplete,
   Box,
+  LinearProgress,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -29,10 +30,10 @@ toast.configure();
 
 const UpdateSeat = () => {
   const [getSeats, setSeats] = useState([]);
-
   const [getChosenSeat, setChosenSeat] = useState({});
-
-  React.useEffect(() => {
+  const [loading, setLoading] = useState(false);
+  const created = () => {
+    setLoading(true);
     const url = "/api/admin/seat";
     axios
       .get(url)
@@ -42,12 +43,17 @@ const UpdateSeat = () => {
         for (i = 0; i < data.value.length; i++) {
           data.value[i]["label"] = data.value[i].seat_name;
         }
-
+        setChosenSeat({});
         setSeats(data.value);
+        console.log(data.value);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
+  };
+  React.useEffect(() => {
+    created();
   }, []);
 
   return (
@@ -72,11 +78,18 @@ const UpdateSeat = () => {
         sx={{ m: 1, width: "100%" }}
         renderInput={(params) => <TextField {...params} label="Seats" />}
       />
-      {Object.keys(getChosenSeat).length >= 1 && (
+      {getChosenSeat && Object.keys(getChosenSeat).length >= 1 && !loading ? (
         <UpdateSeatArrangement
           getChosenSeat={getChosenSeat}
           getSeats={getSeats}
+          created={created}
         />
+      ) : (
+        loading && (
+          <Box sx={{ width: "100%" }}>
+            <LinearProgress />
+          </Box>
+        )
       )}
     </div>
   );
@@ -164,41 +177,69 @@ class UpdateSeatArrangement extends React.Component {
     toast.info("Seat arrangement has been reseted");
   }
   onDelete(event) {
-    console.log("delete");
+    axios({
+      method: "DELETE",
+      url: "/api/admin/seat",
+      data: {
+        id: this.state._id,
+        seat_name: this.state.seat_name,
+        seats: this.state.seats,
+      },
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => {
+        if (res.data.success == true) {
+          toast.success("Successfully Deleted");
+          this.props.created();
+        } else {
+          const error = res.data.message;
+          for (const key in error) toast.error(error[key]);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   onUpdate(event) {
-    console.log("update");
-    // if (this.state.seat_name.length <= 0) {
-    //   toast.error("Name is empty");
-    //   return null;
-    // }
-    // if (this.state.seats.length <= 0) {
-    //   toast.error("Seats is empty");
-    //   return null;
-    // }
-    // axios({
-    //   method: "POST",
-    //   url: "/api/admin/seat",
-    //   data: {
-    //     seat_name: this.state.seat_name,
-    //     seats: this.state.seats,
-    //   },
-    //   headers: {
-    //     "Content-Type": "multipart/form-data",
-    //   },
-    // })
-    //   .then((res) => {
-    //     if (res.data.success == true) {
-    //       this.setState({ seats: [], seat_name: "" });
-    //       toast.success("success");
-    //     } else {
-    //       const error = res.data.message;
-    //       for (const key in error) toast.error(error[key]);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    if (this.state.seat_name.length <= 0) {
+      toast.error("Name is empty");
+      return null;
+    }
+    if (this.state.seats.length <= 0) {
+      toast.error("Seats is empty");
+      return null;
+    }
+    if (!this.state._id) {
+      toast.error("Seat arrangement does not exist");
+      return null;
+    }
+
+    axios({
+      method: "PUT",
+      url: "/api/admin/seat",
+      data: {
+        id: this.state._id,
+        seat_name: this.state.seat_name,
+        seats: this.state.seats,
+      },
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+      .then((res) => {
+        if (res.data.success == true) {
+          toast.success("success");
+          this.props.created();
+        } else {
+          const error = res.data.message;
+          for (const key in error) toast.error(error[key]);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
   onClear() {
     this.setState({ seats: [], seat_name: "" });

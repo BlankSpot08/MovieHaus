@@ -80,18 +80,9 @@ const updateSeat = async (req, res) => {
     if (result.length >= 1)
       return res.status(200).json({ success: false, message: result });
     if (err.name === "MongoServerError" && err.code === 11000) {
-      if (err.message.includes("mobile")) {
-        return res
-          .status(200)
-          .send({ succes: false, message: ["Mobile Number already exist!"] });
-      } else if (err.message.includes("username")) {
-        return res
-          .status(200)
-          .send({ succes: false, message: ["Username already exist!"] });
-      }
       return res
         .status(200)
-        .send({ succes: false, message: ["Email already exist!"] });
+        .send({ succes: false, message: ["Seat name already exist!"] });
     }
 
     return res
