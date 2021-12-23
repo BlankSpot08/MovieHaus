@@ -3,6 +3,10 @@
   width: 100%;
   height: 800px;
   position: relative;
+  border-radius: 45px;
+  box-shadow: 10px 14px 106px -38px rgba(0, 0, 0, 0.73);
+  -webkit-box-shadow: 10px 14px 106px -38px rgba(0, 0, 0, 0.73);
+  -moz-box-shadow: 10px 14px 106px -38px rgba(0, 0, 0, 0.73);
 }
 .display_add {
   position: absolute;

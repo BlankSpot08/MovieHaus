@@ -17,7 +17,7 @@ toast.configure();
 class CreateSeat extends React.Component {
   constructor(props) {
     super(props);
-
+    console.log;
     this.state = {
       isMouseDown: false,
       current_value: null,
@@ -35,7 +35,7 @@ class CreateSeat extends React.Component {
         "Content-Type": "multipart/form-data",
       },
     })
-      .then((res) => { })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });
@@ -199,23 +199,24 @@ class CreateSeat extends React.Component {
           onMouseUp={this.mouseUp.bind(this)}
         >
           <div className={styles.display}>
-            {seats && seats.map((value, index) => {
-              const { x, y } = value;
-              return (
-                <div
-                  key={index}
-                  style={{
-                    position: "absolute",
-                    top: y,
-                    left: x,
-                  }}
-                  className={activity == 1 ? styles.seat : ""}
-                  onMouseDown={this.mouseDown.bind(this, index)}
-                >
-                  <EventSeatIcon style={{ fill: "#7c77a0" }} />
-                </div>
-              );
-            })}
+            {seats &&
+              seats.map((value, index) => {
+                const { x, y } = value;
+                return (
+                  <div
+                    key={index}
+                    style={{
+                      position: "absolute",
+                      top: y,
+                      left: x,
+                    }}
+                    className={activity == 1 ? styles.seat : ""}
+                    onMouseDown={this.mouseDown.bind(this, index)}
+                  >
+                    <EventSeatIcon style={{ fill: "#7c77a0" }} />
+                  </div>
+                );
+              })}
           </div>
         </div>
       </div>

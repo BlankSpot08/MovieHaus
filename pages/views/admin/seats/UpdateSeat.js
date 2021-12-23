@@ -22,6 +22,7 @@ import SaveAltIcon from "@mui/icons-material/SaveAlt";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import styles from "../../../../styles/Seat.module.scss";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import Modal from "../../../../components/Modal";
 toast.configure();
 
 const UpdateSeat = () => {
@@ -60,7 +61,6 @@ const UpdateSeat = () => {
           </Box>
         )}
         onChange={(event, value) => {
-          console.log(Object.keys(getChosenSeat).length);
           setChosenSeat(value);
         }}
         disablePortal
@@ -80,18 +80,17 @@ const UpdateSeat = () => {
 class UpdateSeatArrangement extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       isMouseDown: false,
       current_value: null,
       activity: 0,
       seat_name: "",
       seats: [],
-      reset: {},
+      ...props.getChosenSeat,
+      reset: { ...this.state, ...props.getChosenSeat },
     };
   }
-  static getDerivedStateFromProps(nextProps) {
-    console.log(nextProps.getChosenSeat);
+  componentWillReceiveProps(nextProps) {
     // You don't have to do this check first, but it can help prevent an unneeded render
     if (nextProps.getChosenSeat) {
       this.setState({
@@ -154,13 +153,13 @@ class UpdateSeatArrangement extends React.Component {
     this.setState({ seat_name: event.target.value });
   }
   onReset() {
-    console.log("rese");
     this.setState({ ...this.state.reset, reset: { ...this.state.reset } });
   }
   onDelete(event) {
     console.log("delete");
   }
-  onSave(event) {
+  onUpdate(event) {
+    console.log("update");
     // if (this.state.seat_name.length <= 0) {
     //   toast.error("Name is empty");
     //   return null;
@@ -210,38 +209,51 @@ class UpdateSeatArrangement extends React.Component {
           value={seat_name}
           onChange={this.handleChange.bind(this)}
         />
-        <Button
-          variant="contained"
-          startIcon={<EditIcon />}
-          sx={{ m: 1, height: 50 }}
-        >
-          Edit
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<RestartAltIcon />}
-          onClick={this.onReset.bind(this)}
-          sx={{ m: 1, height: 50 }}
-        >
-          Reset
-        </Button>
-        <Button
-          variant="outlined"
-          startIcon={<HighlightOffIcon />}
-          onClick={this.onClear.bind(this)}
-          sx={{ m: 1, height: 55 }}
-        >
-          Clear
-        </Button>
 
-        <Button
+        <Modal
+          icon={<EditIcon />}
+          variant="contained"
+          text="UPdate"
+          buttonTextAccept="Update"
+          buttonTextExit="Close"
+          title={`Update ${this.state.seat_name}`}
+          message="Updating the seats cannot be undo. Are you sure you want to update?"
+          onAccept={this.onUpdate.bind(this)}
+        ></Modal>
+
+        <Modal
+          icon={<RestartAltIcon />}
           variant="outlined"
-          startIcon={<DeleteIcon />}
-          sx={{ m: 1, height: 50 }}
-          onClick={this.onDelete.bind(this)}
-        >
-          Delete
-        </Button>
+          text="Reset"
+          buttonTextAccept="Reset"
+          buttonTextExit="Close"
+          title={`Reset ${this.state.seat_name}`}
+          message="Reseting the seats back into its normal place cannot be undo. This will not update your current seat arrangement. Are you sure you want to reset? "
+          onAccept={this.onReset.bind(this)}
+        ></Modal>
+
+        <Modal
+          icon={<HighlightOffIcon />}
+          variant="outlined"
+          text="Clear"
+          buttonTextAccept="Clear"
+          buttonTextExit="Close"
+          title={`Clear ${this.state.seat_name}`}
+          message="Are you sure you want to remove all the seats? this cannot be undo."
+          onAccept={this.onClear.bind(this)}
+        ></Modal>
+
+        <Modal
+          icon={<DeleteIcon />}
+          variant="outlined"
+          text="Delete"
+          buttonTextAccept="Delete"
+          buttonTextExit="Close"
+          title={`Delete ${this.state.seat_name}`}
+          message="Deleting this seat arrangement cannot be undo. It will be erased permanently. are you sure you want to delete?"
+          onAccept={this.onDelete.bind(this)}
+        ></Modal>
+
         <Tabs
           value={activity}
           onChange={(event, newValue) => this.setState({ activity: newValue })}
