@@ -161,6 +161,7 @@ class UpdateSeatArrangement extends React.Component {
   }
   onReset() {
     this.setState({ ...this.state.reset, reset: { ...this.state.reset } });
+    toast.info("Seat arrangement has been reseted");
   }
   onDelete(event) {
     console.log("delete");
@@ -201,6 +202,7 @@ class UpdateSeatArrangement extends React.Component {
   }
   onClear() {
     this.setState({ seats: [], seat_name: "" });
+    toast.info("Seat arrangement has been cleared");
   }
 
   onCopy() {
@@ -209,7 +211,7 @@ class UpdateSeatArrangement extends React.Component {
       return null;
     }
     this.setState({ seats: this.state.copy.seats });
-    toast.success(`Successfully Copied ${this.state.copy.seat_name}`);
+    toast.info(`Successfully Copied ${this.state.copy.seat_name}`);
   }
 
   render() {
@@ -338,7 +340,13 @@ class UpdateSeatArrangement extends React.Component {
                       top: y,
                       left: x,
                     }}
-                    className={activity == 1 ? styles.seat : ""}
+                    className={
+                      activity == 1
+                        ? styles.seat
+                        : activity == 2
+                        ? styles.seat_grab
+                        : ""
+                    }
                     onMouseDown={this.mouseDown.bind(this, index)}
                   >
                     <EventSeatIcon style={{ fill: "#7c77a0" }} />
