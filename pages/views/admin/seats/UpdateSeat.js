@@ -18,11 +18,13 @@ import Tab from "@mui/material/Tab";
 import PanToolIcon from "@mui/icons-material/PanTool";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
-import SaveAltIcon from "@mui/icons-material/SaveAlt";
+import InputAdornment from "@mui/material/InputAdornment";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import styles from "../../../../styles/Seat.module.scss";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import Modal from "../../../../components/Modal";
+
 toast.configure();
 
 const UpdateSeat = () => {
@@ -71,7 +73,10 @@ const UpdateSeat = () => {
         renderInput={(params) => <TextField {...params} label="Seats" />}
       />
       {Object.keys(getChosenSeat).length >= 1 && (
-        <UpdateSeatArrangement getChosenSeat={getChosenSeat} />
+        <UpdateSeatArrangement
+          getChosenSeat={getChosenSeat}
+          getSeats={getSeats}
+        />
       )}
     </div>
   );
@@ -85,7 +90,9 @@ class UpdateSeatArrangement extends React.Component {
       current_value: null,
       activity: 0,
       seat_name: "",
+      copy: {},
       seats: [],
+      getSeats: props.getSeats,
       ...props.getChosenSeat,
       reset: { ...this.state, ...props.getChosenSeat },
     };
@@ -196,8 +203,17 @@ class UpdateSeatArrangement extends React.Component {
     this.setState({ seats: [], seat_name: "" });
   }
 
+  onCopy() {
+    if (Object.keys(this.state.copy).length <= 0) {
+      toast.error("No seat arrangment selected");
+      return null;
+    }
+    this.setState({ seats: this.state.copy.seats });
+    toast.success(`Successfully Copied ${this.state.copy.seat_name}`);
+  }
+
   render() {
-    const { activity, seats, seat_name } = this.state;
+    const { activity, seats, seat_name, getSeats } = this.state;
 
     return (
       <div>
@@ -254,6 +270,37 @@ class UpdateSeatArrangement extends React.Component {
           onAccept={this.onDelete.bind(this)}
         ></Modal>
 
+        <Autocomplete
+          renderOption={(props, option) => (
+            <Box
+              component="li"
+              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+              {...props}
+            >
+              {option.seat_name}
+            </Box>
+          )}
+          onChange={(event, value) => {
+            this.setState({ copy: value });
+          }}
+          disablePortal
+          options={getSeats}
+          sx={{ m: 1, width: "40%" }}
+          renderInput={(params) => (
+            <TextField {...params} label="Copy seats " />
+          )}
+        />
+
+        <Modal
+          icon={<ContentCopyIcon />}
+          variant="outlined"
+          text="Copy"
+          buttonTextAccept="Copy"
+          buttonTextExit="Close"
+          title={`Copy ${this.state.seat_name}`}
+          message="Copying this seat arrangment will overwrite your existing table. Are you sure you want to copy?"
+          onAccept={this.onCopy.bind(this)}
+        ></Modal>
         <Tabs
           value={activity}
           onChange={(event, newValue) => this.setState({ activity: newValue })}
