@@ -13,19 +13,22 @@ const MovieSchema = new mongoose.Schema({
     type: String,
   },
   price: {
-    type: Double,
+    type: Number,
   },
   duration: {
     type: Date,
   },
   ratings: {
-    type: Double,
+    type: Number,
   },
   movie_date: [
     {
       type: Object,
     },
   ],
+  release_date: {
+    type: Date,
+  },
   genres: [],
   directors: [],
   actors: [],

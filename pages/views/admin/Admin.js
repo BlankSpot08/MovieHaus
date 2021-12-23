@@ -471,15 +471,18 @@ const Admin = () => {
       width: "20%",
     },
   ];
-  useEffect(() => {
+  const updateValues = () => {
     axios
       .get("/api/admin/admin")
       .then((res) => {
         if (res.data.success) setRows(res.data.value);
       })
-      .catch((res) => {
+      .catch((err) => {
         console.log(err);
       });
+  };
+  useEffect(() => {
+    updateValues();
   }, []);
   const navs = [
     {

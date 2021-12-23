@@ -14,8 +14,8 @@ export const config = {
 
 const getMovie = async (req, res) => {
   try {
-    const seats = await Movie.find({});
-    return res.status(200).json({ success: true });
+    const movie = await Movie.find({});
+    return res.status(200).json({ success: true, value: movie });
   } catch (err) {
     return res.status(401).json({ success: false, message: [] });
   }
@@ -23,8 +23,8 @@ const getMovie = async (req, res) => {
 
 const addMovie = async (req, res) => {
   try {
-    const seats = new Movie(req.body);
-    const temp = await seats.save();
+    const movie = new Movie(req.body);
+    const temp = await movie.save();
     return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(401).json({ success: false, message: [] });
