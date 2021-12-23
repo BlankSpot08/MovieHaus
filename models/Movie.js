@@ -3,20 +3,24 @@ const mongoose = require("mongoose");
 const MovieSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: [true, "Please add username"],
+    required: [true, "Please add title"],
   },
 
   video_src: {
     type: String,
+    required: [true, "Please add video"],
   },
   image_src: {
     type: String,
+    required: [true, "Please add image"],
   },
   price: {
     type: Number,
+    required: [true, "Please add price"],
   },
   duration: {
-    type: Date,
+    type: String,
+    required: [true, "Movie duration is required"],
   },
   ratings: {
     type: Number,

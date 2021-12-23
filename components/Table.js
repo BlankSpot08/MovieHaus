@@ -180,7 +180,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable(props) {
-  const { headCells, rows, title, Edit, Delete, Add } = props;
+  const { headCells, rows, title, Edit, Delete, Add, onUpdate } = props;
 
   const [query, setQuery] = useState("");
   const [order, setOrder] = useState("asc");
@@ -234,7 +234,9 @@ export default function EnhancedTable(props) {
   const handleOpenAdd = (values) => {
     setOpenAdd(true);
   };
-
+  useEffect(() => {
+    onUpdate();
+  });
   // ======================================================
   const handleClick = (event, name) => {
     const selectedIndex = selected.indexOf(name);
@@ -280,7 +282,7 @@ export default function EnhancedTable(props) {
         >
           <Fade in={openAdd}>
             <Box className="border-none outline-none">
-              <Add />
+              <Add handleCloseAdd={handleCloseAdd} />
               <Button
                 onClick={handleCloseAdd}
                 variant="contained"
@@ -303,7 +305,11 @@ export default function EnhancedTable(props) {
         >
           <Fade in={openEdit}>
             <Box className="border-none outline-none">
-              <Edit editValues={editValues} editValues={editValues} />
+              <Edit
+                handleCloseEdit={handleCloseEdit}
+                editValues={editValues}
+                editValues={editValues}
+              />
               <Button
                 onClick={handleCloseEdit}
                 variant="contained"

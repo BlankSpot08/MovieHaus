@@ -15,7 +15,7 @@ import PublicNav from "../../../components/navigations/PublicNav";
 
 toast.configure();
 const FormEdit = (props) => {
-  const { editValues } = props;
+  const { editValues, handleCloseEdit } = props;
   const router = useRouter();
 
   const formik = useFormik({
@@ -27,7 +27,7 @@ const FormEdit = (props) => {
         .put(`/api/admin/admin?id=${values._id}`, values)
         .then((res) => {
           if (res.data.success == true) {
-            router.push("/views/admin/Admin?title=Admin");
+            handleCloseEdit();
             toast.success("success");
           } else {
             const error = res.data.message;
@@ -177,9 +177,9 @@ const FormEdit = (props) => {
   );
 };
 
-const FormAdd = () => {
+const FormAdd = (props) => {
+  const { handleCloseAdd } = props;
   const router = useRouter();
-
   const formik = useFormik({
     initialValues: {
       profile_picture: null,
@@ -198,6 +198,7 @@ const FormAdd = () => {
           if (res.data.success == true) {
             router.push("/views/admin/Admin?title=Admin");
             toast.success("success");
+            handleCloseAdd();
           } else {
             const error = res.data.message;
             for (const key in error) toast.error(error[key]);
@@ -363,14 +364,12 @@ const FormDelete = (props) => {
     },
     async onSubmit(values) {
       await axios
-        .delete(`/api/admin/admin?id=${values._id}`)
+        .delete(`/api/admin/admin?id=${values._id}`, values)
         .then((res) => {
           const data = res.data;
           if (data.success) {
             toast.success(" Admin Account Has been deleted Successfully  ");
-            setTimeout(() => {
-              router.reload(window.location.pathname);
-            }, 3000);
+            handleCloseDelete();
           } else {
             toast.error(" Error deleting Student profile ");
           }
@@ -406,18 +405,18 @@ const FormDelete = (props) => {
             <form onSubmit={formik.handleSubmit}>
               <button
                 type="submit"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded p-5"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-3"
               >
                 Agree
               </button>
-
-              <button
-                onClick={() => handleCloseDelete()}
-                className="bg-transparent hover:bg-gray-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
-              >
-                Close
-              </button>
             </form>
+
+            <button
+              onClick={() => handleCloseDelete()}
+              className="bg-transparent hover:bg-gray-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+            >
+              Close
+            </button>
           </div>
         </div>
       </div>
@@ -484,6 +483,7 @@ const Admin = () => {
   useEffect(() => {
     updateValues();
   }, []);
+
   const navs = [
     {
       title: "Admin Accounts",
@@ -495,6 +495,7 @@ const Admin = () => {
           Edit={FormEdit}
           Delete={FormDelete}
           Add={FormAdd}
+          onUpdate={updateValues}
         />
       ),
     },

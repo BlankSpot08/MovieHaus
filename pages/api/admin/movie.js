@@ -27,35 +27,57 @@ const addMovie = async (req, res) => {
     const temp = await movie.save();
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false, message: [] });
+    let result = [];
+    const errors = err.errors;
+    for (const key in errors) {
+      if (errors[key].properties) result.push(errors[key].properties.message);
+    }
+    if (result.length >= 1)
+      return res.status(200).json({ success: false, message: result });
+    return res.status(200).json({
+      success: false,
+      message: ["something wrong saving movie modal"],
+    });
   }
 };
 const updateMovie = async (req, res) => {
   try {
-    const { _id } = body;
-
-    const movie = await Movie.findOneAndUpdate({ _id: ObjectId(_id) }, body, {
-      upsert: false,
-    });
+    const { _id } = req.body;
+    const movie = await Movie.findOneAndUpdate(
+      { _id: ObjectId(_id) },
+      req.body,
+      {
+        upsert: false,
+      }
+    );
 
     if (!movie) {
       return res
         .status(200)
         .json({ success: false, message: ["Movie not found"] });
     }
-
     return res
       .status(200)
       .json({ success: true, message: ["Movie was updated successfully."] });
     return res.status(200).json({ success: true });
   } catch (err) {
-    return res.status(401).json({ success: false, message: [] });
+    let result = [];
+    const errors = err.errors;
+    console.log(err);
+    for (const key in errors) {
+      if (errors[key].properties) result.push(errors[key].properties.message);
+    }
+    if (result.length >= 1)
+      return res.status(200).json({ success: false, message: result });
+    return res.status(200).json({
+      success: false,
+      message: ["something wrong saving movie modal"],
+    });
   }
 };
 const deleteMovie = async (req, res) => {
   try {
-    const { _id } = req.body;
-
+    const { _id } = req.query;
     const movie = await Movie.findOne({ _id: ObjectId(_id) });
     movie.remove();
     return res.status(200).json({ success: true });
