@@ -97,7 +97,7 @@ class CreateSeat extends React.Component {
         {
           x: x,
           y: y,
-          seat_no: 0,
+          seat_no: this.state.seats.length + 1,
         },
       ];
       this.setState({ seats: [...copy] });
@@ -199,9 +199,10 @@ class CreateSeat extends React.Component {
           onMouseUp={this.mouseUp.bind(this)}
         >
           <div className={styles.display}>
+            <div className={styles.movie_screen}> </div>
             {seats &&
               seats.map((value, index) => {
-                const { x, y } = value;
+                const { x, y, seat_no } = value;
                 return (
                   <div
                     key={index}
@@ -210,10 +211,17 @@ class CreateSeat extends React.Component {
                       top: y,
                       left: x,
                     }}
-                    className={activity == 1 ? styles.seat : ""}
+                    className={
+                      activity == 1
+                        ? styles.seat
+                        : activity == 2
+                        ? styles.seat_grab
+                        : ""
+                    }
                     onMouseDown={this.mouseDown.bind(this, index)}
                   >
                     <EventSeatIcon style={{ fill: "#7c77a0" }} />
+                    <p className={styles.seat_no}> {seat_no} </p>
                   </div>
                 );
               })}

@@ -21,7 +21,6 @@ const MovieSchema = new mongoose.Schema({
   ratings: {
     type: Double,
   },
-
   movie_date: [
     {
       type: Object,

@@ -162,7 +162,7 @@ class UpdateSeatArrangement extends React.Component {
         {
           x: x,
           y: y,
-          seat_no: 0,
+          seat_no: this.state.seats.length + 1,
         },
       ];
       this.setState({ seats: [...copy] });
@@ -370,9 +370,10 @@ class UpdateSeatArrangement extends React.Component {
           onMouseUp={this.mouseUp.bind(this)}
         >
           <div className={styles.display}>
+            <div className={styles.movie_screen}> </div>
             {seats &&
               seats.map((value, index) => {
-                const { x, y } = value;
+                const { x, y, seat_no } = value;
                 return (
                   <div
                     key={index}
@@ -391,6 +392,7 @@ class UpdateSeatArrangement extends React.Component {
                     onMouseDown={this.mouseDown.bind(this, index)}
                   >
                     <EventSeatIcon style={{ fill: "#7c77a0" }} />
+                    <p className={styles.seat_no}> {seat_no} </p>
                   </div>
                 );
               })}

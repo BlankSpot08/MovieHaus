@@ -7,6 +7,13 @@
   box-shadow: 10px 14px 106px -38px rgba(0, 0, 0, 0.73);
   -webkit-box-shadow: 10px 14px 106px -38px rgba(0, 0, 0, 0.73);
   -moz-box-shadow: 10px 14px 106px -38px rgba(0, 0, 0, 0.73);
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
   margin-top: 20px;
 }
 .display_add {
@@ -16,6 +23,13 @@
   z-index: 1;
   margin-top: 20px;
   cursor: cell;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
 }
 
 .seat:hover {
@@ -24,7 +38,55 @@
   padding: 1px;
   cursor: crosshair;
   box-shadow: 0px 0px 4px 4px #0ff;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
 }
 .seat_grab:hover {
   cursor: grab;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+.seat_no {
+  color: white;
+  font-weight: 900;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+
+.movie_screen {
+  width: 80%;
+  height: 50px;
+  background-color: rgb(255, 255, 255);
+  border-bottom-right-radius: 45px;
+  border-bottom-left-radius: 45px;
+  position: absolute;
+  top: 95%;
+  left: 50%;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  box-shadow: -2px -42px 79px -7px rgba(255, 255, 255, 0.83);
+  -webkit-box-shadow: -2px -42px 79px -7px rgba(255, 255, 255, 0.609);
+  -moz-box-shadow: -2px -42px 79px -7px rgba(255, 255, 255, 0.411);
 }
