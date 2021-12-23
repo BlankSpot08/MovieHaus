@@ -9,6 +9,9 @@ module.exports = withSass({
 
 module.exports = {
   reactStrictMode: false,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   env: {
     MONGODB_URI:
       "mongodb+srv://movie_haus:123@cluster0.t14et.mongodb.net/hawkeye?retryWrites=true&w=majority",
