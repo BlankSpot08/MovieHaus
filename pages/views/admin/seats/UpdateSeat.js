@@ -32,6 +32,7 @@ const UpdateSeat = () => {
   const [getSeats, setSeats] = useState([]);
   const [getChosenSeat, setChosenSeat] = useState({});
   const [loading, setLoading] = useState(false);
+
   const created = () => {
     setLoading(true);
     const url = "/api/admin/seat";
@@ -52,6 +53,7 @@ const UpdateSeat = () => {
         console.log(err);
       });
   };
+
   React.useEffect(() => {
     created();
   }, []);
@@ -386,8 +388,8 @@ class UpdateSeatArrangement extends React.Component {
                       activity == 1
                         ? styles.seat
                         : activity == 2
-                        ? styles.seat_grab
-                        : ""
+                          ? styles.seat_grab
+                          : ""
                     }
                     onMouseDown={this.mouseDown.bind(this, index)}
                   >
