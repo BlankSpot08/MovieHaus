@@ -25,6 +25,9 @@ const MovieSchema = new mongoose.Schema({
   ratings: {
     type: Number,
   },
+  description: {
+    type: String,
+  },
   movie_date: [
     {
       type: Object,

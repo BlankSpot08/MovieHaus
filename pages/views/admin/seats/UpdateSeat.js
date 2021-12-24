@@ -143,7 +143,7 @@ class UpdateSeatArrangement extends React.Component {
       const x = event.clientX - bounds.left;
       const y = event.clientY - bounds.top;
       const copy = [...this.state.seats];
-      copy[current_value] = { x: x, y: y };
+      copy[current_value] = { ...copy[current_value], x: x, y: y };
       this.setState({ seats: [...copy] });
     }
   }
