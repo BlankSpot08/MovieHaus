@@ -360,6 +360,16 @@ const FormEdit = (props) => {
                         sx={{ my: 1 }}
                       />
                     ))}
+                    <TextField
+                      multiline
+                      maxRows={4}
+                      id="description"
+                      label="Description"
+                      name="description"
+                      fullWidth
+                      value={formik.values.description}
+                      onChange={formik.handleChange}
+                    />
                     <Button
                       color="primary"
                       variant="contained"
@@ -395,6 +405,7 @@ const FormAdd = (props) => {
       duration: "00:00:00",
       ratings: 0,
       release_date: new Date(),
+      description: "",
       genres: [],
       directors: [],
       actors: [],
@@ -681,6 +692,16 @@ const FormAdd = (props) => {
                         sx={{ my: 1 }}
                       />
                     ))}
+                    <TextField
+                      multiline
+                      maxRows={4}
+                      id="description"
+                      label="Description"
+                      name="description"
+                      fullWidth
+                      value={formik.values.description}
+                      onChange={formik.handleChange}
+                    />
                     <Button
                       color="primary"
                       variant="contained"
