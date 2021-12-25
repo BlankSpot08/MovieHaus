@@ -172,17 +172,6 @@ export default function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-
-
           <Typography
             variant="h6"
             noWrap
@@ -200,11 +189,12 @@ export default function PrimarySearchAppBar() {
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
-              aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
-                < ShoppingCartIcon />
+              <Badge badgeContent={0} color="error">
+                <a href="/views/user/Cart">
+                  < ShoppingCartIcon />
+                </a>
               </Badge>
             </IconButton>
 

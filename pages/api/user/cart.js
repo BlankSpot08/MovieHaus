@@ -1,6 +1,7 @@
 const ObjectId = require("mongodb").ObjectId;
 
 import dbConnect from "../../../config/dbConnect";
+const Cart = require("../../../models/Cart.js");
 dbConnect();
 
 export const config = {
@@ -13,7 +14,15 @@ export const config = {
 
 const getCart = async (req, res) => {
   try {
-    return res.status(200).json({ success: true });
+    const cookies = new Cookies(req, res);
+
+    const token = cookies.get("access-token");
+
+    const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    const cart = await Cart.findById(user.id)
+
+    return res.status(200).json({ success: true, value: cart });
   } catch (err) {
     return res.status(401).json({ success: false, message: [] });
   }
