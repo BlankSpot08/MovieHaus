@@ -57,40 +57,38 @@ const Movie = () => {
       <UserNav />
 
       <main class="relative container mx-auto bg-white px-4">
-        <div class="relative -mx-4 top-0 bg-black">
-          {/* {
-            getMovie && < img class="absolute inset-0 object-cover object-top w-full h-full filter blur" src={getMovie.image_src} alt="" />
-          } */}
-          <Iframe url={`${getMovie.video_src}?autoplay=1&mute=1&playlist=O5jRE6Za9e8&loop=1`}
-            width="100%"
-            height="500px"
-            id="myId"
-            className="myClassname"
-            display="initial"
-            frameBorder='0'
-            position="relative" />
-
-          <div className="w-full top-0 absolute h-500">
-            x
-          </div>
+        <div class="relative -mx-4 top-0 pt-[17%] overflow-hidden w-full">
+          <img class="absolute inset-0 object-cover object-top w-full h-full filter blur" src={getMovie.image_src} alt="" />
         </div>
 
         <div class="mt-[-10%] w-1/2 mx-auto">
           <div class="relative pt-[56.25%] overflow-hidden rounded-2xl">
-            {
-              getMovie && <img class="w-full h-full absolute inset-0 object-cover" src={getMovie.image_src} alt="" />
-            }
+            <img class="w-full h-full absolute inset-0 object-cover" src={getMovie.image_src} alt="" />
           </div>
         </div>
 
         <article class="max-w-prose mx-auto py-8">
-          <h1 class="text-2xl font-bold">{getMovie.title}</h1>
-          <h2 class="mt-2 text-sm text-gray-500">{getMovie.release_date}</h2>
+          <div class="container bg-grey-lighter">
+            <div class="sm:flex mb-4">
 
-          <p class="mt-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ornare justo felis, nec lobortis augue luctus et. Sed nibh metus, posuere non elit nec, rutrum imperdiet justo. Cras ut nunc felis. Nunc rhoncus faucibus ultrices. Suspendisse ut consectetur nulla. Pellentesque mattis, ligula at pellentesque tempor, nisl elit porta lectus, eu bibendum arcu purus eget urna. Phasellus euismod at elit vel convallis. Nullam porttitor mauris risus, eget hendrerit nisl tincidunt vel. Phasellus at dolor dui. Aliquam commodo tellus dolor. Sed purus nunc, laoreet quis elementum at, elementum at nisl. Praesent ut rhoncus orci. Curabitur sit amet est non dolor porttitor facilisis. Nullam velit tortor, iaculis eget vehicula quis, sollicitudin id magna.</p>
+              <div class="sm:w-full h-auto">
+                <h1 class="text-2xl font-bold">{getMovie.title}</h1>
+                {/* <h2 class="mt-2 text-sm text-gray-500">{getMovie.release_date.substring(0, 4)} {getMovie.ratings}+</h2> */}
+                <h2 class="mt-2 text-sm text-gray-500">2019 {getMovie.ratings}+</h2>
+              </div>
+
+              <div class="sm:w-1/2 h-auto sm:mt-0 mt-8">
+                <h2 class="mt-2 text-sm text-gray-500">Directors: {getMovie.directors}</h2>
+                <h2 class="mt-2 text-sm text-gray-500">Casts: {getMovie.actors}</h2>
+                <h2 class="mt-2 text-sm text-gray-500">Genres: {getMovie.genres}</h2>
+                <h2 class="mt-2 text-sm text-gray-500">Studios: {getMovie.studios}</h2>
+              </div>
+            </div>
+          </div>
+
+          <p class="mt-6">{getMovie.description}</p>
         </article>
       </main>
-
 
     </div>
   );

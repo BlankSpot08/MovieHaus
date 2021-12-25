@@ -182,14 +182,19 @@ export default function PrimarySearchAppBar() {
             <MenuIcon />
           </IconButton>
 
+
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            <a href="/views/user/Home">
+              MovieHaus
+            </a>
+
           </Typography>
+
 
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
