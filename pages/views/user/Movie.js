@@ -56,7 +56,7 @@ const Movie = () => {
       </Head>
       <UserNav />
 
-      <main className="relative container mx-auto bg-white px-4">
+      {<main className="relative container mx-auto bg-white px-4">
         <div className="relative -mx-4 top-0 pt-[17%] overflow-hidden w-full">
           <img className="absolute inset-0 object-cover object-top w-full h-full filter blur" src={getMovie.image_src} alt="" />
         </div>
@@ -73,22 +73,21 @@ const Movie = () => {
 
               <div className="sm:w-full h-auto">
                 <h1 className="text-2xl font-bold">{getMovie.title}</h1>
-                {/* <h2 className="mt-2 text-sm text-gray-500">{getMovie.release_date.substring(0, 4)} {getMovie.ratings}+</h2> */}
-                <h2 className="mt-2 text-sm text-gray-500">2019 {getMovie.ratings}+</h2>
+                <h2 className="mt-2 text-sm text-gray-500">{getMovie.release_date && getMovie.release_date.substring(0, 4)} {getMovie.ratings}+</h2>
               </div>
 
               <div className="sm:w-1/2 h-auto sm:mt-0 mt-8">
-                <h2 className="mt-2 text-sm text-gray-500">Directors: {getMovie.directors}</h2>
-                <h2 className="mt-2 text-sm text-gray-500">Casts: {getMovie.actors}</h2>
-                <h2 className="mt-2 text-sm text-gray-500">Genres: {getMovie.genres}</h2>
-                <h2 className="mt-2 text-sm text-gray-500">Studios: {getMovie.studios}</h2>
+                <h2 className="mt-2 text-sm text-gray-500">Directors: {getMovie.directors && getMovie.directors.join(', ')}</h2>
+                <h2 className="mt-2 text-sm text-gray-500">Casts: {getMovie.actors && getMovie.actors.join(', ')}</h2>
+                <h2 className="mt-2 text-sm text-gray-500">Genres: {getMovie.genres && getMovie.genres.join(', ')}</h2>
+                <h2 className="mt-2 text-sm text-gray-500">Studios: {getMovie.studios && getMovie.studios.join(', ')}</h2>
               </div>
             </div>
           </div>
 
           <p className="mt-6">{getMovie.description}</p>
         </article>
-      </main>
+      </main>}
 
     </div >
   );

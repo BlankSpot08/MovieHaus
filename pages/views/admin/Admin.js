@@ -489,7 +489,7 @@ const Admin = () => {
       title: "Admin Accounts",
       component: (
         <Table
-          title={"Book entry"}
+          title={"Admin Entry"}
           headCells={headCells}
           rows={rows}
           Edit={FormEdit}

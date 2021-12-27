@@ -34,6 +34,7 @@ const Register = () => {
       };
     }
   };
+
   const formik = useFormik({
     initialValues: {
       profile_picture: null,
@@ -62,151 +63,184 @@ const Register = () => {
         });
     },
   });
+
   return (
-    <div>
+    <div className="bg-center bg-no-repeat bg-cover relative h-screen pattern">
       <Head>
         <title>Register</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <HomeNav>
-        <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
-          <div className="relative py-3 sm:max-w-xl sm:mx-auto">
-            <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
-            <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
-              <div className="max-w-md mx-auto">
-                <div className="divide-y divide-gray-200">
-                  <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
-                    <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans">
-                      Register
-                    </h1>
-                    <Avatar
-                      alt="admin profile picture"
-                      src={profilePicture}
-                      align="center"
-                      sx={{ width: 156, height: 156, mt: 1, mb: 1 }}
-                    />
-                    <form onSubmit={formik.handleSubmit}>
-                      <LocalizationProvider dateAdapter={AdapterDateFns}>
-                        <Button variant="contained" component="label">
-                          Upload File
-                          <input
-                            accept="image/*"
-                            type="file"
-                            hidden
-                            name="profile_picture_src"
-                            file={formik.values.profile_picture}
-                            onChange={(e) => profilePictureSelect(e)}
-                          />
-                        </Button>
+      <div className="bg-opacity-50 bg-black h-full">
+        <div className="container mx-auto h-full">
+          <HomeNav />
 
-                        <TextField
-                          fullWidth
-                          id="email"
-                          name="email"
-                          label="Email"
-                          autoComplete="current-email"
-                          value={formik.values.email}
-                          onChange={formik.handleChange}
-                          sx={{ my: 2 }}
-                        />
-                        <TextField
-                          fullWidth
-                          id="username"
-                          name="username"
-                          label="Username"
-                          value={formik.values.username}
-                          onChange={formik.handleChange}
-                          sx={{ my: 2 }}
-                        />
-                        <DesktopDatePicker
-                          fullWidth
-                          label="Birthday"
-                          inputFormat="MM/dd/yyyy"
-                          value={formik.values.birthday}
-                          onChange={(e) => formik.setFieldValue("birthday", e)}
-                          renderInput={(params) => (
-                            <TextField {...params} fullWidth />
-                          )}
-                        />
-                        <TextField
-                          fullWidth
-                          id="password"
-                          name="password"
-                          label="Password"
-                          type="password"
-                          autoComplete="current-password"
-                          value={formik.values.password}
-                          onChange={formik.handleChange}
-                          sx={{ my: 2 }}
-                        />
-                        <TextField
-                          fullWidth
-                          id="password_confirmation"
-                          name="password_confirmation"
-                          label="Confirm Password"
-                          type="password"
-                          autoComplete="current-password"
-                          value={formik.values.password_confirmation}
-                          onChange={formik.handleChange}
-                          sx={{ my: 2 }}
-                        />
-                        <TextField
-                          id="gender"
-                          name="gender"
-                          label="gender"
-                          value={formik.values.gender}
-                          onChange={formik.handleChange}
-                          sx={{ my: 2 }}
-                          select
-                          fullWidth
-                        >
-                          <MenuItem key={""} value={""}>
-                            Select gender
-                          </MenuItem>
-                          <MenuItem key={"Male"} value={"Male"}>
-                            Male
-                          </MenuItem>
-                          <MenuItem key={"Female"} value={"Female"}>
-                            Female
-                          </MenuItem>
-                        </TextField>
+          <div class="flex justify-center items-center p-8 h-full">
+            <div class="lg:w-2/5 md:w-1/2 w-2/3">
+              <form class="bg-black bg-opacity-20 p-5 rounded-lg shadow-lg min-w-full">
+                <h1 class="text-center text-2xl mb-6 text-white font-bold font-sans">Register</h1>
+                <div>
+                  <label class="text-white font-semibold block my-3 text-md" for="username">Username</label>
+                  <input class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="text" name="username" id="username" placeholder="username" />
+                </div>
+                <div>
+                  <label class="text-white font-semibold block my-3 text-md" for="password">Password</label>
+                  <input class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="text" name="password" id="password" placeholder="password" />
+                </div>
+                <div>
+                  <label class="text-white font-semibold block my-3 text-md" for="confirm">Confirm password</label>
+                  <input class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="text" name="confirm" id="confirm" placeholder="confirm password" />
+                </div>
+                <div>
+                  <label class="text-white font-semibold block my-3 text-md" for="mobile">Phone Number</label>
+                  <input class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="number" name="confirm" id="confirm" placeholder="phone number" />
+                </div>
+                <button type="submit" class="w-full mt-6 bg-pink-400 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans">Register</button>
+                <a href="/views/auth/Login">
+                  <button type="button" class="w-full mt-2 bg-pink-100 rounded-lg px-4 py-2 text-lg text-pink-400 tracking-wide font-semibold font-sans">Login</button>
+                </a>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                        <MuiPhoneNumber
-                          id="mobile"
-                          name="mobile"
-                          label="mobile"
-                          defaultCountry={"ph"}
-                          onChange={(e) => formik.setFieldValue("mobile", e)}
-                          sx={{ my: 2 }}
-                          fullWidth
+      {/* <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
+        <div className="relative py-3 sm:max-w-xl sm:mx-auto">
+          <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-sky-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+          <div className="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
+            <div className="max-w-md mx-auto">
+              <div className="divide-y divide-gray-200">
+                <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
+                  <h1 className="text-center text-2xl mb-6 text-gray-600 font-bold font-sans">
+                    Register
+                  </h1>
+                  <Avatar
+                    alt="admin profile picture"
+                    src={profilePicture}
+                    align="center"
+                    sx={{ width: 156, height: 156, mt: 1, mb: 1 }}
+                  />
+                  <form onSubmit={formik.handleSubmit}>
+                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                      <Button variant="contained" component="label">
+                        Upload File
+                        <input
+                          accept="image/*"
+                          type="file"
+                          hidden
+                          name="profile_picture_src"
+                          file={formik.values.profile_picture}
+                          onChange={(e) => profilePictureSelect(e)}
                         />
-                        <Button
-                          color="primary"
-                          variant="contained"
-                          fullWidth
-                          type="submit"
-                        >
-                          Submit
-                        </Button>
-                      </LocalizationProvider>
-                    </form>
-                  </div>
-                  <div className="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
-                    <p>
-                      <Link href="/views/auth/Login">
-                        <a className="text-cyan-600 hover:text-cyan-700">
-                          Already have a student account? Login &rarr;
-                        </a>
-                      </Link>
-                    </p>
-                  </div>
+                      </Button>
+
+                      <TextField
+                        fullWidth
+                        id="email"
+                        name="email"
+                        label="Email"
+                        autoComplete="current-email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        sx={{ my: 2 }}
+                      />
+                      <TextField
+                        fullWidth
+                        id="username"
+                        name="username"
+                        label="Username"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        sx={{ my: 2 }}
+                      />
+                      <DesktopDatePicker
+                        fullWidth
+                        label="Birthday"
+                        inputFormat="MM/dd/yyyy"
+                        value={formik.values.birthday}
+                        onChange={(e) => formik.setFieldValue("birthday", e)}
+                        renderInput={(params) => (
+                          <TextField {...params} fullWidth />
+                        )}
+                      />
+                      <TextField
+                        fullWidth
+                        id="password"
+                        name="password"
+                        label="Password"
+                        type="password"
+                        autoComplete="current-password"
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
+                        sx={{ my: 2 }}
+                      />
+                      <TextField
+                        fullWidth
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        label="Confirm Password"
+                        type="password"
+                        autoComplete="current-password"
+                        value={formik.values.password_confirmation}
+                        onChange={formik.handleChange}
+                        sx={{ my: 2 }}
+                      />
+                      <TextField
+                        id="gender"
+                        name="gender"
+                        label="gender"
+                        value={formik.values.gender}
+                        onChange={formik.handleChange}
+                        sx={{ my: 2 }}
+                        select
+                        fullWidth
+                      >
+                        <MenuItem key={""} value={""}>
+                          Select gender
+                        </MenuItem>
+                        <MenuItem key={"Male"} value={"Male"}>
+                          Male
+                        </MenuItem>
+                        <MenuItem key={"Female"} value={"Female"}>
+                          Female
+                        </MenuItem>
+                      </TextField>
+
+                      <MuiPhoneNumber
+                        id="mobile"
+                        name="mobile"
+                        label="mobile"
+                        defaultCountry={"ph"}
+                        onChange={(e) => formik.setFieldValue("mobile", e)}
+                        sx={{ my: 2 }}
+                        fullWidth
+                      />
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        fullWidth
+                        type="submit"
+                      >
+                        Submit
+                      </Button>
+                    </LocalizationProvider>
+                  </form>
+                </div>
+                <div className="pt-6 text-base leading-6 font-bold sm:text-lg sm:leading-7">
+                  <p>
+                    <Link href="/views/auth/Login">
+                      <a className="text-cyan-600 hover:text-cyan-700">
+                        Already have a student account? Login &rarr;
+                      </a>
+                    </Link>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </HomeNav>
-    </div>
+      </div> */}
+    </div >
   );
 };
 

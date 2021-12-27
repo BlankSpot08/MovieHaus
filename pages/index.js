@@ -34,69 +34,37 @@ export default function HomeApp() {
     },
   });
   return (
-    <header className="bg-gray-900 pattern">
-      <div className="container px-6 mx-auto">
-        <HomeNav />
+    <div className="bg-center bg-no-repeat bg-cover h-screen relative pattern">
+      <div className=" bg-opacity-50 bg-black h-full">
+        <div className="container mx-auto">
+          <HomeNav />
 
-        <div className="flex flex-col items-center py-6 lg:h-[32rem] lg:flex-row">
-          <div className="lg:w-1/2">
-            <h2 className="text-4xl font-semibold text-gray-100"> Bookie </h2>
+          <div className="h-screen flex items-center justify-center" >
+            <div className="mx-2 text-center">
+              <h1 className="text-gray-100 font-extrabold text-4xl xs:text-5xl md:text-6xl">
+                <span className="text-white">Unlimited</span> Movies for entertainment,
+              </h1>
+              <h2 className="text-gray-200 font-extrabold text-3xl xs:text-4xl md:text-6xl leading-tight">
+                education, and more.
+              </h2>
 
-            <h3 className="text-2xl font-semibold text-gray-100">
-              Hello <span className="text-blue-400">Guest</span>
-            </h3>
-            <p className="mt-3 text-gray-100">
-              Welcome to bookie where you can book a movie where ever you are.
-            </p>
-          </div>
+              <div className="inline-flex  items-center mt-2 -mx-2 pt-8 my-2 sm:mt-0">
+                <Link href="/views/auth/AdminLogin">
+                  <a className="px-3 py-2 mx-2 text-lg bg-pink-400 font-semibold text-white transition-colors duration-200 transform border-2  hover:bg-white hover:text-pink-400">
+                    Admin
+                  </a>
+                </Link>
 
-          <div className="flex mt-8 lg:w-1/2 lg:justify-end lg:mt-0">
-            <div className="max-w-sm bg-white rounded-lg dark:bg-gray-800">
-              <div className="p-5 text-center">
-                <h2 className="text-2xl font-semibold text-gray-700 dark:text-white fo">
-                  Sign In
-                </h2>
-
-                <form onSubmit={formik.handleSubmit}>
-                  <div className="mt-4">
-                    <input
-                      className="block w-full px-4 py-2 text-gray-700 placeholder-gray-500 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                      id="username"
-                      name="username"
-                      aria-label="Username"
-                      onChange={formik.handleChange}
-                      value={formik.values.username}
-                    />
-                    <input
-                      className="block w-full px-4 py-2 mt-4 text-gray-700 placeholder-gray-500 bg-white border border-gray-300 rounded-md dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 focus:border-blue-500 dark:focus:border-blue-500 focus:outline-none focus:ring"
-                      id="password"
-                      name="password"
-                      type="password"
-                      aria-label="Password"
-                      onChange={formik.handleChange}
-                      value={formik.values.password}
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between mt-4">
-                    <Link href="/views/auth/AdminLogin">
-                      <a className="text-sm text-gray-600 dark:text-gray-200 hover:underline">
-                        Register
-                      </a>
-                    </Link>
-                    <button
-                      type="submit"
-                      className="px-4 py-2 font-semibold text-white transition-colors duration-200 transform bg-gray-900 rounded-md hover:bg-gray-800 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-800 dark:focus:bg-gray-700"
-                    >
-                      Login
-                    </button>
-                  </div>
-                </form>
+                <Link href="/views/auth/Login">
+                  <a className="px-3 py-2 text-lg font-semibold bg-pink-400 text-white transition-colors duration-200 transform border-2  hover:bg-white hover:text-pink-400">
+                    User
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </header>
+    </div>
   );
 }
