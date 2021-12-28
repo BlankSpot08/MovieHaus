@@ -4,7 +4,7 @@ const MovieTimeSchema = new mongoose.Schema({
     type: Date,
   },
   description: {
-    type: Date,
+    type: String,
   },
   movie_seats: [
     {

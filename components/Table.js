@@ -30,6 +30,9 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 import { TextField } from "@mui/material";
+import Collapse from "@mui/material/Collapse";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 // import SearchBar from "material-ui-search-bar";
 const style = {
   position: "absolute",
@@ -78,6 +81,7 @@ function EnhancedTableHead(props) {
     rowCount,
     onRequestSort,
     headCells,
+    dropDown,
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -86,6 +90,12 @@ function EnhancedTableHead(props) {
   return (
     <TableHead>
       <TableRow>
+        {dropDown && (
+          <TableCell padding={"normal"}>
+            <TableSortLabel>Collapse</TableSortLabel>
+          </TableCell>
+        )}
+
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
@@ -175,12 +185,75 @@ const EnhancedTableToolbar = (props) => {
   );
 };
 
+const Row = (props) => {
+  const [open, setOpen] = useState(false);
+  const {
+    headCells,
+    index,
+    Edit,
+    Delete,
+    row,
+    handleOpenEdit,
+    handleOpenDelete,
+    dropDown,
+  } = props;
+  return (
+    <>
+      {dropDown && (
+        <TableCell scope="row" width={{ widht: "10%" }}>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+      )}
+      {headCells.map((val, index) => {
+        return (
+          <TableCell
+            scope="row"
+            key={index}
+            width={val.width}
+            align={typeof row[val.id] == "boolean" ? "center" : "left"}
+          >
+            {typeof row[val.id] == "boolean" ? (
+              row[val.id] == true ? (
+                <CheckBoxIcon style={{ fill: "lightgreen" }} />
+              ) : (
+                <CheckBoxOutlineBlankIcon style={{ fill: "lightgreen" }} />
+              )
+            ) : (
+              row[val.id]
+            )}
+          </TableCell>
+        );
+      })}
+
+      {Edit && (
+        <TableCell align="right" width="1%">
+          <EditIcon color="primary" onClick={() => handleOpenEdit(row)} />
+        </TableCell>
+      )}
+      {Delete && (
+        <TableCell align="right" width="1%">
+          <DeleteForeverIcon
+            color="error"
+            onClick={() => handleOpenDelete(row)}
+          />
+        </TableCell>
+      )}
+    </>
+  );
+};
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
 export default function EnhancedTable(props) {
-  const { headCells, rows, title, Edit, Delete, Add, onUpdate } = props;
+  const { headCells, rows, title, Edit, Delete, Add, onUpdate, dropDown } =
+    props;
 
   const [query, setQuery] = useState("");
   const [order, setOrder] = useState("asc");
@@ -189,6 +262,7 @@ export default function EnhancedTable(props) {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [open, setOpen] = React.useState(false);
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -377,6 +451,7 @@ export default function EnhancedTable(props) {
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
               headCells={headCells}
+              dropDown={dropDown}
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
@@ -400,49 +475,16 @@ export default function EnhancedTable(props) {
 
                   return (
                     <TableRow key={index}>
-                      {headCells.map((val, index) => {
-                        return (
-                          <TableCell
-                            scope="row"
-                            key={index}
-                            width={val.width}
-                            align={
-                              typeof row[val.id] == "boolean"
-                                ? "center"
-                                : "left"
-                            }
-                          >
-                            {typeof row[val.id] == "boolean" ? (
-                              row[val.id] == true ? (
-                                <CheckBoxIcon style={{ fill: "lightgreen" }} />
-                              ) : (
-                                <CheckBoxOutlineBlankIcon
-                                  style={{ fill: "lightgreen" }}
-                                />
-                              )
-                            ) : (
-                              row[val.id]
-                            )}
-                          </TableCell>
-                        );
-                      })}
-
-                      {Edit && (
-                        <TableCell align="right" width="1%">
-                          <EditIcon
-                            color="primary"
-                            onClick={() => handleOpenEdit(row)}
-                          />
-                        </TableCell>
-                      )}
-                      {Delete && (
-                        <TableCell align="right" width="1%">
-                          <DeleteForeverIcon
-                            color="error"
-                            onClick={() => handleOpenDelete(row)}
-                          />
-                        </TableCell>
-                      )}
+                      <Row
+                        headCells={headCells}
+                        index={index}
+                        row={row}
+                        handleOpenEdit={handleOpenEdit}
+                        handleOpenDelete={handleOpenDelete}
+                        Edit={Edit}
+                        Delete={Delete}
+                        dropDown={dropDown}
+                      />
                     </TableRow>
                   );
                 })}
