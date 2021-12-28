@@ -15,6 +15,7 @@ import Head from "next/head";
 
 toast.configure();
 const Register = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { seconds, restart } = useTimer({
     expiryTimestamp: new Date().setSeconds(new Date().getSeconds() + 10),
@@ -47,12 +48,14 @@ const Register = () => {
       mobile: "",
     },
     async onSubmit(values) {
+      setLoading(true);
       await axios
         .post("/api/auth/register", values)
         .then((res) => {
           if (res.data.success == true) {
             router.push("/views/auth/login");
             toast.success("success");
+            setLoading(false);
           } else {
             const error = res.data.message;
             for (const key in error) toast.error(error[key]);
@@ -72,31 +75,87 @@ const Register = () => {
       </Head>
       <div className="bg-opacity-50 bg-black h-full">
         <div className="container mx-auto h-full">
-          <HomeNav />
+          <HomeNav loading={loading} />
 
-          <div class="flex justify-center items-center p-8 h-full">
-            <div class="lg:w-2/5 md:w-1/2 w-2/3">
-              <form class="bg-black bg-opacity-20 p-5 rounded-lg shadow-lg min-w-full">
-                <h1 class="text-center text-2xl mb-6 text-white font-bold font-sans">Register</h1>
+          <div className="flex justify-center items-center p-8 h-full">
+            <div className="lg:w-2/5 md:w-1/2 w-2/3">
+              <form className="bg-black bg-opacity-20 p-5 rounded-lg shadow-lg min-w-full">
+                <h1 className="text-center text-2xl mb-6 text-white font-bold font-sans">
+                  Register
+                </h1>
                 <div>
-                  <label class="text-white font-semibold block my-3 text-md" for="username">Username</label>
-                  <input class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="text" name="username" id="username" placeholder="username" />
+                  <label
+                    className="text-white font-semibold block my-3 text-md"
+                    htmlFor="username"
+                  >
+                    Username
+                  </label>
+                  <input
+                    className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
+                    type="text"
+                    name="username"
+                    id="username"
+                    placeholder="username"
+                  />
                 </div>
                 <div>
-                  <label class="text-white font-semibold block my-3 text-md" for="password">Password</label>
-                  <input class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="text" name="password" id="password" placeholder="password" />
+                  <label
+                    className="text-white font-semibold block my-3 text-md"
+                    htmlFor="password"
+                  >
+                    Password
+                  </label>
+                  <input
+                    className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
+                    type="text"
+                    name="password"
+                    id="password"
+                    placeholder="password"
+                  />
                 </div>
                 <div>
-                  <label class="text-white font-semibold block my-3 text-md" for="confirm">Confirm password</label>
-                  <input class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="text" name="confirm" id="confirm" placeholder="confirm password" />
+                  <label
+                    className="text-white font-semibold block my-3 text-md"
+                    htmlFor="confirm"
+                  >
+                    Confirm password
+                  </label>
+                  <input
+                    className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
+                    type="text"
+                    name="confirm"
+                    id="confirm"
+                    placeholder="confirm password"
+                  />
                 </div>
                 <div>
-                  <label class="text-white font-semibold block my-3 text-md" for="mobile">Phone Number</label>
-                  <input class="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none" type="number" name="confirm" id="confirm" placeholder="phone number" />
+                  <label
+                    className="text-white font-semibold block my-3 text-md"
+                    htmlFor="mobile"
+                  >
+                    Phone Number
+                  </label>
+                  <input
+                    className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
+                    type="number"
+                    name="confirm"
+                    id="confirm"
+                    placeholder="phone number"
+                  />
                 </div>
-                <button type="submit" class="w-full mt-6 bg-pink-400 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans">Register</button>
+                <button
+                  type="submit"
+                  className="w-full mt-6 bg-pink-400 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
+                >
+                  Register
+                </button>
                 <a href="/views/auth/Login">
-                  <button type="button" class="w-full mt-16 bg-pink-100 rounded-lg px-4 py-2 text-lg text-pink-400 tracking-wide font-semibold font-sans">Login</button>
+                  <button
+                    type="button"
+                    className="w-full mt-16 bg-pink-100 rounded-lg px-4 py-2 text-lg text-pink-400 tracking-wide font-semibold font-sans"
+                  >
+                    Login
+                  </button>
                 </a>
               </form>
             </div>
@@ -240,7 +299,7 @@ const Register = () => {
           </div>
         </div>
       </div> */}
-    </div >
+    </div>
   );
 };
 

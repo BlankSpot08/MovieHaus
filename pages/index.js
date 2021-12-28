@@ -39,10 +39,11 @@ export default function HomeApp() {
         <div className="container mx-auto">
           <HomeNav />
 
-          <div className="h-screen flex items-center justify-center" >
+          <div className="h-screen flex items-center justify-center">
             <div className="mx-2 text-center">
               <h1 className="text-gray-100 font-extrabold text-4xl xs:text-5xl md:text-6xl">
-                <span className="text-white">Unlimited</span> Movies for entertainment,
+                <span className="text-white">Unlimited</span> Movies for
+                entertainment,
               </h1>
               <h2 className="text-gray-200 font-extrabold text-3xl xs:text-4xl md:text-6xl leading-tight">
                 education, and more.
@@ -60,18 +61,33 @@ export default function HomeApp() {
                     User
                   </a>
                 </Link> */}
-                <a href="/views/auth/AdminLogin" className="ml-auto">
-                  <button type="button" class="w-full px-7 py-3 bg-pink-100 rounded-lg text-lg text-pink-400 tracking-wide font-semibold font-sans">Admin</button>
-                </a>
+
+                <Link href="/views/auth/AdminLogin">
+                  <a className="ml-auto">
+                    <button
+                      type="button"
+                      className="w-full px-7 py-3 bg-pink-100 rounded-lg text-lg text-pink-400 tracking-wide font-semibold font-sans"
+                    >
+                      Admin
+                    </button>
+                  </a>
+                </Link>
                 <div className="mx-2" />
-                <a href="/views/auth/Login" className="mr-auto">
-                  <button type="button" class="w-full px-10 bg-pink-100 rounded-lg  py-3 text-lg text-pink-400 tracking-wide font-semibold font-sans">User</button>
-                </a>
+                <Link href="/views/auth/Login">
+                  <a className="mr-auto">
+                    <button
+                      type="button"
+                      className="w-full px-10 bg-pink-100 rounded-lg  py-3 text-lg text-pink-400 tracking-wide font-semibold font-sans"
+                    >
+                      User
+                    </button>
+                  </a>
+                </Link>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
