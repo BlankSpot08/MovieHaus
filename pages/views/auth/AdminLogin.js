@@ -10,6 +10,7 @@ import axios from "axios";
 import HomeNav from "../../../components/navigations/HomeNav";
 toast.configure();
 const AdminLogin = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
@@ -17,11 +18,14 @@ const AdminLogin = () => {
       password: "",
     },
     onSubmit(values) {
+      setLoading(true);
       axios
         .post("/api/auth/admin_login", values)
         .then((res) => {
           if (res.data.success) {
             router.push("/views/admin/Home");
+            toast.success("success");
+            setLoading(false);
           } else {
             const error = res.data.message;
             for (const key in error) toast.error(error[key]);
@@ -40,15 +44,25 @@ const AdminLogin = () => {
       </Head>
       <div className="bg-opacity-50 bg-black h-full">
         <div className="container mx-auto h-full">
-
-          <HomeNav />
+          <HomeNav loading={loading} />
           <div className="flex justify-center items-center h-full">
             <div className="lg:w-2/5 md:w-1/2 w-2/3">
-              <form className="bg-black p-10 rounded-lg shadow-lg min-w-full bg-opacity-20" onSubmit={formik.handleSubmit}>
-                <h1 className="text-center text-2xl mb-6 text-white font-bold font-sans">Login</h1>
+              <form
+                className="bg-black p-10 rounded-lg shadow-lg min-w-full bg-opacity-20"
+                onSubmit={formik.handleSubmit}
+              >
+                <h1 className="text-center text-2xl mb-6 text-white font-bold font-sans">
+                  Login
+                </h1>
                 <div>
-                  <label className="text-white font-semibold block my-3 text-md" for="username">Username</label>
-                  <input className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
+                  <label
+                    className="text-white font-semibold block my-3 text-md"
+                    htmlFor="username"
+                  >
+                    Username
+                  </label>
+                  <input
+                    className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
                     value={formik.values.username}
                     onChange={formik.handleChange}
                     sx={{ my: 2 }}
@@ -56,12 +70,19 @@ const AdminLogin = () => {
                     name="username"
                     type="text"
                     label="Username"
-                    placeholder="username" />
+                    placeholder="username"
+                  />
                 </div>
 
                 <div>
-                  <label className="text-white font-semibold block my-3 text-md" for="password">Password</label>
-                  <input className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
+                  <label
+                    className="text-white font-semibold block my-3 text-md"
+                    htmlFor="password"
+                  >
+                    Password
+                  </label>
+                  <input
+                    className="w-full bg-gray-100 px-4 py-2 rounded-lg focus:outline-none"
                     id="password"
                     name="password"
                     label="Password"
@@ -70,10 +91,17 @@ const AdminLogin = () => {
                     value={formik.values.password}
                     onChange={formik.handleChange}
                     sx={{ my: 2 }}
-                    placeholder="password" />
+                    placeholder="password"
+                  />
                 </div>
 
-                <button type="submit" className="w-full mt-6 bg-pink-400 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans" type="submit">Login</button>
+                <button
+                  type="submit"
+                  className="w-full mt-6 bg-pink-400 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans"
+                  type="submit"
+                >
+                  Login
+                </button>
               </form>
             </div>
           </div>
@@ -126,7 +154,7 @@ const AdminLogin = () => {
           </div> */}
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

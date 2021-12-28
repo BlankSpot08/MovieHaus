@@ -15,6 +15,7 @@ import Head from "next/head";
 
 toast.configure();
 const Register = () => {
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { seconds, restart } = useTimer({
     expiryTimestamp: new Date().setSeconds(new Date().getSeconds() + 10),
@@ -47,12 +48,14 @@ const Register = () => {
       mobile: "",
     },
     async onSubmit(values) {
+      setLoading(true);
       await axios
         .post("/api/auth/register", values)
         .then((res) => {
           if (res.data.success == true) {
             router.push("/views/auth/login");
             toast.success("success");
+            setLoading(false);
           } else {
             const error = res.data.message;
             for (const key in error) toast.error(error[key]);
@@ -72,7 +75,7 @@ const Register = () => {
       </Head>
       <div className="bg-opacity-50 bg-black h-full">
         <div className="container mx-auto h-full">
-          <HomeNav />
+          <HomeNav loading={loading} />
 
           <div className="flex justify-center items-center p-8 h-full">
             <div className="lg:w-2/5 md:w-1/2 w-2/3">
@@ -292,7 +295,7 @@ const Register = () => {
           </div>
         </div>
       </div> */}
-    </div >
+    </div>
   );
 };
 
