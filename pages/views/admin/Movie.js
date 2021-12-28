@@ -3,12 +3,17 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
+
+// Components
 import AdminNav from "../../../components/navigations/AdminNav";
 import Table from "../../../components/Table";
 import PublicNav from "../../../components/navigations/PublicNav";
 import AddMovie from "./movie/AddMovie";
 import DeleteMovie from "./movie/DeleteMovie";
 import EditMovie from "./movie/EditMovie";
+import AddMovieDate from "./movie/AddMovieDate";
+import DeleteMovieDate from "./movie/DeleteMovieDate";
+import EditMovieDate from "./movie/EditMovieDate";
 
 toast.configure();
 const Movie = () => {
@@ -59,6 +64,29 @@ const Movie = () => {
       width: "20%",
     },
   ];
+  const subHeadCells = [
+    {
+      id: "release_date",
+      numeric: false,
+      disablePadding: false,
+      label: "Release Date",
+      width: "20%",
+    },
+    {
+      id: "release_date1",
+      numeric: false,
+      disablePadding: false,
+      label: "Release Date",
+      width: "20%",
+    },
+    {
+      id: "release_date2",
+      numeric: false,
+      disablePadding: false,
+      label: "Release Date",
+      width: "20%",
+    },
+  ];
   const updateValues = () => {
     axios
       .get("/api/admin/movie")
@@ -82,13 +110,18 @@ const Movie = () => {
       component: (
         <Table
           title={"Movie Entry"}
-          dropDown={true}
           headCells={headCells}
           onUpdate={updateValues}
           rows={rows}
           Edit={EditMovie}
           Delete={DeleteMovie}
           Add={AddMovie}
+          dropDown={true}
+          subTitle={"Add Schedule"}
+          subHeadCells={subHeadCells}
+          SubEdit={EditMovieDate}
+          SubDelete={DeleteMovieDate}
+          SubAdd={AddMovieDate}
         />
       ),
     },

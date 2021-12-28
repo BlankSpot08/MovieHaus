@@ -82,6 +82,7 @@ function EnhancedTableHead(props) {
     onRequestSort,
     headCells,
     dropDown,
+    subTitle,
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -92,7 +93,7 @@ function EnhancedTableHead(props) {
       <TableRow>
         {dropDown && (
           <TableCell padding={"normal"}>
-            <TableSortLabel>Collapse</TableSortLabel>
+            <TableSortLabel>{subTitle}</TableSortLabel>
           </TableCell>
         )}
 
@@ -187,64 +188,245 @@ const EnhancedTableToolbar = (props) => {
 
 const Row = (props) => {
   const [open, setOpen] = useState(false);
+
   const {
     headCells,
-    index,
     Edit,
     Delete,
     row,
+    rows,
     handleOpenEdit,
     handleOpenDelete,
+    handleOpenSubEdit,
+    handleOpenSubDelete,
+    handleOpenSubAdd,
     dropDown,
+    subHeadCells,
+    subTitle,
   } = props;
-  return (
-    <>
-      {dropDown && (
-        <TableCell scope="row" width={{ widht: "10%" }}>
-          <IconButton
-            aria-label="expand row"
-            size="small"
-            onClick={() => setOpen(!open)}
-          >
-            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-          </IconButton>
-        </TableCell>
-      )}
-      {headCells.map((val, index) => {
-        return (
-          <TableCell
-            scope="row"
-            key={index}
-            width={val.width}
-            align={typeof row[val.id] == "boolean" ? "center" : "left"}
-          >
-            {typeof row[val.id] == "boolean" ? (
-              row[val.id] == true ? (
-                <CheckBoxIcon style={{ fill: "lightgreen" }} />
-              ) : (
-                <CheckBoxOutlineBlankIcon style={{ fill: "lightgreen" }} />
-              )
-            ) : (
-              row[val.id]
-            )}
-          </TableCell>
-        );
-      })}
+  const [query, setQuery] = useState("");
+  const [order, setOrder] = useState("asc");
+  const [orderBy, setOrderBy] = useState("calories");
+  const [selected, setSelected] = useState([]);
+  const [page, setPage] = useState(0);
+  const [dense, setDense] = useState(false);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const handleRequestSort = (event, property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
+  const handleSelectAllClick = (event) => {
+    if (event.target.checked) {
+      const newSelecteds = rows.map((n) => n.name);
+      setSelected(newSelecteds);
+      return;
+    }
+    setSelected([]);
+  };
 
-      {Edit && (
-        <TableCell align="right" width="1%">
-          <EditIcon color="primary" onClick={() => handleOpenEdit(row)} />
+  const handleClick = (event, name) => {
+    const selectedIndex = selected.indexOf(name);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, name);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
+    }
+
+    setSelected(newSelected);
+  };
+
+  return (
+    <React.Fragment>
+      <TableRow>
+        {dropDown && (
+          <TableCell scope="row" width={{ widht: "10%" }}>
+            <IconButton
+              aria-label="expand row"
+              size="small"
+              onClick={() => setOpen(!open)}
+            >
+              {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+            </IconButton>
+          </TableCell>
+        )}
+        {headCells.map((val, index) => {
+          return (
+            <TableCell
+              scope="row"
+              key={index}
+              width={val.width}
+              align={typeof row[val.id] == "boolean" ? "center" : "left"}
+            >
+              {typeof row[val.id] == "boolean" ? (
+                row[val.id] == true ? (
+                  <CheckBoxIcon style={{ fill: "lightgreen" }} />
+                ) : (
+                  <CheckBoxOutlineBlankIcon style={{ fill: "lightgreen" }} />
+                )
+              ) : (
+                row[val.id]
+              )}
+            </TableCell>
+          );
+        })}
+
+        {Edit && (
+          <TableCell align="right" width="1%">
+            <EditIcon color="primary" onClick={() => handleOpenEdit(row)} />
+          </TableCell>
+        )}
+        {Delete && (
+          <TableCell align="right" width="1%">
+            <DeleteForeverIcon
+              color="error"
+              onClick={() => handleOpenDelete(row)}
+            />
+          </TableCell>
+        )}
+      </TableRow>
+
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box sx={{ margin: 5, boxShadow: 3 }}>
+              <Typography
+                variant="h6"
+                gutterBottom
+                component="div"
+                sx={{ margin: 5 }}
+              >
+                {subTitle}
+              </Typography>
+              <TextField
+                id="search"
+                name="Search"
+                label="Search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                sx={{ m: 1, width: "60%" }}
+              />
+              <Button
+                variant="contained"
+                startIcon={<AddCircleIcon />}
+                sx={{ height: "50px", width: "30%", m: 1 }}
+                onClick={handleOpenSubAdd}
+              >
+                Add New
+              </Button>
+              <Table size="small" aria-label="purchases" sx={{ margin: 1 }}>
+                <EnhancedTableHead
+                  numSelected={selected.length}
+                  order={order}
+                  orderBy={orderBy}
+                  onSelectAllClick={handleSelectAllClick}
+                  onRequestSort={handleRequestSort}
+                  rowCount={5}
+                  headCells={subHeadCells}
+                  dropDown={dropDown}
+                  subTitle={subTitle}
+                />
+                <TableBody>
+                  {stableSort(rows, getComparator(order, orderBy))
+                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row, index) => {
+                      var result = false;
+                      const b = query.toLowerCase().trim();
+                      const head = headCells.map(({ id }) => id);
+
+                      if (row)
+                        for (const key in row) {
+                          if (row[key]) {
+                            const a = row[key].toString().toLowerCase().trim();
+                            if (a.includes(b) && head.includes(key)) {
+                              result = true;
+                              break;
+                            }
+                          }
+                        }
+                      if (!result && b != "") return null;
+
+                      return (
+                        <TableRow key={index}>
+                          {/* {dropDown && (
+                            <TableCell scope="row" width={{ widht: "10%" }}>
+                              <IconButton
+                                aria-label="expand row"
+                                size="small"
+                                onClick={() => setOpen(!open)}
+                              >
+                                {open ? (
+                                  <KeyboardArrowUpIcon />
+                                ) : (
+                                  <KeyboardArrowDownIcon />
+                                )}
+                              </IconButton>
+                            </TableCell>
+                          )}
+                          {headCells.map((val, index) => {
+                            return (
+                              <TableCell
+                                scope="row"
+                                key={index}
+                                width={val.width}
+                                align={
+                                  typeof row[val.id] == "boolean"
+                                    ? "center"
+                                    : "left"
+                                }
+                              >
+                                {typeof row[val.id] == "boolean" ? (
+                                  row[val.id] == true ? (
+                                    <CheckBoxIcon
+                                      style={{ fill: "lightgreen" }}
+                                    />
+                                  ) : (
+                                    <CheckBoxOutlineBlankIcon
+                                      style={{ fill: "lightgreen" }}
+                                    />
+                                  )
+                                ) : (
+                                  row[val.id]
+                                )}
+                              </TableCell>
+                            );
+                          })}
+
+                          {Edit && (
+                            <TableCell align="right" width="1%">
+                              <EditIcon
+                                color="primary"
+                                onClick={() => handleOpenEdit(row)}
+                              />
+                            </TableCell>
+                          )}
+                          {Delete && (
+                            <TableCell align="right" width="1%">
+                              <DeleteForeverIcon
+                                color="error"
+                                onClick={() => handleOpenDelete(row)}
+                              />
+                            </TableCell>
+                          )} */}
+                        </TableRow>
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
         </TableCell>
-      )}
-      {Delete && (
-        <TableCell align="right" width="1%">
-          <DeleteForeverIcon
-            color="error"
-            onClick={() => handleOpenDelete(row)}
-          />
-        </TableCell>
-      )}
-    </>
+      </TableRow>
+    </React.Fragment>
   );
 };
 EnhancedTableToolbar.propTypes = {
@@ -252,8 +434,21 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function EnhancedTable(props) {
-  const { headCells, rows, title, Edit, Delete, Add, onUpdate, dropDown } =
-    props;
+  const {
+    headCells,
+    rows,
+    title,
+    Edit,
+    Delete,
+    Add,
+    onUpdate,
+    dropDown,
+    subHeadCells,
+    subTitle,
+    SubEdit,
+    SubDelete,
+    SubAdd,
+  } = props;
 
   const [query, setQuery] = useState("");
   const [order, setOrder] = useState("asc");
@@ -262,7 +457,6 @@ export default function EnhancedTable(props) {
   const [page, setPage] = useState(0);
   const [dense, setDense] = useState(false);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [open, setOpen] = React.useState(false);
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -308,6 +502,37 @@ export default function EnhancedTable(props) {
   const handleOpenAdd = (values) => {
     setOpenAdd(true);
   };
+  // ======================================================
+  const [openSubEdit, setOpenSubEdit] = useState(false);
+  const [editSubValues, setEditSubValues] = useState({});
+  const handleCloseSubEdit = () => {
+    setEditSubValues({});
+    setOpenSubEdit(false);
+  };
+  const handleOpenSubEdit = (values) => {
+    setEditSubValues(values);
+    setOpenSubEdit(true);
+  };
+
+  const [openSubDelete, setOpenSubDelete] = useState(false);
+  const [deleteSubValues, setDeleteSubValues] = useState({});
+  const handleCloseSubDelete = () => {
+    setDeleteSubValues({});
+    setOpenSubDelete(false);
+  };
+  const handleOpenSubDelete = (values) => {
+    setDeleteSubValues(values);
+    setOpenSubDelete(true);
+  };
+
+  const [openSubAdd, setOpenSubAdd] = useState(false);
+  const handleCloseSubAdd = () => {
+    setOpenSubAdd(false);
+  };
+  const handleOpenSubAdd = (values) => {
+    setOpenSubAdd(true);
+  };
+  // ======================================================
   useEffect(() => {
     onUpdate();
   });
@@ -474,18 +699,22 @@ export default function EnhancedTable(props) {
                   if (!result && b != "") return null;
 
                   return (
-                    <TableRow key={index}>
-                      <Row
-                        headCells={headCells}
-                        index={index}
-                        row={row}
-                        handleOpenEdit={handleOpenEdit}
-                        handleOpenDelete={handleOpenDelete}
-                        Edit={Edit}
-                        Delete={Delete}
-                        dropDown={dropDown}
-                      />
-                    </TableRow>
+                    <Row
+                      key={index}
+                      row={row}
+                      rows={rows}
+                      Edit={Edit}
+                      Delete={Delete}
+                      dropDown={dropDown}
+                      subTitle={subTitle}
+                      headCells={headCells}
+                      subHeadCells={subHeadCells}
+                      handleOpenEdit={handleOpenEdit}
+                      handleOpenDelete={handleOpenDelete}
+                      handleOpenSubAdd={handleOpenSubAdd}
+                      handleOpenSubEdit={handleOpenSubEdit}
+                      handleOpenSubDelete={handleOpenSubDelete}
+                    />
                   );
                 })}
               {emptyRows > 0 && (
