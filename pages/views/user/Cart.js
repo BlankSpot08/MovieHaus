@@ -28,17 +28,23 @@ const Cart = () => {
         quantity: 2,
         unit_price: 625
       },
+      {
+        image_src: 'https://m.media-amazon.com/images/M/MV5BNzE4ZDEzOGUtYWFjNC00ODczLTljOGQtZGNjNzhjNjdjNjgzXkEyXkFqcGdeQXVyNzE5ODMwNzI@._V1_.jpg',
+        name: 'Weathering With You',
+        quantity: 2,
+        unit_price: 625
+      },
     ]
 
     setCart(cart)
   };
 
-  const sumOfArray = (array, property) => {
+  const sumOfArray = (array) => {
     let i
 
     let sum = 0
     for (i = 0; i < array.length; i++) {
-      sum += array[i][property]
+      sum += (array[i]['unit_price'] * array[i]['quantity'])
     }
 
     return sum
@@ -57,7 +63,7 @@ const Cart = () => {
   }, []);
 
   return (
-    <div className=" h-screen">
+    <div className=" h-full">
       <Head>
         <title>Cart</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -90,58 +96,67 @@ const Cart = () => {
                           <img src={item.image_src} className="w-20 rounded" alt="Thumbnail" />
                         </a>
                       </td>
-                      <td>
-                        <a href="#">
-                          <p className="mb-2 md:ml-4">{item.name}</p>
-                          <form action="" method="POST">
-                            <button className="text-gray-700 md:ml-4" onClick={(e) => {
-                              e.preventDefault();
 
-                              removeItem(getCart, index)
-                            }}>
-                              <small>(Remove item)</small>
-                            </button>
-                          </form>
+                      <td>
+                        <a href={'/views/user/Movie?title=' + item.name}>
+                          <p className="mb-2 md:ml-4">{item.name}</p>
                         </a>
+                        <form action="" method="POST">
+                          <button className="text-gray-700 md:ml-4" onClick={(e) => {
+                            e.preventDefault();
+
+                            removeItem(getCart, index)
+                          }}>
+                            <small>(Remove item)</small>
+                          </button>
+                        </form>
                       </td>
-                      <td className="justify-center md:justify-end md:flex mt-6">
+
+                      <td className="justify-center md:justify-end md:flex mt-14">
                         <div className="w-20 h-10">
                           <div className="relative flex flex-row w-full h-8">
                             <input type="number" value={item.quantity}
-                              className="w-full font-semibold text-center text-white bg-pink-400 outline-none focus:outline-none hover:text-black focus:text-black" />
+                              className="w-full font-semibold text-center text-white bg-pink-400 outline-none focus:outline-none hover:text-pink-100 focus:text-pink-100" />
                           </div>
                         </div>
                       </td>
+
                       <td className="hidden text-right md:table-cell">
-                        <span className="text-sm lg:text-base font-medium">
-                          {item.unit_price}₱
-                        </span>
+                        <div className="">
+                          <span className="text-sm lg:text-base font-medium">
+                            {item.unit_price}₱
+                          </span>
+                        </div>
                       </td>
+
                       <td className="text-right">
                         <span className="text-sm lg:text-base font-medium">
                           {item.unit_price * item.quantity}₱
                         </span>
                       </td>
+
                     </tr>
                   ))}
                 </tbody>
               </table>
+
               <hr className="pb-6 mt-6" />
-              <div className="my-4 mt-6 -mx-2 lg:flex">
+
+              <div className="my-4 mt-6 ml-16 -mx-2 lg:flex">
                 <div className="lg:px-2 lg:w-1/2">
                 </div>
-                <div className="">
-                  <p className="mb-6 italic">Shipping and additionnal costs are calculated based on values you have entered</p>
+                <div className="ml-16">
+                  <p className="  italic">Total costs are calculated based on movie prices and quantity you have entered</p>
                   <div className="flex justify-between pt-4 border-b">
                     <div className="lg:px-4 lg:py-2 m-2 text-lg lg:text-xl font-bold text-center text-gray-800">
                       Total
                     </div>
                     <div className="lg:px-4 lg:py-2 m-2 lg:text-lg font-bold text-center text-gray-900">
-                      {sumOfArray(getCart, 'unit_price')}₱
+                      {sumOfArray(getCart)}₱
                     </div>
                   </div>
                   <a href="#">
-                    <button className="flex justify-center w-full px-10 py-3 mt-6 font-medium text-white uppercase bg-pink-400 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
+                    <button className="flex justify-center w-full px-10 py-2 mt-6 font-medium text-white uppercase bg-pink-400 rounded-full shadow item-center hover:bg-gray-700 focus:shadow-outline focus:outline-none">
                       <svg aria-hidden="true" data-prefix="far" data-icon="credit-card" className="w-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M527.9 32H48.1C21.5 32 0 53.5 0 80v352c0 26.5 21.5 48 48.1 48h479.8c26.6 0 48.1-21.5 48.1-48V80c0-26.5-21.5-48-48.1-48zM54.1 80h467.8c3.3 0 6 2.7 6 6v42H48.1V86c0-3.3 2.7-6 6-6zm467.8 352H54.1c-3.3 0-6-2.7-6-6V256h479.8v170c0 3.3-2.7 6-6 6zM192 332v40c0 6.6-5.4 12-12 12h-72c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h72c6.6 0 12 5.4 12 12zm192 0v40c0 6.6-5.4 12-12 12H236c-6.6 0-12-5.4-12-12v-40c0-6.6 5.4-12 12-12h136c6.6 0 12 5.4 12 12z" /></svg>
                       <span className="ml-2 mt-5px">Procceed to checkout</span>
                     </button>
