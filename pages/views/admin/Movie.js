@@ -803,6 +803,7 @@ toast.configure();
 const Movie = () => {
   const router = useRouter();
   const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
   const headCells = [
     {
       id: "_id",
@@ -852,6 +853,7 @@ const Movie = () => {
       .get("/api/admin/movie")
       .then((res) => {
         if (res.data.success) setRows(res.data.value);
+        setLoading(false);
       })
 
       .catch((err) => {
@@ -879,15 +881,15 @@ const Movie = () => {
     },
   ];
   return (
-    <AdminNav>
+    <>
       <Head>
         <title>Movies</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <AdminNav>
+      <AdminNav loading={loading}>
         <PublicNav navs={navs} />
       </AdminNav>
-    </AdminNav>
+    </>
   );
 };
 

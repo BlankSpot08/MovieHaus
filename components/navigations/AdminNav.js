@@ -29,6 +29,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import EventSeatIcon from "@mui/icons-material/EventSeat";
 import Card from "@mui/material/Card";
 import axios from "axios";
+import LinearProgress from "@mui/material/LinearProgress";
 
 const drawerWidth = 240;
 
@@ -108,8 +109,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
   justifyContent: "flex-end",
 }));
-export default function AdminNav({ children }) {
+export default function AdminNav(props) {
   const router = useRouter();
+  const { children, loading } = props;
   const { title } = router.query;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -154,6 +156,7 @@ export default function AdminNav({ children }) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
+
       <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
@@ -169,7 +172,9 @@ export default function AdminNav({ children }) {
             {title}
           </Typography>
         </Toolbar>
+        {loading && <LinearProgress />}
       </AppBar>
+
       <Drawer
         sx={{
           width: drawerWidth,
