@@ -426,6 +426,7 @@ const FormDelete = (props) => {
 const Admin = () => {
   const router = useRouter();
   const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
   const headCells = [
     {
       id: "_id",
@@ -475,6 +476,7 @@ const Admin = () => {
       .get("/api/admin/admin")
       .then((res) => {
         if (res.data.success) setRows(res.data.value);
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -502,15 +504,15 @@ const Admin = () => {
   ];
 
   return (
-    <AdminNav>
+    <>
       <Head>
         <title>Admin</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <AdminNav>
+      <AdminNav loading={loading}>
         <PublicNav navs={navs} />
       </AdminNav>
-    </AdminNav>
+    </>
   );
 };
 
