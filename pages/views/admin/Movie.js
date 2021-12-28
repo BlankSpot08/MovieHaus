@@ -91,7 +91,6 @@ const Movie = () => {
     axios
       .get("/api/admin/movie")
       .then((res) => {
-        console.log(res.data);
         if (res.data.success) setRows(res.data.value);
         setLoading(false);
       })

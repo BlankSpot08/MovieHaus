@@ -17,7 +17,7 @@ toast.configure();
 const genres = config.genres;
 const FormAdd = (props) => {
   const { handleCloseAdd } = props;
-  const router = useRouter();
+
   const [directors, setDirectors] = useState([]);
   const [actors, setActors] = useState([]);
   const [studios, setStudios] = useState([]);
@@ -336,7 +336,7 @@ const FormAdd = (props) => {
                     >
                       Submit
                     </Button>
-                  </LocalizationProvider>{" "}
+                  </LocalizationProvider>
                 </form>
               </div>
             </div>
