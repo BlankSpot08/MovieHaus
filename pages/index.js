@@ -10,29 +10,7 @@ import HomeNav from "../components/navigations/HomeNav";
 toast.configure();
 export default function HomeApp() {
   const router = useRouter();
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      password: "",
-    },
-    onSubmit(values) {
-      axios
-        .post("/api/auth/login", values)
-        .then((res) => {
-          if (res.data.success) {
-            router.push("/views/admin/Home");
-            toast.success("Log in successfully");
-          } else {
-            const error = res.data.message;
-            console.log(error);
-            for (const key in error) toast.error(error[key]);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  });
+
   return (
     <div className="bg-center bg-no-repeat bg-cover h-screen relative pattern">
       <div className=" bg-opacity-50 bg-black h-full">

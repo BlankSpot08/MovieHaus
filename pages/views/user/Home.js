@@ -12,7 +12,7 @@ toast.configure();
 const Home = () => {
   const [getMovies, setMovies] = useState([]);
   const router = useRouter();
-
+  const [loading, setLoading] = useState(true);
   const created = () => {
     const url = "/api/user/movie";
     axios
@@ -23,9 +23,8 @@ const Home = () => {
         // for (i = 0; i < data.value.length; i++) {
         //   data.value[i]["label"] = data.value[i].seat_name;
         // }
-
-        setMovies(data.value)
-
+        setLoading(false);
+        setMovies(data.value);
       })
       .catch((err) => {
         console.log(err);
@@ -42,9 +41,9 @@ const Home = () => {
         <title>Home</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <UserNav />
+      <UserNav loading={loading} />
 
-      <div className="max-w-2xl mx-auto px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 text-pink-700" >
+      <div className="max-w-2xl mx-auto px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8 text-pink-700">
         <h2 className="text-2xl font-extrabold tracking-tight">Now Showing</h2>
 
         <div className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
@@ -59,12 +58,14 @@ const Home = () => {
               <div className="mt-4 flex justify-between">
                 <div>
                   <h3 className="text-sm text-gray-700">
-                    <a onClick={() => {
-                      router.push({
-                        pathname: '/views/user/Movie',
-                        query: { title: movie.title }
-                      })
-                    }}>
+                    <a
+                      onClick={() => {
+                        router.push({
+                          pathname: "/views/user/Movie",
+                          query: { title: movie.title },
+                        });
+                      }}
+                    >
                       <span aria-hidden="true" className="absolute inset-0" />
                     </a>
                   </h3>
@@ -76,7 +77,7 @@ const Home = () => {
           ))}
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 
