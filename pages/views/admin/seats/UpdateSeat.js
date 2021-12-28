@@ -46,7 +46,6 @@ const UpdateSeat = () => {
         }
         setChosenSeat({});
         setSeats(data.value);
-        console.log(data.value);
         setLoading(false);
       })
       .catch((err) => {
@@ -388,8 +387,8 @@ class UpdateSeatArrangement extends React.Component {
                       activity == 1
                         ? styles.seat
                         : activity == 2
-                          ? styles.seat_grab
-                          : ""
+                        ? styles.seat_grab
+                        : ""
                     }
                     onMouseDown={this.mouseDown.bind(this, index)}
                   >

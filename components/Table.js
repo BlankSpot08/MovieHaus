@@ -196,6 +196,7 @@ const Row = (props) => {
     row,
     rows,
     handleOpenEdit,
+    setAddSubValues,
     handleOpenDelete,
     handleOpenSubEdit,
     handleOpenSubDelete,
@@ -319,7 +320,7 @@ const Row = (props) => {
                 variant="contained"
                 startIcon={<AddCircleIcon />}
                 sx={{ height: "50px", width: "30%", m: 1 }}
-                onClick={handleOpenSubAdd}
+                onClick={() => handleOpenSubAdd(row)}
               >
                 Add New
               </Button>
@@ -526,10 +527,13 @@ export default function EnhancedTable(props) {
   };
 
   const [openSubAdd, setOpenSubAdd] = useState(false);
-  const handleCloseSubAdd = () => {
+  const [addSubValues, setAddSubValues] = useState({});
+  const handleCloseSubAdd = (values) => {
+    setAddSubValues({});
     setOpenSubAdd(false);
   };
   const handleOpenSubAdd = (values) => {
+    setAddSubValues(values);
     setOpenSubAdd(true);
   };
   // ======================================================
@@ -571,6 +575,31 @@ export default function EnhancedTable(props) {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
   return (
     <Box sx={{ width: "100%" }}>
+      {SubAdd && (
+        <Modal
+          open={openSubAdd}
+          onClose={handleCloseSubAdd}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          style={style}
+        >
+          <Fade in={openSubAdd}>
+            <Box className="border-none outline-none">
+              <SubAdd
+                handleCloseSubAdd={handleCloseSubAdd}
+                editSubValues={addSubValues}
+              />
+              <Button
+                onClick={handleCloseSubAdd}
+                variant="contained"
+                className="bottom-24 left-2/4 transform -translate-x-1/2 -translate-y-1/2"
+              >
+                Close
+              </Button>
+            </Box>
+          </Fade>
+        </Modal>
+      )}
       {Add && (
         <Modal
           open={openAdd}
@@ -710,6 +739,7 @@ export default function EnhancedTable(props) {
                       headCells={headCells}
                       subHeadCells={subHeadCells}
                       handleOpenEdit={handleOpenEdit}
+                      setAddSubValues={setAddSubValues}
                       handleOpenDelete={handleOpenDelete}
                       handleOpenSubAdd={handleOpenSubAdd}
                       handleOpenSubEdit={handleOpenSubEdit}
