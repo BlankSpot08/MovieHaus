@@ -96,7 +96,7 @@ const Register = () => {
                 </div>
                 <button type="submit" class="w-full mt-6 bg-pink-400 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans">Register</button>
                 <a href="/views/auth/Login">
-                  <button type="button" class="w-full mt-2 bg-pink-100 rounded-lg px-4 py-2 text-lg text-pink-400 tracking-wide font-semibold font-sans">Login</button>
+                  <button type="button" class="w-full mt-16 bg-pink-100 rounded-lg px-4 py-2 text-lg text-pink-400 tracking-wide font-semibold font-sans">Login</button>
                 </a>
               </form>
             </div>

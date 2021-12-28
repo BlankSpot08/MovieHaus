@@ -75,7 +75,7 @@ const Login = () => {
 
                 <button type="submit" className="w-full mt-6 bg-pink-400 rounded-lg px-4 py-2 text-lg text-white tracking-wide font-semibold font-sans" type="submit">Login</button>
                 <a href="/views/auth/Register">
-                  <button className="w-full mt-4 mb-3 bg-pink-100 rounded-lg px-4 py-2 text-lg text-pink-400 tracking-wide font-semibold font-sans" type="button">Register</button>
+                  <button className="w-full mt-16 mb-3 bg-pink-100 rounded-lg px-4 py-2 text-lg text-pink-400 tracking-wide font-semibold font-sans" type="button">Register</button>
                 </a>
               </form>
             </div>

@@ -48,23 +48,30 @@ export default function HomeApp() {
                 education, and more.
               </h2>
 
-              <div className="inline-flex  items-center mt-2 -mx-2 pt-8 my-2 sm:mt-0">
-                <Link href="/views/auth/AdminLogin">
+              <div className="inline-flex  items-center mt-2 -mx-2 pt-8 my-2 sm:mt-0 w-full text-center">
+                {/* <Link href="/views/auth/AdminLogin">
                   <a className="px-3 py-2 mx-2 text-lg bg-pink-400 font-semibold text-white transition-colors duration-200 transform border-2  hover:bg-white hover:text-pink-400">
                     Admin
                   </a>
                 </Link>
 
                 <Link href="/views/auth/Login">
-                  <a className="px-3 py-2 text-lg font-semibold bg-pink-400 text-white transition-colors duration-200 transform border-2  hover:bg-white hover:text-pink-400">
+                  <a className="px-3 w-100 py-2 text-lg font-semibold bg-pink-400 text-white transition-colors duration-200 transform border-2  hover:bg-white hover:text-pink-400">
                     User
                   </a>
-                </Link>
+                </Link> */}
+                <a href="/views/auth/AdminLogin" className="ml-auto">
+                  <button type="button" class="w-full px-7 py-3 bg-pink-100 rounded-lg text-lg text-pink-400 tracking-wide font-semibold font-sans">Admin</button>
+                </a>
+                <div className="mx-2" />
+                <a href="/views/auth/Login" className="mr-auto">
+                  <button type="button" class="w-full px-10 bg-pink-100 rounded-lg  py-3 text-lg text-pink-400 tracking-wide font-semibold font-sans">User</button>
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
