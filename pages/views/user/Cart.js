@@ -63,7 +63,7 @@ const Cart = () => {
   }, []);
 
   return (
-    <div className=" h-full">
+    <div className="">
       <Head>
         <title>Cart</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />

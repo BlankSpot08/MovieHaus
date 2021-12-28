@@ -10,8 +10,9 @@ import LinearProgress from "@mui/material/LinearProgress";
 
 import { useRouter } from "next/router";
 import Router from "next/router";
-import NProgress from "nprogress"; //nprogress module
-import "nprogress/nprogress.css"; //styles of nprogress
+// import NProgress from "nprogress"; //nprogress module
+// import "nprogress/nprogress.css"; //styles of nprogress
+
 export default function MyApp(props) {
   const { Component, pageProps } = props;
   const router = useRouter();
