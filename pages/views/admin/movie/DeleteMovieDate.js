@@ -12,7 +12,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import TimePicker from "@mui/lab/TimePicker";
 import Autocomplete from "@mui/material/Autocomplete";
-import config from "./config";
+import config from "../../../../config/config";
 toast.configure();
 
 const DeleteMovieDate = () => {

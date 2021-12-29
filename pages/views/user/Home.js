@@ -13,7 +13,9 @@ toast.configure();
 
 const Home = () => {
   const [getMovies, setMovies] = useState([]);
+  const [selectedMoves, setSelectedMovies] = useState([]);
   const [query, setQuery] = useState("");
+
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -27,13 +29,13 @@ const Home = () => {
         const data = res.data;
 
         if (query == null) {
-          setLoading(data)
+          setLoading(data);
         } else {
-          const searchResult = data.value.filter(find)
+          const searchResult = data.value.filter(find);
 
           setLoading(false);
           setMovies(searchResult);
-          console.log(getMovies)
+          console.log(getMovies);
         }
       })
       .catch((err) => {
@@ -42,36 +44,30 @@ const Home = () => {
   };
 
   function find(row) {
-    const stringTemp = ['title']
-
-    const intTemp = ['price', 'ratings']
-    const arrayTemp = ['genres', 'directors', 'studios', 'actors']
-
-    let i
+    const stringTemp = ["title"];
+    const intTemp = ["price", "ratings"];
+    const arrayTemp = ["genres", "directors", "studios", "actors"];
+    let i;
     for (i = 0; i < stringTemp.length; i++) {
       if (row[stringTemp[i]].toLowerCase().includes(query.toLowerCase())) {
-        return true
+        return true;
       }
     }
-
     for (i = 0; i < intTemp.length; i++) {
       if (row[intTemp[i]] == query) {
-        return true
+        return true;
       }
     }
-
     for (i = 0; i < arrayTemp.length; i++) {
-      console.log(row[arrayTemp[i]])
-      let j
-
+      console.log(row[arrayTemp[i]]);
+      let j;
       for (j = 0; j < row[arrayTemp[i]].length; j++) {
         if (row[arrayTemp[i]][j].toLowerCase().includes(query.toLowerCase())) {
-          return true
+          return true;
         }
       }
     }
-
-    return false
+    return false;
   }
 
   const created = () => {
@@ -88,7 +84,6 @@ const Home = () => {
         console.log(err);
       });
   };
-
 
   React.useEffect(() => {
     created();

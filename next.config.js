@@ -2,6 +2,12 @@ const path = require("path");
 const withSass = require("@zeit/next-sass");
 module.exports = withSass({
   cssModules: true,
+  webpack(config, { dev }) {
+    if (dev) {
+      config.devtool = "cheap-module-source-map";
+    }
+    return config;
+  },
   sassOptions: {
     includePaths: [path.join(__dirname, "styles")],
   },

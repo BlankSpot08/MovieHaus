@@ -7,6 +7,10 @@ import Link from "next/link";
 import Head from "next/head";
 import axios from "axios";
 import HomeNav from "../components/navigations/HomeNav";
+
+export const config = {
+  unstable_runtimeJS: false,
+};
 toast.configure();
 export default function HomeApp() {
   const router = useRouter();

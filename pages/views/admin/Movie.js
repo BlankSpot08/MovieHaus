@@ -20,6 +20,7 @@ const Movie = () => {
   const router = useRouter();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const headCells = [
     {
       id: "_id",
@@ -66,24 +67,10 @@ const Movie = () => {
   ];
   const subHeadCells = [
     {
-      id: "release_date",
+      id: "movie_date",
       numeric: false,
       disablePadding: false,
-      label: "Release Date",
-      width: "20%",
-    },
-    {
-      id: "release_date1",
-      numeric: false,
-      disablePadding: false,
-      label: "Release Date",
-      width: "20%",
-    },
-    {
-      id: "release_date2",
-      numeric: false,
-      disablePadding: false,
-      label: "Release Date",
+      label: "Date",
       width: "20%",
     },
   ];
@@ -117,6 +104,7 @@ const Movie = () => {
           Add={AddMovie}
           dropDown={true}
           subTitle={"Add Schedule"}
+          subColumnName={"movie_date"}
           subHeadCells={subHeadCells}
           SubEdit={EditMovieDate}
           SubDelete={DeleteMovieDate}

@@ -23,16 +23,18 @@ import Stack from "@mui/material/Stack";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import MobileDatePicker from "@mui/lab/MobileDatePicker";
 import Autocomplete from "@mui/material/Autocomplete";
-import config from "./config";
+import config from "../../../../config/config";
 
 const genres = config.genres;
 toast.configure();
 const FormEdit = (props) => {
   const { editValues, handleCloseEdit } = props;
+  if (!editValues) return null;
   const router = useRouter();
   const [directors, setDirectors] = useState(editValues.directors);
   const [actors, setActors] = useState(editValues.actors);
   const [studios, setStudios] = useState(editValues.studios);
+
   const formik = useFormik({
     initialValues: {
       ...editValues,

@@ -93,7 +93,7 @@ function EnhancedTableHead(props) {
       <TableRow>
         {dropDown && (
           <TableCell padding={"normal"}>
-            <TableSortLabel>{subTitle}</TableSortLabel>
+            <TableSortLabel> </TableSortLabel>
           </TableCell>
         )}
 
@@ -195,6 +195,7 @@ const Row = (props) => {
     Delete,
     row,
     rows,
+    subColumnName,
     handleOpenEdit,
     setAddSubValues,
     handleOpenDelete,
@@ -205,6 +206,8 @@ const Row = (props) => {
     subHeadCells,
     subTitle,
   } = props;
+
+  const subRow = row[subColumnName];
   const [query, setQuery] = useState("");
   const [order, setOrder] = useState("asc");
   const [orderBy, setOrderBy] = useState("calories");
@@ -333,17 +336,15 @@ const Row = (props) => {
                   onRequestSort={handleRequestSort}
                   rowCount={5}
                   headCells={subHeadCells}
-                  dropDown={dropDown}
                   subTitle={subTitle}
                 />
                 <TableBody>
-                  {stableSort(rows, getComparator(order, orderBy))
+                  {stableSort(subRow, getComparator(order, orderBy))
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row, index) => {
                       var result = false;
                       const b = query.toLowerCase().trim();
-                      const head = headCells.map(({ id }) => id);
-
+                      const head = subHeadCells.map(({ id }) => id);
                       if (row)
                         for (const key in row) {
                           if (row[key]) {
@@ -358,22 +359,7 @@ const Row = (props) => {
 
                       return (
                         <TableRow key={index}>
-                          {/* {dropDown && (
-                            <TableCell scope="row" width={{ widht: "10%" }}>
-                              <IconButton
-                                aria-label="expand row"
-                                size="small"
-                                onClick={() => setOpen(!open)}
-                              >
-                                {open ? (
-                                  <KeyboardArrowUpIcon />
-                                ) : (
-                                  <KeyboardArrowDownIcon />
-                                )}
-                              </IconButton>
-                            </TableCell>
-                          )}
-                          {headCells.map((val, index) => {
+                          {subHeadCells.map((val, index) => {
                             return (
                               <TableCell
                                 scope="row"
@@ -406,7 +392,7 @@ const Row = (props) => {
                             <TableCell align="right" width="1%">
                               <EditIcon
                                 color="primary"
-                                onClick={() => handleOpenEdit(row)}
+                                onClick={() => handleOpenSubEdit(row)}
                               />
                             </TableCell>
                           )}
@@ -414,10 +400,10 @@ const Row = (props) => {
                             <TableCell align="right" width="1%">
                               <DeleteForeverIcon
                                 color="error"
-                                onClick={() => handleOpenDelete(row)}
+                                onClick={() => handleOpenSubDelete(row)}
                               />
                             </TableCell>
-                          )} */}
+                          )}
                         </TableRow>
                       );
                     })}
@@ -444,10 +430,12 @@ export default function EnhancedTable(props) {
     Add,
     onUpdate,
     dropDown,
+    subColumnName,
     subHeadCells,
     subTitle,
     SubEdit,
     SubDelete,
+
     SubAdd,
   } = props;
 
@@ -738,6 +726,7 @@ export default function EnhancedTable(props) {
                       subTitle={subTitle}
                       headCells={headCells}
                       subHeadCells={subHeadCells}
+                      subColumnName={subColumnName}
                       handleOpenEdit={handleOpenEdit}
                       setAddSubValues={setAddSubValues}
                       handleOpenDelete={handleOpenDelete}

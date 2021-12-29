@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import axios from "axios";
-import config from "./config";
+import config from "../../../../config/config";
 
 toast.configure();
 const FormDelete = (props) => {

@@ -21,7 +21,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import TimePicker from "@mui/lab/TimePicker";
-import config from "./config";
+import config from "../../../../config/config";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -38,13 +38,15 @@ const styles = {
   media: {
     height: 0,
     paddingTop: "56.25%", // 16:9,
-    marginTop: "30",
+    marginTop: "20px",
+    marginBottom: "20px",
+    borderRadius: "30px",
   },
 };
 
 const AddMovieDate = (props) => {
   const { handleCloseAdd, editSubValues } = props;
-
+  if (!editSubValues) return null;
   const [movieTime, setMovieTime] = useState([]);
   const [getSeats, setSeats] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -73,10 +75,20 @@ const AddMovieDate = (props) => {
   }, []);
   const formik = useFormik({
     initialValues: {
+      ...editSubValues,
       movie_date: new Date(),
       movie_time: [],
     },
     onSubmit(values) {
+      axios
+        .post("/api/admin/schedule", values)
+        .then((res) => {
+          const data = res.data;
+          if (data.success) toast.success("Adding schedule successfully");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       console.log(values);
     },
   });
@@ -93,6 +105,11 @@ const AddMovieDate = (props) => {
               <div className="py-8 text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7">
                 <form onSubmit={formik.handleSubmit}>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
+                    <CardMedia
+                      image={editSubValues.image_src}
+                      style={styles.media}
+                      alt="Movie Screen"
+                    />
                     <DesktopDatePicker
                       label="Release Date"
                       inputFormat="MM/dd/yyyy"
@@ -118,6 +135,7 @@ const AddMovieDate = (props) => {
                       Add Schedule
                     </Button>
                     {movieTime &&
+                      editSubValues &&
                       movieTime.map((value, index) => {
                         return (
                           <Card
@@ -141,11 +159,7 @@ const AddMovieDate = (props) => {
                                 formik.values.movie_time = copy;
                               }}
                             ></Modal>
-                            <CardMedia
-                              image={editSubValues.image_src}
-                              style={styles.media}
-                              alt="Movie Screen"
-                            />
+
                             <CardContent>
                               <Typography
                                 gutterBottom
