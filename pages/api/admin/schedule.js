@@ -25,7 +25,6 @@ const addSchedule = async (req, res) => {
     const schedule = { movie_date, movie_time };
 
     const movie = await Movie.findOne({ _id: ObjectId(_id) });
-    console.log(movie.movie_date.length);
     if (!movie) return res.status(400).json({ success: false });
     const obj = movie.movie_date;
     if (
@@ -38,11 +37,10 @@ const addSchedule = async (req, res) => {
     ) {
       movie.movie_date.push(schedule);
     } else {
-      console.log("update");
       movie.movie_date = [schedule];
     }
+    movie.markModified("movie_date");
     movie.save();
-
     return res.status(200).json({ success: true });
   } catch (err) {
     console.log(err);
@@ -52,8 +50,16 @@ const addSchedule = async (req, res) => {
 
 const updateSchedule = async (req, res) => {
   try {
+    const { movie_date, movie_time, index, _id } = req.body;
+    const schedule = { movie_date, movie_time };
+    const movie = await Movie.findOne({ _id: ObjectId(_id) });
+    if (!movie) return res.status(400).json({ success: false });
+    movie.movie_date[index] = schedule;
+    movie.markModified("movie_date");
+    movie.save();
     return res.status(200).json({ success: true });
   } catch (err) {
+    console.log(err);
     return res.status(401).json({ success: false, message: [] });
   }
 };
