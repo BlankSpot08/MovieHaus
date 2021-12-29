@@ -47,6 +47,7 @@ const EditMovieDate = (props) => {
   const { handleCloseAdd, editSubValues } = props;
 
   // Handle Props ===============================================================
+  if (!editSubValues) return null;
   if (
     editSubValues &&
     Object.keys(editSubValues).length === 0 &&

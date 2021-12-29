@@ -18,6 +18,7 @@ toast.configure();
 const DeleteMovieDate = (props) => {
   const { handleCloseSubDelete, editSubValues } = props;
   // Handle Props ===============================================================
+  if (!editSubValues) return null;
   if (
     editSubValues &&
     Object.keys(editSubValues).length === 0 &&
