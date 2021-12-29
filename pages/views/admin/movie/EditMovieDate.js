@@ -62,7 +62,6 @@ const EditMovieDate = (props) => {
     Object.getPrototypeOf(editValues) === Object.prototype
   )
     return null;
-
   const initalValues = editValues.movie_date[editSubValues.index];
   // Handle Props ===============================================================
   const [movieTime, setMovieTime] = useState([...initalValues.movie_time]);

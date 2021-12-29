@@ -625,6 +625,24 @@ export default function EnhancedTable(props) {
           </Fade>
         </Modal>
       )}
+      {SubDelete && (
+        <Modal
+          open={openSubDelete}
+          onClose={handleCloseSubDelete}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+          style={style}
+        >
+          <Fade in={openSubDelete}>
+            <Box className="border-none outline-none">
+              <SubDelete
+                editSubValues={deleteSubValues}
+                handleCloseSubDelete={handleCloseSubDelete}
+              />
+            </Box>
+          </Fade>
+        </Modal>
+      )}
       {Add && (
         <Modal
           open={openAdd}
