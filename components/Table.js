@@ -299,120 +299,128 @@ const Row = (props) => {
         )}
       </TableRow>
 
-      <TableRow>
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <Box sx={{ margin: 5, boxShadow: 3 }}>
-              <Typography
-                variant="h6"
-                gutterBottom
-                component="div"
-                sx={{ margin: 5 }}
-              >
-                {subTitle}
-              </Typography>
-              <TextField
-                id="search"
-                name="Search"
-                label="Search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                sx={{ m: 1, width: "60%" }}
-              />
-              <Button
-                variant="contained"
-                startIcon={<AddCircleIcon />}
-                sx={{ height: "50px", width: "30%", m: 1 }}
-                onClick={() => handleOpenSubAdd(row)}
-              >
-                Add New
-              </Button>
-              <Table size="small" aria-label="purchases" sx={{ margin: 1 }}>
-                <EnhancedTableHead
-                  numSelected={selected.length}
-                  order={order}
-                  orderBy={orderBy}
-                  onSelectAllClick={handleSelectAllClick}
-                  onRequestSort={handleRequestSort}
-                  rowCount={5}
-                  headCells={subHeadCells}
-                  subTitle={subTitle}
+      {dropDown && (
+        <TableRow>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+            <Collapse in={open} timeout="auto" unmountOnExit>
+              <Box sx={{ margin: 5, boxShadow: 3 }}>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  component="div"
+                  sx={{ margin: 5 }}
+                >
+                  {subTitle}
+                </Typography>
+                <TextField
+                  id="search"
+                  name="Search"
+                  label="Search"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  sx={{ m: 1, width: "60%" }}
                 />
-                <TableBody>
-                  {stableSort(subRow, getComparator(order, orderBy))
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row, index) => {
-                      var result = false;
-                      const b = query.toLowerCase().trim();
-                      const head = subHeadCells.map(({ id }) => id);
-                      if (row)
-                        for (const key in row) {
-                          if (row[key]) {
-                            const a = row[key].toString().toLowerCase().trim();
-                            if (a.includes(b) && head.includes(key)) {
-                              result = true;
-                              break;
+                <Button
+                  variant="contained"
+                  startIcon={<AddCircleIcon />}
+                  sx={{ height: "50px", width: "30%", m: 1 }}
+                  onClick={() => handleOpenSubAdd(row)}
+                >
+                  Add New
+                </Button>
+                <Table size="small" aria-label="purchases" sx={{ margin: 1 }}>
+                  <EnhancedTableHead
+                    numSelected={selected.length}
+                    order={order}
+                    orderBy={orderBy}
+                    onSelectAllClick={handleSelectAllClick}
+                    onRequestSort={handleRequestSort}
+                    rowCount={5}
+                    headCells={subHeadCells}
+                    subTitle={subTitle}
+                  />
+                  <TableBody>
+                    {stableSort(subRow, getComparator(order, orderBy))
+                      .slice(
+                        page * rowsPerPage,
+                        page * rowsPerPage + rowsPerPage
+                      )
+                      .map((row, index) => {
+                        var result = false;
+                        const b = query.toLowerCase().trim();
+                        const head = subHeadCells.map(({ id }) => id);
+                        if (row)
+                          for (const key in row) {
+                            if (row[key]) {
+                              const a = row[key]
+                                .toString()
+                                .toLowerCase()
+                                .trim();
+                              if (a.includes(b) && head.includes(key)) {
+                                result = true;
+                                break;
+                              }
                             }
                           }
-                        }
-                      if (!result && b != "") return null;
+                        if (!result && b != "") return null;
 
-                      return (
-                        <TableRow key={index}>
-                          {subHeadCells.map((val, index) => {
-                            return (
-                              <TableCell
-                                scope="row"
-                                key={index}
-                                width={val.width}
-                                align={
-                                  typeof row[val.id] == "boolean"
-                                    ? "center"
-                                    : "left"
-                                }
-                              >
-                                {typeof row[val.id] == "boolean" ? (
-                                  row[val.id] == true ? (
-                                    <CheckBoxIcon
-                                      style={{ fill: "lightgreen" }}
-                                    />
+                        return (
+                          <TableRow key={index}>
+                            {subHeadCells.map((val, index) => {
+                              return (
+                                <TableCell
+                                  scope="row"
+                                  key={index}
+                                  width={val.width}
+                                  align={
+                                    typeof row[val.id] == "boolean"
+                                      ? "center"
+                                      : "left"
+                                  }
+                                >
+                                  {typeof row[val.id] == "boolean" ? (
+                                    row[val.id] == true ? (
+                                      <CheckBoxIcon
+                                        style={{ fill: "lightgreen" }}
+                                      />
+                                    ) : (
+                                      <CheckBoxOutlineBlankIcon
+                                        style={{ fill: "lightgreen" }}
+                                      />
+                                    )
                                   ) : (
-                                    <CheckBoxOutlineBlankIcon
-                                      style={{ fill: "lightgreen" }}
-                                    />
-                                  )
-                                ) : (
-                                  row[val.id]
-                                )}
-                              </TableCell>
-                            );
-                          })}
+                                    row[val.id]
+                                  )}
+                                </TableCell>
+                              );
+                            })}
 
-                          {Edit && (
-                            <TableCell align="right" width="1%">
-                              <EditIcon
-                                color="primary"
-                                onClick={() => handleOpenSubEdit(row)}
-                              />
-                            </TableCell>
-                          )}
-                          {Delete && (
-                            <TableCell align="right" width="1%">
-                              <DeleteForeverIcon
-                                color="error"
-                                onClick={() => handleOpenSubDelete(row)}
-                              />
-                            </TableCell>
-                          )}
-                        </TableRow>
-                      );
-                    })}
-                </TableBody>
-              </Table>
-            </Box>
-          </Collapse>
-        </TableCell>
-      </TableRow>
+                            {Edit && (
+                              <TableCell align="right" width="  1%">
+                                <EditIcon
+                                  color="primary"
+                                  onClick={() => handleOpenSubEdit(row)}
+                                />
+                              </TableCell>
+                            )}
+                            {Delete && (
+                              <TableCell align="right" width="1%">
+                                <DeleteForeverIcon
+                                  color="error"
+                                  onClick={() => handleOpenSubDelete(row)}
+                                />
+                              </TableCell>
+                            )}
+                          </TableRow>
+                        );
+                      })}
+                  </TableBody>
+                </Table>
+              </Box>
+            </Collapse>
+          </TableCell>
+        </TableRow>
+      )}
     </React.Fragment>
   );
 };

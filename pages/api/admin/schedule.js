@@ -25,12 +25,22 @@ const addSchedule = async (req, res) => {
     const schedule = { movie_date, movie_time };
 
     const movie = await Movie.findOne({ _id: ObjectId(_id) });
-    if (movie.movie_date) {
+    console.log(movie.movie_date.length);
+    if (!movie) return res.status(400).json({ success: false });
+    const obj = movie.movie_date;
+    if (
+      !(
+        movie.movie_date.length <= 1 &&
+        obj &&
+        Object.keys(movie.movie_date[0]).length === 0 &&
+        Object.getPrototypeOf(movie.movie_date[0]) === Object.prototype
+      )
+    ) {
       movie.movie_date.push(schedule);
     } else {
+      console.log("update");
       movie.movie_date = [schedule];
     }
-    movie.markModified("movie_date");
     movie.save();
 
     return res.status(200).json({ success: true });
