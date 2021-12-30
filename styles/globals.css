@@ -47,3 +47,20 @@
 .h_movie_modal {
   height: 700px;
 }
+
+.movie_modal {
+  position: absolute;
+  width: 70%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  background-color: black;
+  border: 0px;
+  box-shadow: none;
+  outline: none;
+  overflow: scroll;
+  border-radius: 45px;
+  transform: translate(-50%, -50%);
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-transform: translate(-50%, -50%) scale(1, 1);
+}

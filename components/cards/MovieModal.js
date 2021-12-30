@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import dateFormat from "dateformat";
-import MovieCard from "./Movie";
 
 function youtube_parser(url) {
   var regExp =
@@ -66,7 +65,7 @@ const MovieModal = (props) => {
       <div className="absolute h-screen w-full -top-96  transition duration-300 ease-in-out "></div>
       <div className="absolute h-screen w-full top-0 mt-20 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent"></div>
 
-      <div className="w-full max-w-4xl px-4 py-3 mx-auto  rounded-md shadow-md dark:bg-gray-800 z-10 relative -top-72 ">
+      <div className="w-full max-w-4xl px-4 py-3 mx-auto rounded-md shadow-md dark:bg-gray-800 z-10 relative -top-72 ">
         <div className=" justify-between">
           {values.genres &&
             values.genres.map((genre, index) => (
