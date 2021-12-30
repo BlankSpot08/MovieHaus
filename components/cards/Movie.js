@@ -28,12 +28,12 @@ const Movie = (props) => {
       <div>
         <div
           onClick={modalClick}
-          className="flex max-w-sm w-full  shadow-md rounded-lg overflow-hidden mx-auto h-1/4 select-none "
+          className="flex max-w-xl w-96 shadow-md rounded-lg overflow-hidden mx-auto h_movie_modal p-5"
         >
           <div className="w-2 bg-gray-900"></div>
 
           <div
-            className="overflow-hidden rounded-xl relative transform hover:-translate-y-2 transition ease-in-out duration-500 shadow-lg hover:shadow-2xl movie-item text-white movie-card"
+            className=" overflow-hidden rounded-xl relative transform hover:-translate-y-2 transition ease-in-out duration-500 shadow-lg hover:shadow-2xl movie-item text-white movie-card"
             data-movie-id="438631"
           >
             <div className="absolute inset-0 z-10 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent"></div>
@@ -75,10 +75,11 @@ const Movie = (props) => {
                     >
                       {values.title}
                     </h3>
-                    <div className="mb-0 text-lg text-gray-400  ">
+                    <div className="mb-0 text-sm text-gray-400  p-5 text-center">
+                      ・
                       {values.genres &&
                         values.genres.map((genre, index) => (
-                          <a key={index}> {genre + " ,"}</a>
+                          <a key={index}> {genre + " ・ "}</a>
                         ))}
                     </div>
                   </div>
@@ -100,13 +101,17 @@ const Movie = (props) => {
                       <div className="text-sm text-gray-400">Runtime:</div>
                     </div>
                   </div>
-                  <div className="flex flex-col overview">
-                    <div className="flex flex-col"></div>
-                    <div className="text-xs text-gray-400 mb-2">Overview:</div>
-                    <p className="text-xs text-gray-100 mb-6">
-                      {values.description}
-                    </p>
-                  </div>
+                  {values.description && (
+                    <div className="flex flex-col overview">
+                      <div className="flex flex-col"></div>
+                      <div className="text-xs text-gray-400 mb-2">
+                        Overview:
+                      </div>
+                      <p className="text-xs text-gray-100 mb-6">
+                        {values.description}
+                      </p>
+                    </div>
+                  )}
                 </div>
                 <div
                   data-countdown="2021-09-15"
@@ -124,7 +129,7 @@ const Movie = (props) => {
           </div>
         </div>
       </div>
-      <div className="poster__footer flex flex-row relative pb-10 space-x-4 z-50">
+      <div className="relative flex flex-row  pb-10 space-x-4 z-50 mt-auto top-0">
         <a
           className="flex items-center py-2 px-4 rounded-full mx-auto text-white bg-red-500 hover:bg-red-700 "
           onClick={scheduleClick}

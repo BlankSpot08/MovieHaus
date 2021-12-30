@@ -19,3 +19,31 @@
 .h-500 {
   height: 500px;
 }
+.group span {
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-width: 0.25rem; /* extend in tw.config */
+}
+
+.group:hover span:first-child {
+  --tw-translate-y: 0px;
+}
+
+.group:hover div {
+  --tw-translate-x: 0.5rem;
+  --tw-translate-y: -0.5rem;
+}
+
+.group:hover span:last-child {
+  --tw-translate-x: 0px;
+}
+* {
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+.h_movie_modal {
+  height: 700px;
+}

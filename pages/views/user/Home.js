@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Button, MenuItem, Avatar } from "@mui/material";
 import { toast } from "react-toastify";
-import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
-import InputAdornment from "@mui/material/InputAdornment";
-import ManageSearchIcon from "@mui/icons-material/ManageSearch";
-import YouTube from "react-youtube";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
 import UserNav from "../../../components/navigations/UserNav";
 import MovieCard from "../../../components/cards/Movie";
+import MovieModal from "../../../components/cards/MovieModal";
 import MovieFooter from "../../../components/cards/Footer";
-import theme from "../../../src/theme";
+
 toast.configure();
 
-const opts = {
-  height: "500px",
-  width: "100%",
-  playerVars: {
-    autoplay: 1,
-  },
+const style = {
+  position: "absolute",
+  width: "70%",
+  height: "80%",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  backgroundColor: "black",
+  border: "0px",
+  boxShadow: "none",
+  outline: "none",
+  overflow: "scroll",
+  borderRadius: "45px",
 };
 
 const Home = (props) => {
@@ -28,9 +34,20 @@ const Home = (props) => {
   const [selectedMoves, setSelectedMovies] = useState([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [values, setValues] = useState({});
+  const handleOpen = (values) => {
+    setOpen(false);
+    setValues(values);
+
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setValues({});
+    setOpen(false);
+  };
 
   const router = useRouter();
-
   const onSearch = (e) => {
     const url = "/api/user/movie";
 
@@ -84,7 +101,6 @@ const Home = (props) => {
       .get(url)
       .then((res) => {
         const data = res.data;
-
         setLoading(false);
         setMovies(data.value);
       })
@@ -123,6 +139,28 @@ const Home = (props) => {
       </div>
       <UserNav loading={loading} />
 
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <MovieModal values={values} movies={getMovies} />
+          <div className="mt-6 grid grid-cols-11 gap-y-20 gap-x-20 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  xl:gap-x-8">
+            {getMovies.map((movie, index) => (
+              <div className="shadow-md" key={index}>
+                <MovieCard
+                  values={{ ...movie, description: "" }}
+                  trailerClick={() => handleOpen(movie)}
+                  modalClick={() => handleOpen(movie)}
+                  scheduleClick={() => console.log("Schedule")}
+                />
+              </div>
+            ))}
+          </div>
+        </Box>
+      </Modal>
       <div className="text-center pb-12 px-24 pt-12">
         <div className="w-1/4 h-10 pl-3 pr-2  border border-white rounded-full flex justify-between items-center relative">
           <input
@@ -153,19 +191,19 @@ const Home = (props) => {
         </div>
       </div>
 
-      <main className="py-12 md:px-20 sm:px-14 px-6 bg-black mt-60">
+      <main className="py-12 md:px-20 sm:px-14 px-6 bg-black mt-28">
         <div className="mt-6 md:flex space-x-6 my-80 ">
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 text-red-600">
             <h2 className="text-2xl font-extrabold tracking-tight">
               Now Showing
             </h2>
-            <div className="mt-6 grid grid-cols-11 gap-y-20 gap-x-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+            <div className="mt-6 grid grid-cols-11 gap-y-20 gap-x-20 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3  xl:gap-x-8">
               {getMovies.map((movie, index) => (
                 <div className="shadow-md" key={index}>
                   <MovieCard
                     values={movie}
-                    trailerClick={() => console.log("trailer")}
-                    modalClick={() => console.log("modal")}
+                    trailerClick={() => handleOpen(movie)}
+                    modalClick={() => handleOpen(movie)}
                     scheduleClick={() => console.log("Schedule")}
                   />
                 </div>
