@@ -4,7 +4,6 @@ import dateFormat from "dateformat";
 const days_between = (date1, date2) => {
   date1 = Date.parse(date1);
   date2 = Date.parse(date2);
-  console.log({ date1, date2 });
   const ONE_DAY = 1000 * 60 * 60 * 24;
   const differenceMs = Math.abs(date1 - date2);
   const result = Math.round(differenceMs / ONE_DAY);
@@ -23,12 +22,14 @@ const durationFormat = (date) => {
 };
 
 const Movie = (props) => {
-  const { values } = props;
-  console.log(values);
+  const { values, trailerClick, modalClick, scheduleClick } = props;
   return (
     <div>
       <div>
-        <div className="flex max-w-sm w-full  shadow-md rounded-lg overflow-hidden mx-auto h-1/4">
+        <div
+          onClick={modalClick}
+          className="flex max-w-sm w-full  shadow-md rounded-lg overflow-hidden mx-auto h-1/4 select-none "
+        >
           <div className="w-2 bg-gray-900"></div>
 
           <div
@@ -61,7 +62,10 @@ const Movie = (props) => {
                           clipRule="evenodd"
                         ></path>
                       </svg>
-                      <div className="absolute transition opacity-0 duration-500 ease-in-out transform group-hover:opacity-100 group-hover:translate-x-16 text-xl font-bold text-white group-hover:pr-2">
+                      <div
+                        onClick={trailerClick}
+                        className="absolute transition opacity-0 duration-500 ease-in-out transform group-hover:opacity-100 group-hover:translate-x-16 text-xl font-bold text-white group-hover:pr-2"
+                      >
                         Trailer
                       </div>
                     </a>
@@ -117,32 +121,31 @@ const Movie = (props) => {
               src={values.image_src}
               style={{ filter: "grayscale(0)" }}
             />
-            <div className="poster__footer flex flex-row relative pb-10 space-x-4 z-10">
-              <a
-                className="flex items-center py-2 px-4 rounded-full mx-auto text-white bg-red-500 hover:bg-red-700 "
-                href="http://www.google.com/calendar/event?action=TEMPLATE&amp;dates=20210915T010000Z%2F20210915T010000Z&amp;text=Dune%20%2D%20Movie%20Premiere&amp;location=http%3A%2F%2Fmoviedates.info&amp;details=This%20reminder%20was%20created%20through%20http%3A%2F%2Fmoviedates.info"
-                target="_blank"
-                data-unsp-sanitized="clean"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="w-6 h-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-                <div className="text-sm text-white ml-2"> Schedule</div>
-              </a>
-            </div>
           </div>
         </div>
+      </div>
+      <div className="poster__footer flex flex-row relative pb-10 space-x-4 z-50">
+        <a
+          className="flex items-center py-2 px-4 rounded-full mx-auto text-white bg-red-500 hover:bg-red-700 "
+          onClick={scheduleClick}
+          data-unsp-sanitized="clean"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="w-6 h-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+          <div className="text-sm text-white ml-2 select-none "> Schedule</div>
+        </a>
       </div>
     </div>
   );

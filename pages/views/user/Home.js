@@ -153,8 +153,8 @@ const Home = (props) => {
         </div>
       </div>
 
-      <main className="py-12 md:px-20 sm:px-14 px-6 bg-black">
-        <div className="mt-6 md:flex space-x-6 ">
+      <main className="py-12 md:px-20 sm:px-14 px-6 bg-black mt-60">
+        <div className="mt-6 md:flex space-x-6 my-80 ">
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:max-w-7xl lg:px-8 text-red-600">
             <h2 className="text-2xl font-extrabold tracking-tight">
               Now Showing
@@ -162,7 +162,12 @@ const Home = (props) => {
             <div className="mt-6 grid grid-cols-11 gap-y-20 gap-x-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
               {getMovies.map((movie, index) => (
                 <div className="shadow-md" key={index}>
-                  <MovieCard values={movie} />
+                  <MovieCard
+                    values={movie}
+                    trailerClick={() => console.log("trailer")}
+                    modalClick={() => console.log("modal")}
+                    scheduleClick={() => console.log("Schedule")}
+                  />
                 </div>
               ))}
             </div>
