@@ -128,7 +128,6 @@ export default function AdminNav(props) {
     //     }
     //   })
     //   .catch((err) => {
-    //     console.log(err);
     //   });
   }, []);
   const handleDrawerOpen = () => {

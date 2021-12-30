@@ -12,7 +12,9 @@ import { useRouter } from "next/router";
 import Router from "next/router";
 // import NProgress from "nprogress"; //nprogress module
 // import "nprogress/nprogress.css"; //styles of nprogress
-
+export const config = {
+  unstable_runtimeJS: false,
+};
 export default function MyApp(props) {
   const { Component, pageProps } = props;
   const router = useRouter();
@@ -23,11 +25,9 @@ export default function MyApp(props) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
     const handleStart = () => {
-      console.log("START");
       setLoading(true);
     };
     const handleComplete = () => {
-      console.log("END");
       setLoading(false);
     };
 
@@ -44,7 +44,7 @@ export default function MyApp(props) {
   return (
     <React.Fragment>
       <Head>
-        <title>Chapters</title>
+        <title>Movie Hause</title>
         <meta
           name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"

@@ -41,7 +41,6 @@ const DeleteMovieDate = (props) => {
       index: editSubValues.index,
     },
     async onSubmit(values) {
-      console.log(values._id);
       axios
         .delete(`/api/admin/schedule`, { data: values })
         .then((res) => {

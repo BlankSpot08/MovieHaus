@@ -62,7 +62,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function PrimarySearchAppBar(props) {
   const router = useRouter();
   const { children, loading } = props;
-  console.log(props);
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -175,7 +175,7 @@ export default function PrimarySearchAppBar(props) {
     <>
       <Box sx={{ flexGrow: 1 }}>
         <AppBar className="" position="static">
-          <Toolbar className="bg-pink-400">
+          <Toolbar className="bg-gray-900">
             <Typography
               variant="h6"
               noWrap

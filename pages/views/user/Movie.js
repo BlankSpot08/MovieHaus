@@ -35,7 +35,6 @@ const Movie = () => {
       .get(url)
       .then((res) => {
         const data = res.data;
-        console.log(data);
 
         setMovie(data.value);
       })

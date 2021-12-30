@@ -110,8 +110,6 @@ const EditMovieDate = (props) => {
         .catch((err) => {
           console.log(err);
         });
-
-      // console.log(editValues);
     },
   });
   return (
