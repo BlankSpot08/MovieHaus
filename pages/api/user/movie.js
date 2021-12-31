@@ -14,7 +14,7 @@ export const config = {
 
 const getMovies = async (req, res) => {
   try {
-    const movies = await Movie.find()
+    const movies = await Movie.find();
 
     return res.status(200).json({ success: true, value: movies });
   } catch (err) {
@@ -24,9 +24,8 @@ const getMovies = async (req, res) => {
 
 const getMovie = async (req, res) => {
   try {
-    const { title } = req.query
-    console.log(title)
-    const movie = await Movie.findOne({ title: title })
+    const { title } = req.query;
+    const movie = await Movie.findOne({ title: title });
 
     return res.status(200).json({ success: true, value: movie });
   } catch (err) {
@@ -38,7 +37,7 @@ export default async function handler(req, res) {
   switch (req.method) {
     case "GET": {
       if (req.query.title) {
-        return getMovie(req, res)
+        return getMovie(req, res);
       }
       return getMovies(req, res);
     }

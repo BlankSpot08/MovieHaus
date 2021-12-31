@@ -17,7 +17,6 @@ toast.configure();
 class CreateSeat extends React.Component {
   constructor(props) {
     super(props);
-    console.log;
     this.state = {
       isMouseDown: false,
       current_value: null,

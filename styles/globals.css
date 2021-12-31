@@ -19,3 +19,48 @@
 .h-500 {
   height: 500px;
 }
+.group span {
+  border-top-color: transparent;
+  border-left-color: transparent;
+  border-width: 0.25rem; /* extend in tw.config */
+}
+
+.group:hover span:first-child {
+  --tw-translate-y: 0px;
+}
+
+.group:hover div {
+  --tw-translate-x: 0.5rem;
+  --tw-translate-y: -0.5rem;
+}
+
+.group:hover span:last-child {
+  --tw-translate-x: 0px;
+}
+* {
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+.h_movie_modal {
+  height: 700px;
+}
+
+.movie_modal {
+  position: absolute;
+  width: 70%;
+  height: 80%;
+  top: 50%;
+  left: 50%;
+  background-color: black;
+  border: 0px;
+  box-shadow: none;
+  outline: none;
+  overflow: scroll;
+  border-radius: 45px;
+  transform: translate(-50%, -50%);
+  -webkit-font-smoothing: subpixel-antialiased;
+  -webkit-transform: translate(-50%, -50%) scale(1, 1);
+}

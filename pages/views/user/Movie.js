@@ -7,6 +7,36 @@ import Head from "next/head";
 import axios from "axios";
 import Iframe from "react-iframe";
 import UserNav from "../../../components/navigations/UserNav";
+import MovieHeader from "../../../components/cards/MovieHeader";
+import MovieFooter from "../../../components/cards/Footer";
+
+function youtube_parser(url) {
+  if (!url) return "";
+  var regExp =
+    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  var match = url.match(regExp);
+  return match && match[7].length == 11 ? match[7] : false;
+}
+import dateFormat from "dateformat";
+const days_between = (date1, date2) => {
+  date1 = Date.parse(date1);
+  date2 = Date.parse(date2);
+  const ONE_DAY = 1000 * 60 * 60 * 24;
+  const differenceMs = Math.abs(date1 - date2);
+  const result = Math.round(differenceMs / ONE_DAY);
+  if (result <= 0) return "Now Showing";
+  return result + " Days Left";
+};
+
+const releaseDateFormat = (date) => {
+  date = Date.parse(date);
+  return dateFormat(date, "mmmm dS, yyyy");
+};
+
+const durationFormat = (date) => {
+  date = Date.parse(date);
+  return dateFormat(date, "h:MM:ss");
+};
 
 toast.configure();
 const Movie = () => {
@@ -35,8 +65,6 @@ const Movie = () => {
       .get(url)
       .then((res) => {
         const data = res.data;
-        console.log(data);
-
         setMovie(data.value);
       })
       .catch((err) => {
@@ -49,21 +77,30 @@ const Movie = () => {
   }, []);
 
   return (
-    <div className="bg-pink-100">
+    <div className="bg-black h-full w-screen">
       <Head>
         <title>Movie</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-      <UserNav />
-      {
-        <main className="relative container mx-auto px-0">
-          <div className="relative mx-auto top-0 pt-[17%] overflow-hidden w-full">
-            <img
-              className="absolute inset-0 object-cover object-top w-full h-full filter blur"
-              src={getMovie.image_src}
-              alt=""
-            />
+
+      {typeof getMovie !== "undefined" && (
+        <main className="relative  px-0">
+          <div className="relative top-10 pt-[17%] overflow-hidden w-screen">
+            <div className="absolute w-screen h-screen -top-24">
+              <iframe
+                src={`https://www.youtube.com/embed/${youtube_parser(
+                  getMovie.video_src
+                )}?rel=0&amp;autoplay=1&mute=1&loop=1`}
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                allowFullScreen
+              ></iframe>
+              <div className="absolute h-full w-full  top-0 inset-0 z-0 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent"></div>
+            </div>
           </div>
+          <div className="absolute h-screen w-full -top-96  transition duration-300 ease-in-out "></div>
+          <div className="absolute h-screen w-full top-0 mt-20 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent"></div>
 
           <div className="mt-[-10%] w-1/2 mx-auto">
             <div className="relative pt-[56.25%] overflow-hidden rounded-2xl">
@@ -73,42 +110,93 @@ const Movie = () => {
                 alt=""
               />
             </div>
-          </div>
 
-          <article className="max-w-prose mx-auto py-8">
-            <div className="container bg-grey-lighter">
-              <div className="sm:flex mb-4">
-                <div className="sm:w-full h-auto">
-                  <h1 className="text-2xl font-bold">{getMovie.title}</h1>
-                  <h2 className="mt-2 text-sm text-gray-500">
-                    {getMovie.release_date &&
-                      getMovie.release_date.substring(0, 4)}{" "}
-                    {getMovie.ratings}+
-                  </h2>
+            <div className="my-10 relative">
+              <h1 className="my-10 text-3xl text-center font-semibold text-white text-white">
+                {getMovie.title}
+              </h1>
+              <div className="flex justify-between datos relative w-96 m-auto ">
+                <div className="flex flex-col datos_col">
+                  <div className="popularity text-white text-lg font-semibold">
+                    {getMovie.ratings}
+                  </div>
+                  <div className="text-sm text-gray-400">Popularity:</div>
                 </div>
-
-                <div className="sm:w-1/2 h-auto sm:mt-0 mt-8">
-                  <h2 className="mt-2 text-sm text-gray-500">
-                    Directors:{" "}
-                    {getMovie.directors && getMovie.directors.join(", ")}
-                  </h2>
-                  <h2 className="mt-2 text-sm text-gray-500">
-                    Casts: {getMovie.actors && getMovie.actors.join(", ")}
-                  </h2>
-                  <h2 className="mt-2 text-sm text-gray-500">
-                    Genres: {getMovie.genres && getMovie.genres.join(", ")}
-                  </h2>
-                  <h2 className="mt-2 text-sm text-gray-500">
-                    Studios: {getMovie.studios && getMovie.studios.join(", ")}
-                  </h2>
+                <div className="flex flex-col datos_col">
+                  <div className="release text-white text-lg font-semibold">
+                    {releaseDateFormat(getMovie.release_date)}
+                  </div>
+                  <div className="text-sm text-gray-400">Release date:</div>
+                </div>
+                <div className="flex flex-col text-white text-lg font-semibold">
+                  <div className="release">
+                    {durationFormat(getMovie.duration)}
+                  </div>
+                  <div className="text-sm text-gray-400">Runtime:</div>
+                </div>
+              </div>
+              <div className="my-10">
+                <div className=" z-10 relative w-3/4 m-auto text-center ">
+                  {getMovie.genres &&
+                    getMovie.genres.map((genre, index) => (
+                      <span
+                        key={index}
+                        className="px-1 py-1 text-xs m-1 text-white uppercase bg-red-500 rounded-full "
+                      >
+                        {genre}
+                      </span>
+                    ))}
+                  <div className="my-10">
+                    {getMovie.description && (
+                      <div className="flex flex-col overview">
+                        <div className="flex flex-col"></div>
+                        <div className=" text-gray-400 m-5 text-lg">
+                          Overview:
+                        </div>
+                        <p className="text-lg text-gray-100 mb-6">
+                          {getMovie.description}
+                        </p>
+                      </div>
+                    )}
+                    <div className=" my-10 justify-between">
+                      <span className="px-3 py-1 text-sm m-1 text-white uppercase ">
+                        Director :
+                      </span>
+                      {getMovie.directors &&
+                        getMovie.directors.map((director, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1 text-sm m-1 text-white uppercase "
+                          >
+                            {director}
+                          </span>
+                        ))}
+                    </div>
+                    <div className=" my-10 justify-between">
+                      <span className="px-3 py-1 text-sm m-1 text-white uppercase ">
+                        Actors :
+                      </span>
+                      {getMovie.actors &&
+                        getMovie.actors.map((actor, index) => (
+                          <span
+                            key={index}
+                            className="px-3 py-1 text-sm m-1 text-white uppercase "
+                          >
+                            {actor}
+                          </span>
+                        ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <p className="mt-6">{getMovie.description}</p>
-          </article>
+          </div>
         </main>
-      }
+      )}
+      <UserNav />
+      <div className="">
+        <MovieFooter />
+      </div>
     </div>
   );
 };

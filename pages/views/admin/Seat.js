@@ -24,7 +24,7 @@ const Seat = () => {
     },
   ];
   return (
-    <AdminNav>
+    <>
       <Head>
         <title> Seats </title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
@@ -32,7 +32,7 @@ const Seat = () => {
       <AdminNav>
         <PublicNav navs={navs} />
       </AdminNav>
-    </AdminNav>
+    </>
   );
 };
 

@@ -17,6 +17,10 @@ const theme = createTheme({
       default: "#fff",
     },
   },
+  notchedOutline: {
+    borderWidth: "1px",
+    borderColor: "yellow !important",
+  },
 });
 
 export default theme;

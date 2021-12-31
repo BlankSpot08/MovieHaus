@@ -89,7 +89,6 @@ const AddMovieDate = (props) => {
         .catch((err) => {
           console.log(err);
         });
-      console.log(values);
     },
   });
   return (
