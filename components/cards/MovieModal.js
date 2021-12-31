@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import dateFormat from "dateformat";
-
+import { useRouter } from "next/router";
 function youtube_parser(url) {
   var regExp =
     /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -28,6 +28,7 @@ const durationFormat = (date) => {
 };
 const MovieModal = (props) => {
   const { values, movies } = props;
+  const router = useRouter();
   return (
     <div className=" mx-auto overflow-hidden bg-black rounded-lg shadow-md dark:bg-gray-800">
       <div className="object-cover w-full h-2/3 ">
@@ -42,6 +43,7 @@ const MovieModal = (props) => {
             allowFullScreen
           ></iframe>
         </div>
+
         <div className="flex justify-between datos z-10 relative -top-96 w-96 m-auto">
           <div className="flex flex-col datos_col">
             <div className="popularity text-white text-lg font-semibold">
@@ -65,7 +67,7 @@ const MovieModal = (props) => {
       <div className="absolute h-screen w-full -top-96  transition duration-300 ease-in-out "></div>
       <div className="absolute h-screen w-full top-0 mt-20 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent"></div>
 
-      <div className="w-full max-w-4xl px-4 py-3 mx-auto rounded-md shadow-md dark:bg-gray-800 z-10 relative -top-72 ">
+      <div className="text-center w-full max-w-4xl px-4 py-3 mx-auto rounded-md shadow-md dark:bg-gray-800 z-10 relative -top-72 ">
         <div className=" justify-between">
           {values.genres &&
             values.genres.map((genre, index) => (
@@ -77,9 +79,8 @@ const MovieModal = (props) => {
               </span>
             ))}
         </div>
-
         <div>
-          <h1 className="my-10 text-   font-semibold text-white">
+          <h1 className="my-10 text-3xl   font-semibold text-white">
             {values.title}
           </h1>
           <div className=" my-10 justify-between">
@@ -100,6 +101,29 @@ const MovieModal = (props) => {
         <p className="mt-2 text-lg m-10 text-gray-100 dark:text-gray-300">
           {values.description}
         </p>
+        <button
+          onClick={() =>
+            router.push({
+              pathname: "/views/user/Movie",
+              query: { title: values.title },
+            })
+          }
+          className=" w-full text-center flex items-center px-20 py-5 font-medium tracking-wide text-white capitalize transition-colors duration-200 transform bg-red-500 rounded-md hover:bg-red-400 focus:outline-none focus:ring focus:ring-red-300 focus:ring-opacity-80"
+        >
+          <svg
+            className="w-5 h-5 mx-1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <span className="mx-1">Schedule</span>
+        </button>
       </div>
     </div>
   );

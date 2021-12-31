@@ -12,6 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import Link from "next/link";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -172,7 +173,7 @@ export default function PrimarySearchAppBar(props) {
   );
 
   return (
-    <>
+    <div className="z-50 fixed top-0 w-screen">
       <Box sx={{ flexGrow: 1 }}>
         <AppBar className="" position="static">
           <Toolbar className="bg-gray-900">
@@ -182,7 +183,9 @@ export default function PrimarySearchAppBar(props) {
               component="div"
               sx={{ display: { xs: "none", sm: "block" } }}
             >
-              <a href="/views/user/Home">MovieHaus</a>
+              <Link href="/views/user/Home">
+                <a>MovieHaus</a>
+              </Link>
             </Typography>
 
             <Box sx={{ flexGrow: 1 }} />
@@ -231,6 +234,6 @@ export default function PrimarySearchAppBar(props) {
           <LinearProgress />
         </div>
       )}
-    </>
+    </div>
   );
 }

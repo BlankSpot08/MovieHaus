@@ -35,7 +35,7 @@ const MovieCard1 = (props) => {
               alt="tailwind logo"
               className="rounded-xl  "
             />
-            <div className=" flex flex-row  pb-10 space-x-4 z-50 w-full my-10 ">
+            <div className=" flex flex-row  pb-10 space-x-4 w-full my-10 ">
               <a
                 className="flex items-center py-2 px-4 w-full rounded-full mx-auto text-white bg-red-500 hover:bg-red-700 "
                 onClick={scheduleClick}

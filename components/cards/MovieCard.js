@@ -129,7 +129,7 @@ const Movie = (props) => {
           </div>
         </div>
       </div>
-      <div className="relative flex flex-row  pb-10 space-x-4 z-50 mt-auto top-0">
+      <div className="relative flex flex-row  pb-10 space-x-4  mt-auto top-0">
         <a
           className="flex items-center py-2 px-4 rounded-full mx-auto text-white bg-red-500 hover:bg-red-700 "
           onClick={scheduleClick}

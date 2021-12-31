@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Logo from "../../assets/MovieHaus.png";
 const Footer = () => {
   return (
-    <footer className="bg-gray-50 text-gray-600 px-6 lg:px-8 py-12 mt-10">
+    <footer className="bg-gray-50 text-gray-600 px-6 lg:px-8 py-12 mt-10 w-full ">
       <div className="max-w-screen-xl mx-auto ">
         <div className="grid grid-cols-8 md:grid-cols-9  lg:grid-cols-8  divide-gray-200 divide-y-2 md:divide-x-2 md:divide-y-0 md:-mx-8">
           <div className="col-span-8 md:col-span-3 lg:col-span-2 md:px-8 py-4 md:py-0">

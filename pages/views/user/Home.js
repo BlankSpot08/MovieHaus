@@ -100,7 +100,7 @@ const Home = (props) => {
   }, []);
 
   return (
-    <div className="bg-black h-screen">
+    <div className="bg-black h-screen pt-16">
       <Head>
         <title>Home</title>
         <meta
@@ -140,7 +140,12 @@ const Home = (props) => {
                   values={movie}
                   trailerClick={() => handleOpen(movie)}
                   modalClick={() => handleOpen(movie)}
-                  scheduleClick={() => console.log("Schedule")}
+                  scheduleClick={() =>
+                    router.push({
+                      pathname: "/views/user/Movie",
+                      query: { title: movie.title },
+                    })
+                  }
                 />
               </div>
             ))}
@@ -190,7 +195,12 @@ const Home = (props) => {
                     values={movie}
                     trailerClick={() => handleOpen(movie)}
                     modalClick={() => handleOpen(movie)}
-                    scheduleClick={() => console.log("Schedule")}
+                    scheduleClick={() =>
+                      router.push({
+                        pathname: "/views/user/Movie",
+                        query: { title: movie.title },
+                      })
+                    }
                   />
                 </div>
               ))}
