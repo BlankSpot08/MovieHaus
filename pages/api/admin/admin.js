@@ -30,6 +30,7 @@ const addAdmin = async (req, res) => {
         message: ["Confirm password is not the same as password"],
       });
     }
+
     const admin = new Admin(req.body);
     const new_admin = await admin.save();
 

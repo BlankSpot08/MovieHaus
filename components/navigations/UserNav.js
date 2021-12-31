@@ -213,6 +213,7 @@ export default function PrimarySearchAppBar(props) {
                 aria-label="show more"
                 aria-controls={mobileMenuId}
                 aria-haspopup="true"
+
                 onClick={handleMobileMenuOpen}
                 color="inherit"
               >

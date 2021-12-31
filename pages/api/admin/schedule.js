@@ -25,11 +25,13 @@ const addSchedule = async (req, res) => {
     const schedule = { movie_date, movie_time };
 
     const movie = await Movie.findOne({ _id: ObjectId(_id) });
+
     if (movie.movie_date) {
       movie.movie_date.push(schedule);
     } else {
       movie.movie_date = [schedule];
     }
+
     movie.markModified("movie_date");
     movie.save();
 

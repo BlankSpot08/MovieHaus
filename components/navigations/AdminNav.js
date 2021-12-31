@@ -86,11 +86,6 @@ const tabs = [
     path: "/views/admin/Movie",
   },
   {
-    name: "Schedule",
-    icon: <DateRangeIcon />,
-    path: "/views/admin/Schedule",
-  },
-  {
     name: "Ticket",
     icon: <BookOnlineIcon />,
     path: "/views/admin/Ticket",

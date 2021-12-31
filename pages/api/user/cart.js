@@ -29,6 +29,16 @@ const getCart = async (req, res) => {
 };
 const addCart = async (req, res) => {
   try {
+    const cookies = new Cookies(req, res);
+
+    const token = cookies.get("access-token");
+
+    const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    const cart = new Cart({})
+
+
+
     return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(401).json({ success: false, message: [] });
