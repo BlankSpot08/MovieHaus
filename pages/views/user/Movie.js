@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Button, MenuItem, Avatar, CardMedia } from "@mui/material";
+import {
+  TextField,
+  Button,
+  MenuItem,
+  Avatar,
+  CardMedia,
+  Autocomplete,
+  Box,
+  LinearProgress,
+} from "@mui/material";
+
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
@@ -9,7 +19,9 @@ import Iframe from "react-iframe";
 import UserNav from "../../../components/navigations/UserNav";
 import MovieHeader from "../../../components/cards/MovieHeader";
 import MovieFooter from "../../../components/cards/Footer";
-
+import EventSeatIcon from "@mui/icons-material/EventSeat";
+// import styles from "../../../../styles/Seat.module.scss";
+import styles from "../../../styles/Seat.module.scss";
 function youtube_parser(url) {
   if (!url) return "";
   var regExp =
@@ -18,6 +30,7 @@ function youtube_parser(url) {
   return match && match[7].length == 11 ? match[7] : false;
 }
 import dateFormat from "dateformat";
+
 const days_between = (date1, date2) => {
   date1 = Date.parse(date1);
   date2 = Date.parse(date2);
@@ -39,20 +52,109 @@ const durationFormat = (date) => {
 };
 
 toast.configure();
+
+const SeatPicker = (props) => {
+  const { values } = props;
+  if (values.length <= 0) return null;
+  // console.log(values);
+  const [movieDate, setMovieDate] = useState();
+  const [movieTime, setMovieTime] = useState();
+  const [selectedSeat, setSeatSelected] = useState();
+  const seatHandler = (values) => {
+    console.log(values);
+  };
+  return (
+    <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+      <div className="container  mx-auto">
+        <Autocomplete
+          id="combo-box-demo"
+          renderOption={(props, option) => (
+            <Box
+              component="li"
+              sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+              {...props}
+            >
+              {releaseDateFormat(option.movie_date)}
+            </Box>
+          )}
+          onChange={(event, value) => {
+            setMovieTime();
+            setMovieDate(value);
+          }}
+          getOptionLabel={(option) => {
+            return releaseDateFormat(option.movie_date);
+          }}
+          disablePortal
+          options={values.movie_date}
+          sx={{ width: 300 }}
+          sx={{ m: 1, width: "100%" }}
+          renderInput={(params) => (
+            <TextField {...params} label="Movie Date" sx={{ my: "20px" }} />
+          )}
+        />
+        {movieDate && (
+          <Autocomplete
+            id="combo-box-demo"
+            renderOption={(props, option) => (
+              <Box
+                component="li"
+                sx={{ "& > img": { mr: 2, flexShrink: 0 } }}
+                {...props}
+              >
+                {option.time}
+              </Box>
+            )}
+            onChange={(event, value) => {
+              setMovieTime(value);
+            }}
+            getOptionLabel={(option) => {
+              return option.time;
+            }}
+            disablePortal
+            options={movieDate.movie_time}
+            sx={{ width: 300 }}
+            sx={{ m: 1, width: "100%" }}
+            renderInput={(params) => (
+              <TextField {...params} label="Movie Time" sx={{ my: "20px" }} />
+            )}
+          />
+        )}
+        {movieTime && (
+          <div>
+            <h1 className={styles.seat_title}> Seat Selection</h1>
+            <div className={styles.display}>
+              <div className={styles.movie_screen}> </div>
+              {movieTime.movie_seats &&
+                movieTime.movie_seats.seats &&
+                movieTime.movie_seats.seats.map((value, index) => {
+                  const { x, y, seat_no } = value;
+                  return (
+                    <div
+                      key={index}
+                      style={{
+                        position: "absolute",
+                        top: y,
+                        left: x,
+                      }}
+                      className={styles.movie_seat_user_selection}
+                      onClick={(e) => seatHandler({ value, index })}
+                    >
+                      <EventSeatIcon style={{ fill: "#7c77a0" }} />
+                      <p className={styles.seat_no}> {seat_no} </p>
+                    </div>
+                  );
+                })}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const Movie = () => {
   const [getMovie, setMovie] = useState([]);
   const router = useRouter();
-
-  const opts = {
-    height: "500",
-    width: "100%",
-    playerVars: {
-      // https://developers.google.com/youtube/player_parameters
-      autoplay: 1,
-    },
-    controls: 0,
-    autoplay: 1,
-  };
 
   const created = () => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -112,7 +214,7 @@ const Movie = () => {
             </div>
 
             <div className="my-10 relative">
-              <h1 className="my-10 text-3xl text-center font-semibold text-white text-white">
+              <h1 className="my-10 text-3xl text-center font-semibold text-white ">
                 {getMovie.title}
               </h1>
               <div className="flex justify-between datos relative w-96 m-auto ">
@@ -194,9 +296,8 @@ const Movie = () => {
         </main>
       )}
       <UserNav />
-      <div className="">
-        <MovieFooter />
-      </div>
+      <SeatPicker values={getMovie} />
+      <MovieFooter />
     </div>
   );
 };
