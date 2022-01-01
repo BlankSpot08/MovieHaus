@@ -90,3 +90,17 @@
   -webkit-box-shadow: -2px -42px 79px -7px rgba(255, 255, 255, 0.609);
   -moz-box-shadow: -2px -42px 79px -7px rgba(255, 255, 255, 0.411);
 }
+
+.movie_seat_user_selection:hover {
+  background-color: #0ff;
+  border-radius: 15px;
+  padding: 1px;
+  cursor: crosshair;
+  box-shadow: 0px 0px 4px 4px #0ff;
+}
+
+.seat_title {
+  font-size: xx-large;
+  width: 100%;
+  text-align: center;
+}
