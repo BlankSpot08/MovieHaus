@@ -5,29 +5,21 @@ const MovieSchema = new mongoose.Schema({
     user_id: {
         type: Schema.Types.ObjectId
     },
-    qr_code: {
-        type: String
-    },
     movie_title: {
         type: String
     },
     movie_release_date: {
         type: Date
     },
-    movie_date: {
-        type: Date
-    },
-    movie_schedule: {
-        type: Date
-    },
+    temp: Object,
     movie_seats: [
         {
             type: Object
         }
     ],
-    movie_id: {
-        type: Schema.Types.ObjectId
-    }
+    qr_code: {
+        type: String
+    },
 });
 
-module.exports = mongoose.models.Movie || mongoose.model("Cart", MovieSchema);
+module.exports = mongoose.models.Cart || mongoose.model("Cart", MovieSchema);

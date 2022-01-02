@@ -56,28 +56,48 @@ toast.configure();
 const SeatPicker = (props) => {
   const { values } = props;
   if (values.length <= 0) return null;
+
   console.log(values);
-  const [movieDate, setMovieDate] = useState();
+
+  const [movie_date, setMovieDate] = useState();
   const [movieTime, setMovieTime] = useState();
-  const [selectedSeat, setSeatSelected] = useState();
+  const [selectedSeat, setSeatSelected] = useState([]);
+
+  const removeItem = (array, index) => {
+    const startArray = array.slice(0, index)
+    const endArray = array.slice(index + 1, array.length)
+
+    const newCart = startArray.concat(endArray)
+    setSeatSelected(newCart)
+  }
+
   const seatHandler = ({ value, index }) => {
-    console.log(value.user_id)
     if (!value.user_id) {
-      if (selectedSeat != index) {
+      if (selectedSeat.length != 0) {
+        let i
+        for (i = 0; i < selectedSeat.length; i++) {
+          console.log(`SELECTED SEAT ${selectedSeat[i]}`)
+          console.log(`INDEX ${index}`)
+
+          if (selectedSeat[i] == index) {
+            movieTime.movie_seats.seats[index].occupied = false
+
+            removeItem(selectedSeat, i)
+            return
+          }
+        }
 
         movieTime.movie_seats.seats[index].occupied = true
 
-        if (selectedSeat >= 0) {
-          movieTime.movie_seats.seats[selectedSeat].occupied = false
-        }
-
-        setSeatSelected(index)
+        selectedSeat.push(index)
       } else {
-        movieTime.movie_seats.seats[index].occupied = false
-
-        setSeatSelected(-1)
+        movieTime.movie_seats.seats[index].occupied = true
+        selectedSeat.push(index)
       }
     }
+
+    const array_object = [...selectedSeat]
+    setSeatSelected(array_object)
   };
   return (
     <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -108,7 +128,7 @@ const SeatPicker = (props) => {
             <TextField {...params} label="Movie Date" sx={{ my: "20px" }} />
           )}
         />
-        {movieDate && (
+        {movie_date && (
           <Autocomplete
             id="combo-box-demo"
             renderOption={(props, option) => (
@@ -127,7 +147,7 @@ const SeatPicker = (props) => {
               return option.time;
             }}
             disablePortal
-            options={movieDate.movie_time}
+            options={movie_date.movie_time}
             sx={{ width: 300 }}
             sx={{ m: 1, width: "100%" }}
             renderInput={(params) => (
@@ -168,13 +188,23 @@ const SeatPicker = (props) => {
             <Button
               onClick={async () => {
                 const url = `/api/user/cart`;
+
+                const movie_seats = []
+
+                let i
+                for (i = 0; i < selectedSeat.length; i++) {
+                  movie_seats.push(movieTime.movie_seats.seats[i])
+                }
+
                 axios
-                  .post(url)
+                  .post(url, {
+                    movie_title: values.title,
+                    movie_release_date: values.release_date,
+                    movie_date: movie_date,
+                    movie_seats: movie_seats
+                  })
                   .then((res) => {
-                    console.log(`Movie Time:`)
-                    console.log(movieTime)
-                    console.log(`Movie Date:`)
-                    console.log(movieDate)
+
                   })
                   .catch((error) => {
 
@@ -185,8 +215,6 @@ const SeatPicker = (props) => {
             </Button>
           </div>
         )}
-
-
       </div>
     </div>
   );

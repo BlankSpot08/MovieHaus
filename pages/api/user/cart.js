@@ -2,6 +2,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 import dbConnect from "../../../config/dbConnect";
 const Cart = require("../../../models/Cart.js");
+const Movie = require("../../../models/Movie.js");
 const jwt = require("jsonwebtoken");
 import Cookies from "cookies";
 dbConnect();
@@ -31,16 +32,27 @@ const getCart = async (req, res) => {
 };
 const addCart = async (req, res) => {
   try {
-    console.log(req.body)
-    // const cookies = new Cookies(req, res);
+    // console.log(req.body)
 
-    // const token = cookies.get("access-token");
+    // console.log(req.body.movie_date)
 
-    // const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    const cookies = new Cookies(req, res);
 
-    // const cart = new Cart()
+    const token = cookies.get("access-token");
 
-    // console.log(cart)
+    const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+    const cart = new Cart()
+    cart.markModified('movie_date')
+    cart.user_id = user.id
+    cart.movie_title = req.body.movie_title
+    cart.movie_release_date = req.body.movie_release_date
+    cart.temp = req.body.movie_date
+    cart.movie_seats = req.body.movie_seats
+    cart.qr_code = ""
+
+    console.log(cart)
+    const tempCart = await cart.save()
 
     return res.status(200).json({ success: true });
   } catch (err) {
