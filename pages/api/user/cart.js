@@ -2,6 +2,8 @@ const ObjectId = require("mongodb").ObjectId;
 
 import dbConnect from "../../../config/dbConnect";
 const Cart = require("../../../models/Cart.js");
+const jwt = require("jsonwebtoken");
+import Cookies from "cookies";
 dbConnect();
 
 export const config = {
@@ -29,15 +31,16 @@ const getCart = async (req, res) => {
 };
 const addCart = async (req, res) => {
   try {
-    const cookies = new Cookies(req, res);
+    console.log(req.body)
+    // const cookies = new Cookies(req, res);
 
-    const token = cookies.get("access-token");
+    // const token = cookies.get("access-token");
 
-    const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
+    // const user = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-    const cart = new Cart({})
+    // const cart = new Cart()
 
-
+    // console.log(cart)
 
     return res.status(200).json({ success: true });
   } catch (err) {

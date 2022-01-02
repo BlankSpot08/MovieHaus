@@ -56,12 +56,28 @@ toast.configure();
 const SeatPicker = (props) => {
   const { values } = props;
   if (values.length <= 0) return null;
-  // console.log(values);
+  console.log(values);
   const [movieDate, setMovieDate] = useState();
   const [movieTime, setMovieTime] = useState();
   const [selectedSeat, setSeatSelected] = useState();
-  const seatHandler = (values) => {
-    console.log(values);
+  const seatHandler = ({ value, index }) => {
+    console.log(value.user_id)
+    if (!value.user_id) {
+      if (selectedSeat != index) {
+
+        movieTime.movie_seats.seats[index].occupied = true
+
+        if (selectedSeat >= 0) {
+          movieTime.movie_seats.seats[selectedSeat].occupied = false
+        }
+
+        setSeatSelected(index)
+      } else {
+        movieTime.movie_seats.seats[index].occupied = false
+
+        setSeatSelected(-1)
+      }
+    }
   };
   return (
     <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -119,6 +135,7 @@ const SeatPicker = (props) => {
             )}
           />
         )}
+
         {movieTime && (
           <div>
             <h1 className={styles.seat_title}> Seat Selection</h1>
@@ -127,7 +144,7 @@ const SeatPicker = (props) => {
               {movieTime.movie_seats &&
                 movieTime.movie_seats.seats &&
                 movieTime.movie_seats.seats.map((value, index) => {
-                  const { x, y, seat_no } = value;
+                  const { x, y, seat_no, user_id, occupied } = value;
                   return (
                     <div
                       key={index}
@@ -139,14 +156,37 @@ const SeatPicker = (props) => {
                       className={styles.movie_seat_user_selection}
                       onClick={(e) => seatHandler({ value, index })}
                     >
-                      <EventSeatIcon style={{ fill: "#7c77a0" }} />
-                      <p className={styles.seat_no}> {seat_no} </p>
+
+                      <EventSeatIcon
+                        style={{ fill: occupied ? '#4caf50' : user_id ? '#b2102f' : '#7c77a0' }} />
+                      <p className={`${styles.seat_no}`}> {seat_no} </p>
                     </div>
                   );
                 })}
             </div>
+
+            <Button
+              onClick={async () => {
+                const url = `/api/user/cart`;
+                axios
+                  .post(url)
+                  .then((res) => {
+                    console.log(`Movie Time:`)
+                    console.log(movieTime)
+                    console.log(`Movie Date:`)
+                    console.log(movieDate)
+                  })
+                  .catch((error) => {
+
+                  })
+              }}
+              variant="contained">
+              Save
+            </Button>
           </div>
         )}
+
+
       </div>
     </div>
   );
@@ -203,7 +243,6 @@ const Movie = () => {
           </div>
           <div className="absolute h-screen w-full -top-96  transition duration-300 ease-in-out "></div>
           <div className="absolute h-screen w-full top-0 mt-20 transition duration-300 ease-in-out bg-gradient-to-t from-black via-gray-900 to-transparent"></div>
-
           <div className="mt-[-10%] w-1/2 mx-auto">
             <div className="relative pt-[56.25%] overflow-hidden rounded-2xl">
               <img

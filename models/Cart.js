@@ -1,19 +1,32 @@
 const mongoose = require("mongoose");
+var Schema = mongoose.Schema;
 
 const MovieSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        required: [true, "Please add username"],
-        unique: [true, "Username already available"],
+    user_id: {
+        type: Schema.Types.ObjectId
     },
-    movie_data: {
-        type: Object
+    qr_code: {
+        type: String
     },
-    movie_time: {
-        type: Object
+    movie_title: {
+        type: String
     },
-    movie_seats: {
-        type: Object
+    movie_release_date: {
+        type: Date
+    },
+    movie_date: {
+        type: Date
+    },
+    movie_schedule: {
+        type: Date
+    },
+    movie_seats: [
+        {
+            type: Object
+        }
+    ],
+    movie_id: {
+        type: Schema.Types.ObjectId
     }
 });
 
