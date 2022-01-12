@@ -115,19 +115,20 @@ export default function AdminNav(props) {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    // axios
-    //   .get("/api/admin")
-    //   .then((res) => {
-    //     const data = res.data.data;
-    //     if (res.data.success == true) {
-    //       if (data.profile_picture != "") {
-    //         setProfilePicture(data.profile_picture);
-    //       } else setProfilePicture(data.firstname);
-    //       setName(data.firstname + " " + data.lastname);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //   });
+    axios
+      .get("/api/admin/admin")
+      .then((res) => {
+        const data = res.data.value[0];
+        console.log(data)
+        if (res.data.success == true) {
+          if (data.profile_picture != "") {
+            setProfilePicture(data.profile_picture);
+          } else setProfilePicture(data.firstname);
+          setName(data.username);
+        }
+      })
+      .catch((err) => {
+      });
   }, []);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -207,7 +208,7 @@ export default function AdminNav(props) {
             <h6 className="mt-2 text-sm font-medium">Admin</h6>
 
             <p className="text-xs text-gray-500 text-center mt-3">
-              Book hander
+              Movie Handler
             </p>
           </div>
         </Card>

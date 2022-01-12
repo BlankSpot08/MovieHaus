@@ -210,7 +210,8 @@ const SeatPicker = (props) => {
 
                   })
               }}
-              variant="contained">
+              variant="contained"
+              className="blocked w-full mt-5">
               Save
             </Button>
           </div>

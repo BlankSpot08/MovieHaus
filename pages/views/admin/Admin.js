@@ -432,7 +432,7 @@ const Admin = () => {
       id: "_id",
       numeric: false,
       disablePadding: false,
-      label: "id",
+      label: "Id",
       width: "20%",
     },
     {
@@ -446,7 +446,7 @@ const Admin = () => {
       id: "username",
       numeric: false,
       disablePadding: false,
-      label: "Author",
+      label: "Username",
       width: "20%",
     },
     {
@@ -460,14 +460,14 @@ const Admin = () => {
       id: "birthday",
       numeric: false,
       disablePadding: false,
-      label: "birthday",
+      label: "Birthday",
       width: "20%",
     },
     {
       id: "mobile",
       numeric: false,
       disablePadding: false,
-      label: "mobile",
+      label: "Mobile",
       width: "20%",
     },
   ];

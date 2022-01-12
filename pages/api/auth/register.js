@@ -15,14 +15,17 @@ export const config = {
 
 const register = async (req, res) => {
   try {
+    console.log('sad')
     if (req.body.password_confirmation != req.body.password) {
       return res.status(200).json({
         success: false,
         message: ["Confirm password is not the same as password"],
       });
     }
+    console.log('no')
     const user = new User(req.body);
     const new_user = await user.save();
+    console.log('yes')
     return res.status(200).json({ success: true });
   } catch (err) {
     let result = [];
